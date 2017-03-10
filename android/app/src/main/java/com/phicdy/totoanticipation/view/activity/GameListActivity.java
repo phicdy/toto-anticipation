@@ -4,30 +4,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.phicdy.totoanticipation.R;
+import com.phicdy.totoanticipation.model.Game;
+import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment;
 
-import com.phicdy.totoanticipation.view.activity.dummy.DummyContent;
-
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * An activity representing a list of Items. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link ItemDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
 public class GameListActivity extends AppCompatActivity {
 
     /**
@@ -39,7 +32,7 @@ public class GameListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_list);
+        setContentView(R.layout.activity_game_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -54,7 +47,7 @@ public class GameListActivity extends AppCompatActivity {
             }
         });
 
-        View recyclerView = findViewById(R.id.item_list);
+        View recyclerView = findViewById(R.id.game_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
 
@@ -68,46 +61,54 @@ public class GameListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS));
+        ArrayList<Game> games = new ArrayList<>();
+        games.add(new Game("鹿島アントラーズ", "東京FC"));
+        games.add(new Game("鹿島アントラーズ", "東京FC"));
+        games.add(new Game("鹿島アントラーズ", "東京FC"));
+        games.add(new Game("鹿島アントラーズ", "東京FC"));
+        games.add(new Game("鹿島アントラーズ", "東京FC"));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(games));
     }
 
     class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<DummyContent.DummyItem> mValues;
+        private final List<Game> games;
 
-        SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items) {
-            mValues = items;
+        SimpleItemRecyclerViewAdapter(List<Game> games) {
+            this.games = games;
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_list_content, parent, false);
+                    .inflate(R.layout.game_list_content, parent, false);
             return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mItem = mValues.get(position);
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
+            holder.game = games.get(position);
+            holder.tvHome.setText(holder.game.homeTeam);
+            holder.tvAway.setText(holder.game.awayTeam);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-                        ItemDetailFragment fragment = new ItemDetailFragment();
+                        arguments.putString(TeamInfoFragment.ARG_HOME_TEAM, holder.game.homeTeam);
+                        arguments.putString(TeamInfoFragment.ARG_HOME_TEAM, holder.game.awayTeam);
+                        TeamInfoFragment fragment = new TeamInfoFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.item_detail_container, fragment)
                                 .commit();
                     } else {
                         Context context = v.getContext();
-                        Intent intent = new Intent(context, ItemDetailActivity.class);
-                        intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        Intent intent = new Intent(context, TeamInfoActivity.class);
+                        intent.putExtra(TeamInfoFragment.ARG_HOME_TEAM, holder.game.homeTeam);
+                        intent.putExtra(TeamInfoFragment.ARG_HOME_TEAM, holder.game.awayTeam);
 
                         context.startActivity(intent);
                     }
@@ -117,25 +118,25 @@ public class GameListActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return mValues.size();
+            return games.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
             final View mView;
-            final TextView mIdView;
-            final TextView mContentView;
-            DummyContent.DummyItem mItem;
+            final TextView tvHome;
+            final TextView tvAway;
+            Game game;
 
             ViewHolder(View view) {
                 super(view);
                 mView = view;
-                mIdView = (TextView) view.findViewById(R.id.id);
-                mContentView = (TextView) view.findViewById(R.id.content);
+                tvHome = (TextView) view.findViewById(R.id.tv_home);
+                tvAway = (TextView) view.findViewById(R.id.tv_away);
             }
 
             @Override
             public String toString() {
-                return super.toString() + " '" + mContentView.getText() + "'";
+                return super.toString() + " '" + tvAway.getText() + "'";
             }
         }
     }
