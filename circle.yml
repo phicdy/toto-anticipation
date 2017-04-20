@@ -12,11 +12,11 @@ dependencies:
     - echo y | android update sdk --no-ui --all --filter "extra-google-m2repository"
 test:
   override:
-    - ./gradlew assembleDebug
-    - cp -r ~/$CIRCLE_PROJECT_REPONAME/app/build/outputs/apk/* $CIRCLE_ARTIFACTS
+    - cd android && ./gradlew assembleDebug
+    - cp -r ~/$CIRCLE_PROJECT_REPONAME/android/app/build/outputs/apk/* $CIRCLE_ARTIFACTS
       # unit test
     - ./gradlew testDebugUnitTest 
-    - cp -r ~/$CIRCLE_PROJECT_REPONAME/app/build/test-results/testDebugUnitTest/* $CIRCLE_TEST_REPORTS
+    - cp -r ~/$CIRCLE_PROJECT_REPONAME/android/app/build/test-results/testDebugUnitTest/* $CIRCLE_TEST_REPORTS
 deployment:
   master:
     branch: master
