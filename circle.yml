@@ -15,7 +15,7 @@ test:
     - cd android && ./gradlew assembleDebug
     - cp -r ~/$CIRCLE_PROJECT_REPONAME/android/app/build/outputs/apk/* $CIRCLE_ARTIFACTS
       # unit test
-    - ./gradlew testDebugUnitTest 
+    - cd android && ./gradlew testDebugUnitTest 
     - cp -r ~/$CIRCLE_PROJECT_REPONAME/android/app/build/test-results/testDebugUnitTest/* $CIRCLE_TEST_REPORTS
 deployment:
   master:
