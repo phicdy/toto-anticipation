@@ -16,18 +16,22 @@ import android.widget.TextView;
 
 import com.phicdy.totoanticipation.R;
 import com.phicdy.totoanticipation.model.Game;
+import com.phicdy.totoanticipation.presenter.GameListPresenter;
+import com.phicdy.totoanticipation.view.GameListView;
 import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameListActivity extends AppCompatActivity {
+import okhttp3.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
+public class GameListActivity extends AppCompatActivity implements GameListView {
+
     private boolean mTwoPane;
+    private GameListPresenter presenter;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +51,7 @@ public class GameListActivity extends AppCompatActivity {
             }
         });
 
-        View recyclerView = findViewById(R.id.game_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+        recyclerView = (RecyclerView) findViewById(R.id.game_list);
 
         if (findViewById(R.id.item_detail_container) != null) {
             // The detail container view will be present only in the
@@ -58,15 +60,15 @@ public class GameListActivity extends AppCompatActivity {
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
+
+
+        presenter = new GameListPresenter();
+        presenter.setView(this);
+        presenter.onCreate();
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        ArrayList<Game> games = new ArrayList<>();
-        games.add(new Game("鹿島アントラーズ", "東京FC"));
-        games.add(new Game("鹿島アントラーズ", "東京FC"));
-        games.add(new Game("鹿島アントラーズ", "東京FC"));
-        games.add(new Game("鹿島アントラーズ", "東京FC"));
-        games.add(new Game("鹿島アントラーズ", "東京FC"));
+    @Override
+    public void initListBy(@NonNull ArrayList<Game> games) {
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(games));
     }
 
