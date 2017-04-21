@@ -17,6 +17,11 @@ test:
       # unit test
     - cd android && ./gradlew testDebugUnitTest 
     - cp -r ~/$CIRCLE_PROJECT_REPONAME/android/app/build/test-results/testDebugUnitTest/* $CIRCLE_TEST_REPORTS
+      # test coverage
+    - cd android && ./gradlew jacocoTestReport
+    - mkdir -p $CIRCLE_TEST_REPORTS/jacoco/
+    - cp -r ~/$CIRCLE_PROJECT_REPONAME/android/app/build/reports/jacoco/* $CIRCLE_TEST_REPORTS/jacoco
+    - bash <(curl -s https://codecov.io/bash)
 deployment:
   master:
     branch: master
