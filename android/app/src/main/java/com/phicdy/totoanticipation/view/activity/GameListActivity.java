@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.phicdy.totoanticipation.R;
 import com.phicdy.totoanticipation.model.Game;
+import com.phicdy.totoanticipation.model.RakutenTotoService;
 import com.phicdy.totoanticipation.presenter.GameListPresenter;
 import com.phicdy.totoanticipation.view.GameListView;
 import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment;
@@ -61,8 +62,8 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
             mTwoPane = true;
         }
 
-
-        presenter = new GameListPresenter();
+        RakutenTotoService service = RakutenTotoService.Factory.create();
+        presenter = new GameListPresenter(service);
         presenter.setView(this);
         presenter.onCreate();
     }
