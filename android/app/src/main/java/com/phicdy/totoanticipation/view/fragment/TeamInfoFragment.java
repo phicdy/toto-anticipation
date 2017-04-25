@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.phicdy.totoanticipation.R;
 
@@ -53,7 +52,6 @@ public class TeamInfoFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (homeTeam != null) {
-            ((TextView) rootView.findViewById(R.id.item_detail)).setText(homeTeam);
         }
 
         return rootView;
