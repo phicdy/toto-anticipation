@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.phicdy.totoanticipation.BuildConfig;
 import com.phicdy.totoanticipation.R;
 import com.phicdy.totoanticipation.model.Game;
 import com.phicdy.totoanticipation.model.RakutenTotoService;
@@ -70,6 +71,10 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
 
     @Override
     public void initListBy(@NonNull ArrayList<Game> games) {
+        if (games.size() == 0 && BuildConfig.DEBUG) {
+            games = new ArrayList<>();
+            games.add(new Game("鹿島", "清水"));
+        }
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(games));
     }
 
