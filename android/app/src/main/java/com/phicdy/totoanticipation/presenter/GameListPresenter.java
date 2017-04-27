@@ -15,6 +15,11 @@ import retrofit2.Callback;
 
 public class GameListPresenter implements Presenter {
     private GameListView view;
+    private RakutenTotoService service;
+
+    public GameListPresenter(@NonNull RakutenTotoService service) {
+        this.service = service;
+    }
 
     public void setView(GameListView view) {
         this.view = view;
@@ -62,17 +67,14 @@ public class GameListPresenter implements Presenter {
             }
         };
         fetchRakutenTotoTopPage(topPageCallback);
-
     }
 
     private void fetchRakutenTotoTopPage(@NonNull Callback<ResponseBody> callback) {
-        RakutenTotoService service = RakutenTotoService.Factory.create();
         Call<ResponseBody> call = service.schedule();
         call.enqueue(callback);
     }
 
     private void fetchRakutenTotoInfoPage(@NonNull String num, @NonNull Callback<ResponseBody> callback) {
-        RakutenTotoService service = RakutenTotoService.Factory.create();
         Call<ResponseBody> call = service.totoInfo(num);
         call.enqueue(callback);
     }
