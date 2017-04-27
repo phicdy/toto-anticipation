@@ -25,10 +25,6 @@ import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Response;
-import retrofit2.Call;
-import retrofit2.Callback;
-
 public class GameListActivity extends AppCompatActivity implements GameListView {
 
     private boolean mTwoPane;
@@ -105,8 +101,8 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(TeamInfoFragment.ARG_HOME_TEAM, holder.game.homeTeam);
-                        arguments.putString(TeamInfoFragment.ARG_HOME_TEAM, holder.game.awayTeam);
+                        arguments.putString(TeamInfoActivity.ARG_HOME_TEAM, holder.game.homeTeam);
+                        arguments.putString(TeamInfoActivity.ARG_AWAY_TEAM, holder.game.awayTeam);
                         TeamInfoFragment fragment = new TeamInfoFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -115,8 +111,8 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, TeamInfoActivity.class);
-                        intent.putExtra(TeamInfoFragment.ARG_HOME_TEAM, holder.game.homeTeam);
-                        intent.putExtra(TeamInfoFragment.ARG_HOME_TEAM, holder.game.awayTeam);
+                        intent.putExtra(TeamInfoActivity.ARG_HOME_TEAM, holder.game.homeTeam);
+                        intent.putExtra(TeamInfoActivity.ARG_AWAY_TEAM, holder.game.awayTeam);
 
                         context.startActivity(intent);
                     }

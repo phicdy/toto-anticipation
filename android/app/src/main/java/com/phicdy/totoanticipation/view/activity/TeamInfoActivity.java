@@ -11,21 +11,16 @@ import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment;
 
 public class TeamInfoActivity extends AppCompatActivity {
 
+    public static final String ARG_HOME_TEAM = "homeTeam";
+    public static final String ARG_AWAY_TEAM = "awayTeam";
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    return true;
-                case R.id.navigation_dashboard:
-                    return true;
-                case R.id.navigation_notifications:
-                    return true;
-            }
-            return false;
+            replaceFragmentWith(item.getItemId());
+            return true;
         }
 
     };
@@ -39,17 +34,30 @@ public class TeamInfoActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         if (savedInstanceState == null) {
-            // Create the detail fragment and add it to the activity
-            // using a fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putString(TeamInfoFragment.ARG_HOME_TEAM,
-                    getIntent().getStringExtra(TeamInfoFragment.ARG_HOME_TEAM));
-            TeamInfoFragment fragment = new TeamInfoFragment();
-            fragment.setArguments(arguments);
-//            getSupportFragmentManager().beginTransaction()
-//                    .add(R.id.item_detail_container, fragment)
-//                    .commit();
+            replaceFragmentWith(navigation.getSelectedItemId());
         }
     }
 
+    private void replaceFragmentWith(int menuId) {
+        Bundle arguments = new Bundle();
+        TeamInfoFragment fragment = new TeamInfoFragment();
+        switch (menuId) {
+            case R.id.navigation_history:
+                arguments.putString(TeamInfoFragment.ARG_TEAM,
+                        getIntent().getStringExtra(ARG_HOME_TEAM));
+                break;
+            case R.id.navigation_home:
+                arguments.putString(TeamInfoFragment.ARG_TEAM,
+                        getIntent().getStringExtra(ARG_HOME_TEAM));
+                break;
+            case R.id.navigation_away:
+                arguments.putString(TeamInfoFragment.ARG_TEAM,
+                        getIntent().getStringExtra(ARG_AWAY_TEAM));
+                break;
+        }
+        fragment.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fr_content, fragment)
+                .commit();
+    }
 }
