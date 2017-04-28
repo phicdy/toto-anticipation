@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.phicdy.totoanticipation.R;
+import com.phicdy.totoanticipation.view.fragment.GameHistoryFragment;
 import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment;
 
 public class TeamInfoActivity extends AppCompatActivity {
@@ -40,24 +41,36 @@ public class TeamInfoActivity extends AppCompatActivity {
 
     private void replaceFragmentWith(int menuId) {
         Bundle arguments = new Bundle();
-        TeamInfoFragment fragment = new TeamInfoFragment();
         switch (menuId) {
             case R.id.navigation_history:
-                arguments.putString(TeamInfoFragment.ARG_TEAM,
+                GameHistoryFragment fragment = new GameHistoryFragment();
+                arguments.putString(GameHistoryFragment.ARG_HOME_TEAM,
                         getIntent().getStringExtra(ARG_HOME_TEAM));
+                arguments.putString(GameHistoryFragment.ARG_AWAY_TEAM,
+                        getIntent().getStringExtra(ARG_AWAY_TEAM));
+                fragment.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fr_content, fragment)
+                        .commit();
                 break;
             case R.id.navigation_home:
+                TeamInfoFragment homeFragment = new TeamInfoFragment();
                 arguments.putString(TeamInfoFragment.ARG_TEAM,
                         getIntent().getStringExtra(ARG_HOME_TEAM));
+                homeFragment.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fr_content, homeFragment)
+                        .commit();
                 break;
             case R.id.navigation_away:
+                TeamInfoFragment awayFragment = new TeamInfoFragment();
                 arguments.putString(TeamInfoFragment.ARG_TEAM,
                         getIntent().getStringExtra(ARG_AWAY_TEAM));
+                awayFragment.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fr_content, awayFragment)
+                        .commit();
                 break;
         }
-        fragment.setArguments(arguments);
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fr_content, fragment)
-                .commit();
     }
 }
