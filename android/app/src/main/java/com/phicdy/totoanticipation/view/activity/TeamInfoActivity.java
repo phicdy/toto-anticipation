@@ -37,6 +37,9 @@ public class TeamInfoActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             replaceFragmentWith(navigation.getSelectedItemId());
         }
+        String title = getIntent().getStringExtra(ARG_HOME_TEAM) + " vs " +
+                getIntent().getStringExtra(ARG_AWAY_TEAM);
+        setTitle(title);
     }
 
     private void replaceFragmentWith(int menuId) {
