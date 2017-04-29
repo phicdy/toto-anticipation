@@ -32,6 +32,8 @@ test:
     - mkdir -p $CIRCLE_TEST_REPORTS/jacoco/
     - cp -r ~/$CIRCLE_PROJECT_REPONAME/android/app/build/reports/jacoco/* $CIRCLE_TEST_REPORTS/jacoco
     - bash <(curl -s https://codecov.io/bash)
+  cache_directories:
+    - /home/ubuntu/.gradle
 deployment:
   master:
     branch: master
