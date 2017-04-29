@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.phicdy.totoanticipation.R;
+import com.phicdy.totoanticipation.model.TeamInfoMapper;
 import com.phicdy.totoanticipation.view.fragment.GameHistoryFragment;
 import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment;
 
@@ -45,9 +46,9 @@ public class TeamInfoActivity extends AppCompatActivity {
             case R.id.navigation_history:
                 GameHistoryFragment fragment = new GameHistoryFragment();
                 arguments.putString(GameHistoryFragment.ARG_HOME_TEAM,
-                        getIntent().getStringExtra(ARG_HOME_TEAM));
+                        TeamInfoMapper.fullName(getIntent().getStringExtra(ARG_HOME_TEAM)));
                 arguments.putString(GameHistoryFragment.ARG_AWAY_TEAM,
-                        getIntent().getStringExtra(ARG_AWAY_TEAM));
+                        TeamInfoMapper.fullName(getIntent().getStringExtra(ARG_AWAY_TEAM)));
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.fr_content, fragment)

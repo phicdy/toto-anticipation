@@ -62,8 +62,7 @@ public class RakutenTotoInfoParser {
             Elements tds = tr.getElementsByTag("td");
             String homeTeam = tds.get(3).text();
             String awayTeam = tds.get(5).text();
-            games.add(new Game(TeamInfoMapper.fullName(homeTeam),
-                    TeamInfoMapper.fullName(awayTeam)));
+            games.add(new Game(homeTeam, awayTeam));
         }
         return games;
     }
