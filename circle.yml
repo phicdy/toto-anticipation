@@ -10,16 +10,16 @@ dependencies:
     - if ! $(grep -q "Pkg.Revision=3" $ANDROID_HOME/platforms/android-25/source.properties); then echo y | android update sdk --no-ui --all --filter "android-25"; fi
     - if ! $(grep -q "Pkg.Revision=3" $ANDROID_HOME/platforms/android-23/source.properties); then echo y | android update sdk --no-ui --all --filter "android-23"; fi
     - if ! $(grep -q "Pkg.Revision=5" $ANDROID_HOME/platforms/android-16/source.properties); then echo y | android update sdk --no-ui --all --filter "android-16"; fi
-    - if ! $(grep -q "Pkg.Revision=47.0.0" $ANDROID_HOME/extra/android/m2repository/source.properties); then echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"; fi
-    - if ! $(grep -q "Pkg.Revision=47" $ANDROID_HOME/extra/google/m2repository/source.properties); then echo y | android update sdk --no-ui --all --filter "extra-google-m2repository"; fi
+    - if ! $(grep -q "Pkg.Revision=47.0.0" $ANDROID_HOME/extras/android/m2repository/source.properties); then echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"; fi
+    - if ! $(grep -q "Pkg.Revision=47" $ANDROID_HOME/extras/google/m2repository/source.properties); then echo y | android update sdk --no-ui --all --filter "extra-google-m2repository"; fi
   cache_directories:
     - /usr/local/android-sdk-linux/tools
     - /usr/local/android-sdk-linux/platforms/android-25
     - /usr/local/android-sdk-linux/platforms/android-23
     - /usr/local/android-sdk-linux/platforms/android-16
     - /usr/local/android-sdk-linux/build-tools/25.0.2
-    - /usr/local/android-sdk-linux/extra/android/m2repository
-    - /usr/local/android-sdk-linux/extra/google/m2repository
+    - /usr/local/android-sdk-linux/extras/android/m2repository
+    - /usr/local/android-sdk-linux/extras/google/m2repository
 test:
   override:
     - cd android && ./gradlew assembleDebug
