@@ -14,7 +14,6 @@ dependencies:
     - if ! $(grep -q "Pkg.Revision=47.0.0" $ANDROID_HOME/extras/android/m2repository/source.properties); then echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"; fi
     - if ! $(grep -q "Pkg.Revision=47" $ANDROID_HOME/extras/google/m2repository/source.properties); then echo y | android update sdk --no-ui --all --filter "extra-google-m2repository"; fi
   cache_directories:
-    - ~/.gradle
     - /usr/local/android-sdk-linux/tools
     - /usr/local/android-sdk-linux/platforms/android-25
     - /usr/local/android-sdk-linux/platforms/android-23
