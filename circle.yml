@@ -5,7 +5,6 @@ machine:
     ANDROID_HOME: /usr/local/android-sdk-linux
 dependencies:
   override:
-    - if [ ! -e ~/.gradle/wrapper/dists/gradle-3.5-all ]; then cd android && ./gradlew init; fi
     - if ! $(grep -q "Pkg.Revision=25.2.5" $ANDROID_HOME/tools/source.properties); then echo y | android update sdk --no-ui --all --filter "tools"; fi
     - if [ ! -e $ANDROID_HOME/build-tools/25.0.2 ]; then echo y | android update sdk --no-ui --all --filter "build-tools-25.0.2"; fi
     - if ! $(grep -q "Pkg.Revision=3" $ANDROID_HOME/platforms/android-25/source.properties); then echo y | android update sdk --no-ui --all --filter "android-25"; fi
@@ -13,6 +12,7 @@ dependencies:
     - if ! $(grep -q "Pkg.Revision=5" $ANDROID_HOME/platforms/android-16/source.properties); then echo y | android update sdk --no-ui --all --filter "android-16"; fi
     - if ! $(grep -q "Pkg.Revision=47.0.0" $ANDROID_HOME/extras/android/m2repository/source.properties); then echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"; fi
     - if ! $(grep -q "Pkg.Revision=47" $ANDROID_HOME/extras/google/m2repository/source.properties); then echo y | android update sdk --no-ui --all --filter "extra-google-m2repository"; fi
+    - if [ ! -e ~/.gradle/wrapper/dists/gradle-3.5-all ]; then cd android && ./gradlew init; fi
   cache_directories:
     - /usr/local/android-sdk-linux/tools
     - /usr/local/android-sdk-linux/platforms/android-25
