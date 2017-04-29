@@ -6,6 +6,7 @@ machine:
 dependencies:
   override:
     - if ! $(grep -q "Pkg.Revision=26.0.1" $ANDROID_HOME/tools/source.properties); then echo y | android update sdk --no-ui --all --filter "tools"; fi
+    - if [ ! -e ~/.gradle/wrapper/dists/gradle-3.5-all ]; then cd android && ./gradlew init; fi
     - if [ ! -e $ANDROID_HOME/build-tools/25.0.2 ]; then echo y | android update sdk --no-ui --all --filter "build-tools-25.0.2"; fi
     - if ! $(grep -q "Pkg.Revision=3" $ANDROID_HOME/platforms/android-25/source.properties); then echo y | android update sdk --no-ui --all --filter "android-25"; fi
     - if ! $(grep -q "Pkg.Revision=3" $ANDROID_HOME/platforms/android-23/source.properties); then echo y | android update sdk --no-ui --all --filter "android-23"; fi
@@ -32,8 +33,6 @@ test:
     - mkdir -p $CIRCLE_TEST_REPORTS/jacoco/
     - cp -r ~/$CIRCLE_PROJECT_REPONAME/android/app/build/reports/jacoco/* $CIRCLE_TEST_REPORTS/jacoco
     - bash <(curl -s https://codecov.io/bash)
-  cache_directories:
-    - /home/ubuntu/.gradle
 deployment:
   master:
     branch: master
