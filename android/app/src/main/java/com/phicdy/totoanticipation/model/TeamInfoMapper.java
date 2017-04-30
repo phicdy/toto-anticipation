@@ -50,7 +50,6 @@ public class TeamInfoMapper {
         if (shrunkName.equals("岡山")) return "ファジアーノ岡山";
         if (shrunkName.equals("愛媛")) return "愛媛FC";
         if (shrunkName.equals("長崎")) return "V・ファーレン長崎";
-        if (shrunkName.equals("大分")) return "大分トリニータ";
         return "";
     }
 
@@ -100,7 +99,6 @@ public class TeamInfoMapper {
         if (shrunkName.equals("岡山")) return "https://follow.yahoo.co.jp/themes/0d21e1411840d7d94695";
         if (shrunkName.equals("愛媛")) return "https://follow.yahoo.co.jp/themes/0beb2a057bde3e784809";
         if (shrunkName.equals("長崎")) return "https://follow.yahoo.co.jp/themes/0e43011e7a4f342b4949";
-        if (shrunkName.equals("大分")) return "https://follow.yahoo.co.jp/themes/07ea89c49d07a4642861";
         return "";
     }
 }
