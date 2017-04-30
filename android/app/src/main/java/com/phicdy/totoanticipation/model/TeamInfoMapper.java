@@ -27,7 +27,7 @@ public class TeamInfoMapper {
         if (shrunkName.equals("川崎")) return "川崎フロンターレ";
         if (shrunkName.equals("新潟")) return "アルビレックス新潟";
         if (shrunkName.equals("清水")) return "清水エスパルス";
-        if (shrunkName.equals("札幌")) return "北海道コンサドーレ札幌";
+        if (shrunkName.equals("札幌")) return "コンサドーレ札幌";
         if (shrunkName.equals("山形")) return "モンテディオ山形";
         if (shrunkName.equals("水戸")) return "水戸ホーリーホック";
         if (shrunkName.equals("大分")) return "大分トリニータ";
@@ -38,9 +38,9 @@ public class TeamInfoMapper {
         if (shrunkName.equals("福岡")) return "アビスパ福岡";
         if (shrunkName.equals("讃岐")) return "カマタマーレ讃岐";
         if (shrunkName.equals("千葉")) return "ジェフユナイテッド千葉";
-        if (shrunkName.equals("東京Ｖ")) return "東京ヴェルディ";
+        if (shrunkName.equals("東京Ｖ")) return "東京ヴェルディ1969";
         if (shrunkName.equals("金沢")) return "ツエーゲン金沢";
-        if (shrunkName.equals("町田")) return "FC町田ゼルビア";
+        if (shrunkName.equals("町田")) return "町田ゼルビア";
         if (shrunkName.equals("熊本")) return "ロアッソ熊本";
         if (shrunkName.equals("群馬")) return "ザスパクサツ群馬";
         if (shrunkName.equals("横浜Ｃ")) return "横浜FC";
