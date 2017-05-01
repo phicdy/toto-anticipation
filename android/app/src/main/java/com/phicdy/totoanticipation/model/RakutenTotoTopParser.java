@@ -70,7 +70,7 @@ public class RakutenTotoTopParser {
         Elements scheduleTable = bodyDoc.getElementsByClass("table");
         Elements lis = scheduleTable.select("li");
         String latestNumber = "";
-        for (int i = 1; i < lis.size(); i++) {
+        for (int i = 0; i < lis.size(); i++) {
             Element li = lis.get(i);
             // Check hold on now or not
             Element statusEl = li.getElementsByClass("status").first();
@@ -88,6 +88,7 @@ public class RakutenTotoTopParser {
                     break;
                 }
             }
+            if (!latestNumber.equals("")) break;
         }
         return latestNumber;
     }
