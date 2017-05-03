@@ -74,6 +74,11 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(games));
     }
 
+    @Override
+    public void setTitleFrom(@NonNull String xxTh) {
+        setTitle(getString(R.string.top_title, xxTh));
+    }
+
     class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 

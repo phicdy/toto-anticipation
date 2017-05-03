@@ -54,6 +54,7 @@ public class GameListPresenter implements Presenter {
                     String body = response.body().string();
                     String latestTotoNum = new RakutenTotoTopParser().latestTotoNumber(body);
                     if (!latestTotoNum.equals("")) {
+                        view.setTitleFrom(latestTotoNum);
                         fetchRakutenTotoInfoPage(latestTotoNum, lotteryPageCallback);
                     }
                 } catch (IOException e) {
