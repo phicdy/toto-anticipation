@@ -8,4 +8,5 @@ import java.util.ArrayList;
 
 public interface GameListView {
     void initListBy(@NonNull ArrayList<Game> games);
+    void setTitleFrom(@NonNull String xxTh);
 }
