@@ -27,6 +27,7 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
 
     @Override
     public void onCreate() {
+        view.startProgress();
         executor.fetchRakutenTotoTopPage(this);
     }
 
@@ -41,16 +42,18 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
             }
         } catch (IOException e) {
             e.printStackTrace();
+            view.stopProgress();
         }
     }
 
     @Override
     public void onFailureTotoTop(Call<ResponseBody> call, Throwable throwable) {
-
+        view.stopProgress();
     }
 
     @Override
     public void onResponseTotoInfo(@NonNull Response<ResponseBody> response) {
+        view.stopProgress();
         try {
             String body = response.body().string();
             view.initListBy(new RakutenTotoInfoParser().games(body));
@@ -61,7 +64,7 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
 
     @Override
     public void onFailureTotoInfo(Call<ResponseBody> call, Throwable throwable) {
-
+        view.stopProgress();
     }
 
     @Override

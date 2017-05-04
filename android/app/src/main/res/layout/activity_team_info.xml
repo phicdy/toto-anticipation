@@ -8,6 +8,14 @@
     android:orientation="vertical"
     tools:context="com.phicdy.totoanticipation.view.activity.TeamInfoActivity">
 
+    <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+        android:id="@+id/progress_webview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:indeterminate="true"
+        style="@style/ProgressBar" />
+
     <FrameLayout
         android:id="@+id/fr_content"
         android:layout_width="match_parent"
