@@ -1,6 +1,8 @@
-package com.phicdy.totoanticipation.model;
+package com.phicdy.totoanticipation.model.storage;
 
 import android.support.annotation.NonNull;
+
+import com.phicdy.totoanticipation.model.Game;
 
 import java.util.List;
 

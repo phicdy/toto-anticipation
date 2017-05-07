@@ -3,7 +3,7 @@ package com.phicdy.totoanticipation.presenter;
 import android.support.annotation.NonNull;
 
 import com.phicdy.totoanticipation.model.Game;
-import com.phicdy.totoanticipation.model.GameListStorage;
+import com.phicdy.totoanticipation.model.storage.GameListStorage;
 import com.phicdy.totoanticipation.model.RakutenTotoRequestExecutor;
 import com.phicdy.totoanticipation.model.RakutenTotoService;
 import com.phicdy.totoanticipation.model.TestRakutenTotoInfoPage;

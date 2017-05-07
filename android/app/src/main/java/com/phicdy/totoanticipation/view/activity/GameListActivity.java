@@ -17,19 +17,15 @@ import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.phicdy.totoanticipation.BuildConfig;
 import com.phicdy.totoanticipation.R;
 import com.phicdy.totoanticipation.model.Game;
-import com.phicdy.totoanticipation.model.GameListStorage;
-import com.phicdy.totoanticipation.model.GameListStorageImpl;
+import com.phicdy.totoanticipation.model.storage.GameListStorage;
+import com.phicdy.totoanticipation.model.storage.GameListStorageImpl;
 import com.phicdy.totoanticipation.model.RakutenTotoRequestExecutor;
 import com.phicdy.totoanticipation.model.RakutenTotoService;
 import com.phicdy.totoanticipation.presenter.GameListPresenter;
 import com.phicdy.totoanticipation.view.GameListView;
 import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
