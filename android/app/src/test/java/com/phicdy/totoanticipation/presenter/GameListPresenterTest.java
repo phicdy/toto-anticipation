@@ -3,6 +3,7 @@ package com.phicdy.totoanticipation.presenter;
 import android.support.annotation.NonNull;
 
 import com.phicdy.totoanticipation.model.Game;
+import com.phicdy.totoanticipation.model.GameListStorage;
 import com.phicdy.totoanticipation.model.RakutenTotoRequestExecutor;
 import com.phicdy.totoanticipation.model.RakutenTotoService;
 import com.phicdy.totoanticipation.model.TestRakutenTotoInfoPage;
@@ -12,6 +13,7 @@ import com.phicdy.totoanticipation.view.GameListView;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
@@ -28,7 +30,8 @@ public class GameListPresenterTest {
     public void progressBarStartsAfterOnCreate() {
         RakutenTotoService service = RakutenTotoService.Factory.create();
         RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        GameListPresenter presenter = new GameListPresenter(executor);
+        GameListStorage storage = new MockStorage();
+        GameListPresenter presenter = new GameListPresenter(executor, storage);
         MockView view = new MockView();
         presenter.setView(view);
         presenter.onCreate();
@@ -40,7 +43,8 @@ public class GameListPresenterTest {
         // For coverage
         RakutenTotoService service = RakutenTotoService.Factory.create();
         RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        GameListPresenter presenter = new GameListPresenter(executor);
+        GameListStorage storage = new MockStorage();
+        GameListPresenter presenter = new GameListPresenter(executor, storage);
         presenter.onResume();
     }
 
@@ -49,7 +53,8 @@ public class GameListPresenterTest {
         // For coverage
         RakutenTotoService service = RakutenTotoService.Factory.create();
         RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        GameListPresenter presenter = new GameListPresenter(executor);
+        GameListStorage storage = new MockStorage();
+        GameListPresenter presenter = new GameListPresenter(executor, storage);
         presenter.onPause();
     }
 
@@ -57,7 +62,8 @@ public class GameListPresenterTest {
     public void progressBarStopsWhenOnFailureTotoTop() {
         RakutenTotoService service = RakutenTotoService.Factory.create();
         RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        GameListPresenter presenter = new GameListPresenter(executor);
+        GameListStorage storage = new MockStorage();
+        GameListPresenter presenter = new GameListPresenter(executor, storage);
         MockView view = new MockView();
         presenter.setView(view);
         presenter.onFailureTotoTop(null, null);
@@ -68,7 +74,8 @@ public class GameListPresenterTest {
     public void progressBarStopsWhenOnFailureTotoInfo() {
         RakutenTotoService service = RakutenTotoService.Factory.create();
         RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        GameListPresenter presenter = new GameListPresenter(executor);
+        GameListStorage storage = new MockStorage();
+        GameListPresenter presenter = new GameListPresenter(executor, storage);
         MockView view = new MockView();
         presenter.setView(view);
         presenter.onFailureTotoInfo(null, null);
@@ -79,7 +86,8 @@ public class GameListPresenterTest {
     public void titleBecomesLatestTotoAfterReceivingTotoTopResponse() {
         RakutenTotoService service = RakutenTotoService.Factory.create();
         RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        GameListPresenter presenter = new GameListPresenter(executor);
+        GameListStorage storage = new MockStorage();
+        GameListPresenter presenter = new GameListPresenter(executor, storage);
         MockView view = new MockView();
         presenter.setView(view);
         Response<ResponseBody> response = Response.success(
@@ -89,10 +97,45 @@ public class GameListPresenterTest {
     }
 
     @Test
+    public void listIsSetWhenStoredListExists() {
+        RakutenTotoService service = RakutenTotoService.Factory.create();
+        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
+        GameListStorage storage = new MockStorage();
+        ArrayList<Game> testList = new ArrayList<>();
+        testList.add(new Game("home", "away"));
+        storage.store("0923", testList);
+        GameListPresenter presenter = new GameListPresenter(executor, storage);
+        MockView view = new MockView();
+        presenter.setView(view);
+        Response<ResponseBody> response = Response.success(
+                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoPage.text));
+        presenter.onResponseTotoTop(response);
+        assertThat(presenter.gameAt(0).homeTeam, is("home"));
+    }
+
+    @Test
+    public void progressBarStopsWhenStoredListExists() {
+        RakutenTotoService service = RakutenTotoService.Factory.create();
+        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
+        GameListStorage storage = new MockStorage();
+        ArrayList<Game> testList = new ArrayList<>();
+        testList.add(new Game("home", "away"));
+        storage.store("0923", testList);
+        GameListPresenter presenter = new GameListPresenter(executor, storage);
+        MockView view = new MockView();
+        presenter.setView(view);
+        Response<ResponseBody> response = Response.success(
+                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoPage.text));
+        presenter.onResponseTotoTop(response);
+        assertFalse(view.isProgressing);
+    }
+
+    @Test
     public void titleDoesNotChangeAfterReceivingInvalidTotoTopResponse() {
         RakutenTotoService service = RakutenTotoService.Factory.create();
         RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        GameListPresenter presenter = new GameListPresenter(executor);
+        GameListStorage storage = new MockStorage();
+        GameListPresenter presenter = new GameListPresenter(executor, storage);
         MockView view = new MockView();
         presenter.setView(view);
         Response<ResponseBody> response = Response.success(
@@ -105,7 +148,8 @@ public class GameListPresenterTest {
     public void gamesAreSetAfterReceivingTotoInfoResponse() {
         RakutenTotoService service = RakutenTotoService.Factory.create();
         RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        GameListPresenter presenter = new GameListPresenter(executor);
+        GameListStorage storage = new MockStorage();
+        GameListPresenter presenter = new GameListPresenter(executor, storage);
         MockView view = new MockView();
         presenter.setView(view);
         Response<ResponseBody> response = Response.success(
@@ -125,9 +169,9 @@ public class GameListPresenterTest {
         expectedGames.add(new Game("愛媛", "長崎"));
         expectedGames.add(new Game("東京Ｖ", "群馬"));
         expectedGames.add(new Game("町田", "徳島"));
-        for (int i = 0; i < view.games.size(); i++) {
-            assertThat(view.games.get(i).homeTeam, is(expectedGames.get(i).homeTeam));
-            assertThat(view.games.get(i).awayTeam, is(expectedGames.get(i).awayTeam));
+        for (int i = 0; i < presenter.gameSize(); i++) {
+            assertThat(presenter.gameAt(i).homeTeam, is(expectedGames.get(i).homeTeam));
+            assertThat(presenter.gameAt(i).awayTeam, is(expectedGames.get(i).awayTeam));
         }
     }
 
@@ -135,24 +179,104 @@ public class GameListPresenterTest {
     public void gamesAreEmptyAfterReceivingInvalidTotoInfoResponse() {
         RakutenTotoService service = RakutenTotoService.Factory.create();
         RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        GameListPresenter presenter = new GameListPresenter(executor);
+        GameListStorage storage = new MockStorage();
+        GameListPresenter presenter = new GameListPresenter(executor, storage);
         MockView view = new MockView();
         presenter.setView(view);
         Response<ResponseBody> response = Response.success(
                 ResponseBody.create(MediaType.parse("application/text"), "<html><body>hoge</body></html>"));
         presenter.onResponseTotoInfo(response);
-        assertThat(view.games.size(), is(0));
+        assertThat(presenter.gameSize(), is(0));
+    }
+
+    @Test
+    public void anticipationBecomesHomeWhenHomeRadioButtonIsClicked() {
+        RakutenTotoService service = RakutenTotoService.Factory.create();
+        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
+        GameListStorage storage = new MockStorage();
+        GameListPresenter presenter = new GameListPresenter(executor, storage);
+        MockView view = new MockView();
+        presenter.setView(view);
+        Response<ResponseBody> response = Response.success(
+                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text));
+        presenter.onResponseTotoInfo(response);
+        presenter.onHomeRadioButtonClicked(0, true);
+        assertThat(presenter.gameAt(0).anticipation, is(Game.Anticipation.HOME));
+    }
+
+    @Test
+    public void anticipationBecomesAwayWhenAwayRadioButtonIsClicked() {
+        RakutenTotoService service = RakutenTotoService.Factory.create();
+        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
+        GameListStorage storage = new MockStorage();
+        GameListPresenter presenter = new GameListPresenter(executor, storage);
+        MockView view = new MockView();
+        presenter.setView(view);
+        Response<ResponseBody> response = Response.success(
+                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text));
+        presenter.onResponseTotoInfo(response);
+        presenter.onAwayRadioButtonClicked(0, true);
+        assertThat(presenter.gameAt(0).anticipation, is(Game.Anticipation.AWAY));
+    }
+
+    @Test
+    public void anticipationBecomesDrawWhenDrawRadioButtonIsClicked() {
+        RakutenTotoService service = RakutenTotoService.Factory.create();
+        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
+        GameListStorage storage = new MockStorage();
+        GameListPresenter presenter = new GameListPresenter(executor, storage);
+        MockView view = new MockView();
+        presenter.setView(view);
+        Response<ResponseBody> response = Response.success(
+                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text));
+        presenter.onResponseTotoInfo(response);
+        presenter.onDrawRadioButtonClicked(0, true);
+        assertThat(presenter.gameAt(0).anticipation, is(Game.Anticipation.DRAW));
+    }
+
+    @Test
+    public void clickMinusPositionOfRadioButtonHasNoAffect() {
+        RakutenTotoService service = RakutenTotoService.Factory.create();
+        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
+        GameListStorage storage = new MockStorage();
+        GameListPresenter presenter = new GameListPresenter(executor, storage);
+        MockView view = new MockView();
+        presenter.setView(view);
+        Response<ResponseBody> response = Response.success(
+                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text));
+        presenter.onResponseTotoInfo(response);
+        presenter.onAwayRadioButtonClicked(-1, true);
+        // All of the anticipations are default, HOME
+        for (int i = 0; i < presenter.gameSize(); i++) {
+            assertThat(presenter.gameAt(i).anticipation, is(Game.Anticipation.HOME));
+        }
+    }
+
+    @Test
+    public void clickBiggerPositionThanGameSizeOfRadioButtonHasNoAffect() {
+        RakutenTotoService service = RakutenTotoService.Factory.create();
+        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
+        GameListStorage storage = new MockStorage();
+        GameListPresenter presenter = new GameListPresenter(executor, storage);
+        MockView view = new MockView();
+        presenter.setView(view);
+        Response<ResponseBody> response = Response.success(
+                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text));
+        presenter.onResponseTotoInfo(response);
+        presenter.onAwayRadioButtonClicked(presenter.gameSize()+1, true);
+        // All of the anticipations are default, HOME
+        for (int i = 0; i < presenter.gameSize(); i++) {
+            assertThat(presenter.gameAt(i).anticipation, is(Game.Anticipation.HOME));
+        }
     }
 
     private class MockView implements GameListView {
 
         private String title = "toto予想";
-        private ArrayList<Game> games;
         private boolean isProgressing = false;
 
         @Override
-        public void initListBy(@NonNull ArrayList<Game> games) {
-            this.games = games;
+        public void initList() {
         }
 
         @Override
@@ -168,6 +292,22 @@ public class GameListPresenterTest {
         @Override
         public void stopProgress() {
             isProgressing = false;
+        }
+    }
+
+    private class MockStorage implements GameListStorage {
+
+        private String totoNum;
+        private List<Game> games;
+        @Override
+        public List<Game> list(@NonNull String totoNum) {
+            return games;
+        }
+
+        @Override
+        public void store(@NonNull String totoNum, @NonNull List<Game> list) {
+            this.totoNum = totoNum;
+            games = list;
         }
     }
 }

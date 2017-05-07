@@ -7,7 +7,7 @@ import com.phicdy.totoanticipation.model.Game;
 import java.util.ArrayList;
 
 public interface GameListView {
-    void initListBy(@NonNull ArrayList<Game> games);
+    void initList();
     void setTitleFrom(@NonNull String xxTh);
     void startProgress();
     void stopProgress();

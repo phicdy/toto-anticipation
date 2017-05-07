@@ -20,6 +20,8 @@ import android.widget.TextView;
 import com.phicdy.totoanticipation.BuildConfig;
 import com.phicdy.totoanticipation.R;
 import com.phicdy.totoanticipation.model.Game;
+import com.phicdy.totoanticipation.model.GameListStorage;
+import com.phicdy.totoanticipation.model.GameListStorageImpl;
 import com.phicdy.totoanticipation.model.RakutenTotoRequestExecutor;
 import com.phicdy.totoanticipation.model.RakutenTotoService;
 import com.phicdy.totoanticipation.presenter.GameListPresenter;
@@ -35,6 +37,7 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
 
     private boolean mTwoPane;
     private GameListPresenter presenter;
+    private GameListStorage storage;
     private RecyclerView recyclerView;
     private SmoothProgressBar progressBar;
 
@@ -70,19 +73,16 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
 
         final RakutenTotoService service = RakutenTotoService.Factory.create();
         final RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        presenter = new GameListPresenter(executor);
+        storage = new GameListStorageImpl(this);
+        presenter = new GameListPresenter(executor, storage);
         presenter.setView(this);
         presenter.onCreate();
     }
 
     @Override
-    public void initListBy(@NonNull ArrayList<Game> games) {
+    public void initList() {
         recyclerView.setVisibility(View.VISIBLE);
-        if (games.size() == 0 && BuildConfig.DEBUG) {
-            games = new ArrayList<>();
-            games.add(new Game("鹿島", "清水"));
-        }
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(games));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter());
     }
 
     @Override
@@ -110,12 +110,6 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
     class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<Game> games;
-
-        SimpleItemRecyclerViewAdapter(List<Game> games) {
-            this.games = games;
-        }
-
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
@@ -124,8 +118,8 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.game = games.get(position);
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
+            holder.game = presenter.gameAt(position);
             holder.tvHome.setText(holder.game.homeTeam);
             holder.tvAway.setText(holder.game.awayTeam);
 
@@ -166,26 +160,26 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
             holder.rbHome.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) holder.game.anticipation = Game.Anticipation.HOME;
+                    presenter.onHomeRadioButtonClicked(holder.getAdapterPosition(), isChecked);
                 }
             });
             holder.rbAway.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) holder.game.anticipation = Game.Anticipation.AWAY;
+                    presenter.onAwayRadioButtonClicked(holder.getAdapterPosition(), isChecked);
                 }
             });
             holder.rbDraw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) holder.game.anticipation = Game.Anticipation.DRAW;
+                    presenter.onDrawRadioButtonClicked(holder.getAdapterPosition(), isChecked);
                 }
             });
         }
 
         @Override
         public int getItemCount() {
-            return games.size();
+            return presenter.gameSize();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
