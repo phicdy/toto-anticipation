@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.phicdy.totoanticipation.BuildConfig;
@@ -28,8 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
-import fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils;
-import fr.castorflex.android.smoothprogressbar.SmoothProgressDrawable;
 
 public class GameListActivity extends AppCompatActivity implements GameListView {
 
@@ -151,6 +151,36 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
                     }
                 }
             });
+
+            switch (holder.game.anticipation) {
+                case HOME:
+                    holder.rbHome.setChecked(true);
+                    break;
+                case AWAY:
+                    holder.rbAway.setChecked(true);
+                    break;
+                case DRAW:
+                    holder.rbDraw.setChecked(true);
+                    break;
+            }
+            holder.rbHome.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) holder.game.anticipation = Game.Anticipation.HOME;
+                }
+            });
+            holder.rbAway.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) holder.game.anticipation = Game.Anticipation.AWAY;
+                }
+            });
+            holder.rbDraw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) holder.game.anticipation = Game.Anticipation.DRAW;
+                }
+            });
         }
 
         @Override
@@ -162,6 +192,9 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
             final View mView;
             final TextView tvHome;
             final TextView tvAway;
+            final RadioButton rbHome;
+            final RadioButton rbAway;
+            final RadioButton rbDraw;
             Game game;
 
             ViewHolder(View view) {
@@ -169,6 +202,9 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
                 mView = view;
                 tvHome = (TextView) view.findViewById(R.id.tv_home);
                 tvAway = (TextView) view.findViewById(R.id.tv_away);
+                rbHome = (RadioButton) view.findViewById(R.id.rb_home);
+                rbAway = (RadioButton) view.findViewById(R.id.rb_away);
+                rbDraw = (RadioButton) view.findViewById(R.id.rb_draw);
             }
 
             @Override
