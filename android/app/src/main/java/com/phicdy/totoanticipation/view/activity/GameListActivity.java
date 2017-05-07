@@ -3,6 +3,7 @@ package com.phicdy.totoanticipation.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -26,11 +27,16 @@ import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils;
+import fr.castorflex.android.smoothprogressbar.SmoothProgressDrawable;
+
 public class GameListActivity extends AppCompatActivity implements GameListView {
 
     private boolean mTwoPane;
     private GameListPresenter presenter;
     private RecyclerView recyclerView;
+    private SmoothProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +66,8 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
             mTwoPane = true;
         }
 
+        progressBar = (SmoothProgressBar) findViewById(R.id.progress);
+
         final RakutenTotoService service = RakutenTotoService.Factory.create();
         final RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
         presenter = new GameListPresenter(executor);
@@ -69,6 +77,7 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
 
     @Override
     public void initListBy(@NonNull ArrayList<Game> games) {
+        recyclerView.setVisibility(View.VISIBLE);
         if (games.size() == 0 && BuildConfig.DEBUG) {
             games = new ArrayList<>();
             games.add(new Game("鹿島", "清水"));
@@ -79,6 +88,23 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
     @Override
     public void setTitleFrom(@NonNull String xxTh) {
         setTitle(getString(R.string.top_title, xxTh));
+    }
+
+    @Override
+    public void startProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void stopProgress() {
+        progressBar.progressiveStop();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressBar.setVisibility(View.GONE);
+            }
+        }, 3000);
     }
 
     class SimpleItemRecyclerViewAdapter

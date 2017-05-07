@@ -18,18 +18,21 @@ import okhttp3.ResponseBody;
 import retrofit2.Response;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class GameListPresenterTest {
 
     @Test
-    public void testOnCreate() {
-        // For coverage
+    public void progressBarStartsAfterOnCreate() {
         RakutenTotoService service = RakutenTotoService.Factory.create();
         RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
         GameListPresenter presenter = new GameListPresenter(executor);
+        MockView view = new MockView();
+        presenter.setView(view);
         presenter.onCreate();
+        assertTrue(view.isProgressing);
     }
 
     @Test
@@ -51,21 +54,25 @@ public class GameListPresenterTest {
     }
 
     @Test
-    public void testOnFailureTotoTop() {
-        // For coverage
+    public void progressBarStopsWhenOnFailureTotoTop() {
         RakutenTotoService service = RakutenTotoService.Factory.create();
         RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
         GameListPresenter presenter = new GameListPresenter(executor);
+        MockView view = new MockView();
+        presenter.setView(view);
         presenter.onFailureTotoTop(null, null);
+        assertFalse(view.isProgressing);
     }
 
     @Test
-    public void testOnFailureTotoInfo() {
-        // For coverage
+    public void progressBarStopsWhenOnFailureTotoInfo() {
         RakutenTotoService service = RakutenTotoService.Factory.create();
         RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
         GameListPresenter presenter = new GameListPresenter(executor);
+        MockView view = new MockView();
+        presenter.setView(view);
         presenter.onFailureTotoInfo(null, null);
+        assertFalse(view.isProgressing);
     }
 
     @Test
@@ -141,6 +148,7 @@ public class GameListPresenterTest {
 
         private String title = "toto予想";
         private ArrayList<Game> games;
+        private boolean isProgressing = false;
 
         @Override
         public void initListBy(@NonNull ArrayList<Game> games) {
@@ -150,6 +158,16 @@ public class GameListPresenterTest {
         @Override
         public void setTitleFrom(@NonNull String xxTh) {
             title = "第" + xxTh + "回";
+        }
+
+        @Override
+        public void startProgress() {
+            isProgressing = true;
+        }
+
+        @Override
+        public void stopProgress() {
+            isProgressing = false;
         }
     }
 }
