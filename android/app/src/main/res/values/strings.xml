@@ -10,4 +10,5 @@
     <string name="home_win">ホーム勝利</string>
     <string name="away_win">アウェイ勝利</string>
     <string name="draw">ドロー</string>
+    <string name="team_info">team_info</string>
 </resources>
