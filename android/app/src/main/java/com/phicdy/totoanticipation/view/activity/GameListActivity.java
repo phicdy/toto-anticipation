@@ -13,28 +13,27 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.phicdy.totoanticipation.BuildConfig;
 import com.phicdy.totoanticipation.R;
 import com.phicdy.totoanticipation.model.Game;
+import com.phicdy.totoanticipation.model.storage.GameListStorage;
+import com.phicdy.totoanticipation.model.storage.GameListStorageImpl;
 import com.phicdy.totoanticipation.model.RakutenTotoRequestExecutor;
 import com.phicdy.totoanticipation.model.RakutenTotoService;
 import com.phicdy.totoanticipation.presenter.GameListPresenter;
 import com.phicdy.totoanticipation.view.GameListView;
 import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
-import fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils;
-import fr.castorflex.android.smoothprogressbar.SmoothProgressDrawable;
 
 public class GameListActivity extends AppCompatActivity implements GameListView {
 
     private boolean mTwoPane;
     private GameListPresenter presenter;
+    private GameListStorage storage;
     private RecyclerView recyclerView;
     private SmoothProgressBar progressBar;
 
@@ -70,19 +69,16 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
 
         final RakutenTotoService service = RakutenTotoService.Factory.create();
         final RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        presenter = new GameListPresenter(executor);
+        storage = new GameListStorageImpl(this);
+        presenter = new GameListPresenter(executor, storage);
         presenter.setView(this);
         presenter.onCreate();
     }
 
     @Override
-    public void initListBy(@NonNull ArrayList<Game> games) {
+    public void initList() {
         recyclerView.setVisibility(View.VISIBLE);
-        if (games.size() == 0 && BuildConfig.DEBUG) {
-            games = new ArrayList<>();
-            games.add(new Game("鹿島", "清水"));
-        }
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(games));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter());
     }
 
     @Override
@@ -110,12 +106,6 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
     class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<Game> games;
-
-        SimpleItemRecyclerViewAdapter(List<Game> games) {
-            this.games = games;
-        }
-
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
@@ -124,8 +114,8 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.game = games.get(position);
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
+            holder.game = presenter.gameAt(position);
             holder.tvHome.setText(holder.game.homeTeam);
             holder.tvAway.setText(holder.game.awayTeam);
 
@@ -151,17 +141,50 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
                     }
                 }
             });
+
+            switch (holder.game.anticipation) {
+                case HOME:
+                    holder.rbHome.setChecked(true);
+                    break;
+                case AWAY:
+                    holder.rbAway.setChecked(true);
+                    break;
+                case DRAW:
+                    holder.rbDraw.setChecked(true);
+                    break;
+            }
+            holder.rbHome.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    presenter.onHomeRadioButtonClicked(holder.getAdapterPosition(), isChecked);
+                }
+            });
+            holder.rbAway.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    presenter.onAwayRadioButtonClicked(holder.getAdapterPosition(), isChecked);
+                }
+            });
+            holder.rbDraw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    presenter.onDrawRadioButtonClicked(holder.getAdapterPosition(), isChecked);
+                }
+            });
         }
 
         @Override
         public int getItemCount() {
-            return games.size();
+            return presenter.gameSize();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
             final View mView;
             final TextView tvHome;
             final TextView tvAway;
+            final RadioButton rbHome;
+            final RadioButton rbAway;
+            final RadioButton rbDraw;
             Game game;
 
             ViewHolder(View view) {
@@ -169,6 +192,9 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
                 mView = view;
                 tvHome = (TextView) view.findViewById(R.id.tv_home);
                 tvAway = (TextView) view.findViewById(R.id.tv_away);
+                rbHome = (RadioButton) view.findViewById(R.id.rb_home);
+                rbAway = (RadioButton) view.findViewById(R.id.rb_away);
+                rbDraw = (RadioButton) view.findViewById(R.id.rb_draw);
             }
 
             @Override
