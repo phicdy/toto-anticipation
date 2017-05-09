@@ -3,6 +3,9 @@ package com.phicdy.totoanticipation.presenter;
 import android.support.annotation.NonNull;
 
 import com.phicdy.totoanticipation.model.Game;
+import com.phicdy.totoanticipation.model.JLeagueRankingParser;
+import com.phicdy.totoanticipation.model.JLeagueRequestExecutor;
+import com.phicdy.totoanticipation.model.TeamInfoMapper;
 import com.phicdy.totoanticipation.model.storage.GameListStorage;
 import com.phicdy.totoanticipation.model.RakutenTotoInfoParser;
 import com.phicdy.totoanticipation.model.RakutenTotoRequestExecutor;
@@ -10,22 +13,30 @@ import com.phicdy.totoanticipation.model.RakutenTotoTopParser;
 import com.phicdy.totoanticipation.view.GameListView;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.RakutenTotoRequestCallback {
+public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.RakutenTotoRequestCallback,
+        JLeagueRequestExecutor.JLeagueRequestCallback{
     private GameListView view;
-    private RakutenTotoRequestExecutor executor;
+    private RakutenTotoRequestExecutor rakutenTotoRequestExecutor;
+    private JLeagueRequestExecutor jLeagueRequestExecutor;
     private GameListStorage storage;
     private String totoNum;
     private List<Game> games;
+    private Map<String, Integer> j1ranking = new HashMap<>();
+    private Map<String, Integer> j2ranking = new HashMap<>();
 
-    public GameListPresenter(@NonNull RakutenTotoRequestExecutor executor,
+    public GameListPresenter(@NonNull RakutenTotoRequestExecutor rakutenTotoRequestExecutor,
+                             @NonNull JLeagueRequestExecutor jLeagueRequestExecutor,
                              @NonNull GameListStorage storage) {
-        this.executor = executor;
+        this.rakutenTotoRequestExecutor = rakutenTotoRequestExecutor;
+        this.jLeagueRequestExecutor = jLeagueRequestExecutor;
         this.storage = storage;
     }
 
@@ -36,7 +47,7 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
     @Override
     public void onCreate() {
         view.startProgress();
-        executor.fetchRakutenTotoTopPage(this);
+        rakutenTotoRequestExecutor.fetchRakutenTotoTopPage(this);
     }
 
     @Override
@@ -51,7 +62,7 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
             view.setTitleFrom(totoNum);
             games = storage.list(totoNum);
             if (games == null || games.size() == 0) {
-                executor.fetchRakutenTotoInfoPage(totoNum, this);
+                jLeagueRequestExecutor.fetchJ1Ranking(this);
             } else {
                 view.stopProgress();
                 view.initList();
@@ -68,11 +79,60 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
     }
 
     @Override
+    public void onResponseJ1Ranking(@NonNull Response<ResponseBody> response) {
+        try {
+            String body = response.body().string();
+            j1ranking = new JLeagueRankingParser().ranking(body);
+            jLeagueRequestExecutor.fetchJ2Ranking(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+            view.stopProgress();
+        }
+    }
+
+    @Override
+    public void onFailureJ1Ranking(Call<ResponseBody> call, Throwable throwable) {
+        view.stopProgress();
+    }
+
+    @Override
+    public void onResponseJ2Ranking(@NonNull Response<ResponseBody> response) {
+        try {
+            String body = response.body().string();
+            j2ranking = new JLeagueRankingParser().ranking(body);
+            rakutenTotoRequestExecutor.fetchRakutenTotoInfoPage(totoNum, this);
+        } catch (IOException e) {
+            e.printStackTrace();
+            view.stopProgress();
+        }
+    }
+
+    @Override
+    public void onFailureJ2Ranking(Call<ResponseBody> call, Throwable throwable) {
+        view.stopProgress();
+    }
+
+    @Override
     public void onResponseTotoInfo(@NonNull Response<ResponseBody> response) {
         view.stopProgress();
         try {
             String body = response.body().string();
             games = new RakutenTotoInfoParser().games(body);
+            for (Game game : games) {
+                String homeFullName = TeamInfoMapper.fullNameForJLeagueRanking(game.homeTeam);
+                String awayFullName = TeamInfoMapper.fullNameForJLeagueRanking(game.awayTeam);
+                Integer homeRank = j1ranking.get(homeFullName);
+                Integer awayRank = j1ranking.get(awayFullName);
+                if (homeRank == null || awayRank == null) {
+                    homeRank = j2ranking.get(homeFullName);
+                    awayRank = j2ranking.get(awayFullName);
+                }
+                if (homeRank == null || awayRank == null) {
+                    continue;
+                }
+                game.homeRanking = String.valueOf(homeRank);
+                game.awayRanking = String.valueOf(awayRank);
+            }
             view.initList();
         } catch (IOException e) {
             e.printStackTrace();

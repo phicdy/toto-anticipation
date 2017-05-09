@@ -49,9 +49,9 @@ public class TeamInfoActivity extends AppCompatActivity {
             case R.id.navigation_history:
                 GameHistoryFragment fragment = new GameHistoryFragment();
                 arguments.putString(GameHistoryFragment.ARG_HOME_TEAM,
-                        TeamInfoMapper.fullName(getIntent().getStringExtra(ARG_HOME_TEAM)));
+                        TeamInfoMapper.fullNameForFootbellGeist(getIntent().getStringExtra(ARG_HOME_TEAM)));
                 arguments.putString(GameHistoryFragment.ARG_AWAY_TEAM,
-                        TeamInfoMapper.fullName(getIntent().getStringExtra(ARG_AWAY_TEAM)));
+                        TeamInfoMapper.fullNameForFootbellGeist(getIntent().getStringExtra(ARG_AWAY_TEAM)));
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.fr_content, fragment)

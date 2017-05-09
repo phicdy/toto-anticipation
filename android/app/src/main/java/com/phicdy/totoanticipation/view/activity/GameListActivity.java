@@ -19,10 +19,12 @@ import android.widget.TextView;
 
 import com.phicdy.totoanticipation.R;
 import com.phicdy.totoanticipation.model.Game;
-import com.phicdy.totoanticipation.model.storage.GameListStorage;
-import com.phicdy.totoanticipation.model.storage.GameListStorageImpl;
+import com.phicdy.totoanticipation.model.JLeagueRequestExecutor;
+import com.phicdy.totoanticipation.model.JLeagueService;
 import com.phicdy.totoanticipation.model.RakutenTotoRequestExecutor;
 import com.phicdy.totoanticipation.model.RakutenTotoService;
+import com.phicdy.totoanticipation.model.storage.GameListStorage;
+import com.phicdy.totoanticipation.model.storage.GameListStorageImpl;
 import com.phicdy.totoanticipation.presenter.GameListPresenter;
 import com.phicdy.totoanticipation.view.GameListView;
 import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment;
@@ -67,10 +69,13 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
 
         progressBar = (SmoothProgressBar) findViewById(R.id.progress);
 
-        final RakutenTotoService service = RakutenTotoService.Factory.create();
-        final RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
+        final RakutenTotoService rakutenTotoService = RakutenTotoService.Factory.create();
+        final RakutenTotoRequestExecutor rakutenTotoRequestExecutor =
+                new RakutenTotoRequestExecutor(rakutenTotoService);
+        final JLeagueService jLeagueService = JLeagueService.Factory.create();
+        final JLeagueRequestExecutor jLeagueRequestExecutor = new JLeagueRequestExecutor(jLeagueService);
         storage = new GameListStorageImpl(this);
-        presenter = new GameListPresenter(executor, storage);
+        presenter = new GameListPresenter(rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage);
         presenter.setView(this);
         presenter.onCreate();
     }
@@ -116,8 +121,8 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.game = presenter.gameAt(position);
-            holder.tvHome.setText(holder.game.homeTeam);
-            holder.tvAway.setText(holder.game.awayTeam);
+            holder.tvHome.setText(getString(R.string.team_label, holder.game.homeRanking, holder.game.homeTeam));
+            holder.tvAway.setText(getString(R.string.team_label, holder.game.awayRanking, holder.game.awayTeam));
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
