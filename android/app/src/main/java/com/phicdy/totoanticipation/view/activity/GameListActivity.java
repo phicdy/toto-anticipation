@@ -121,8 +121,8 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.game = presenter.gameAt(position);
-            holder.tvHome.setText(holder.game.homeTeam);
-            holder.tvAway.setText(holder.game.awayTeam);
+            holder.tvHome.setText(getString(R.string.team_label, holder.game.homeRanking, holder.game.homeTeam));
+            holder.tvAway.setText(getString(R.string.team_label, holder.game.awayRanking, holder.game.awayTeam));
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
