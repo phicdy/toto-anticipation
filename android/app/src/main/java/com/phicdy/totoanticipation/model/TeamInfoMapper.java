@@ -9,7 +9,7 @@ public class TeamInfoMapper {
      * @param shrunkName Shrunk team name in Rakuten toto
      * @return Full name of the team
      */
-    public static String fullName(@NonNull String shrunkName) {
+    public static String fullNameForFootbellGeist(@NonNull String shrunkName) {
         if (shrunkName.equals("鹿島")) return "鹿島アントラーズ";
         if (shrunkName.equals("浦和")) return "浦和レッズ";
         if (shrunkName.equals("甲府")) return "ヴァンフォーレ甲府";
