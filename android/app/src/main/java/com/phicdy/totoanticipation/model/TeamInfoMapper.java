@@ -3,6 +3,29 @@ package com.phicdy.totoanticipation.model;
 import android.support.annotation.NonNull;
 
 public class TeamInfoMapper {
+
+    /**
+     * Return full name of the team.
+     *
+     * @param shrunkName Shrunk team name in Rakuten toto
+     * @return Full name of the team in J League ranking
+     */
+    public static String fullNameForJLeagueRanking(@NonNull String shrunkName) {
+        if (shrunkName.equals("Ｆ東京")) return "ＦＣ東京";
+        if (shrunkName.equals("横浜Ｍ")) return "横浜Ｆ・マリノス";
+        if (shrunkName.equals("札幌")) return "北海道コンサドーレ札幌";
+        if (shrunkName.equals("東京Ｖ")) return "東京ヴェルディ";
+        if (shrunkName.equals("岐阜")) return "ＦＣ岐阜";
+        if (shrunkName.equals("横浜Ｃ")) return "横浜ＦＣ";
+        if (shrunkName.equals("町田")) return "ＦＣ町田ゼルビア";
+        if (shrunkName.equals("長崎")) return "Ｖ・ファーレン長崎";
+        if (shrunkName.equals("松本")) return "松本山雅ＦＣ";
+        if (shrunkName.equals("愛媛")) return "愛媛ＦＣ";
+        if (shrunkName.equals("京都")) return "京都サンガＦ.Ｃ.";
+        if (shrunkName.equals("山口")) return "レノファ山口ＦＣ";
+        return fullNameForFootbellGeist(shrunkName);
+    }
+
     /**
      * Return full name of the team.
      *
