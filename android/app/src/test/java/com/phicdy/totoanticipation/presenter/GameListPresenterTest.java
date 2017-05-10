@@ -12,6 +12,7 @@ import com.phicdy.totoanticipation.model.TestRakutenTotoPage;
 import com.phicdy.totoanticipation.model.storage.GameListStorage;
 import com.phicdy.totoanticipation.view.GameListView;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -28,16 +29,26 @@ import static org.junit.Assert.assertTrue;
 
 public class GameListPresenterTest {
 
+    private GameListPresenter presenter;
+    private RakutenTotoRequestExecutor rakutenTotoRequestExecutor;
+    private JLeagueRequestExecutor jLeagueRequestExecutor;
+    private MockView view;
+    private GameListStorage storage;
+
+    @Before
+    public void setup() {
+        RakutenTotoService service = RakutenTotoService.Factory.create();
+        rakutenTotoRequestExecutor = new RakutenTotoRequestExecutor(service);
+        JLeagueService service1 = JLeagueService.Factory.create();
+        jLeagueRequestExecutor = new JLeagueRequestExecutor(service1);
+        storage = new MockStorage();
+        presenter = new GameListPresenter(rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage);
+        view = new MockView();
+        presenter.setView(view);
+    }
+
     @Test
     public void progressBarStartsAfterOnCreate() {
-        RakutenTotoService service = RakutenTotoService.Factory.create();
-        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        JLeagueService service1 = JLeagueService.Factory.create();
-        JLeagueRequestExecutor executor1 = new JLeagueRequestExecutor(service1);
-        GameListStorage storage = new MockStorage();
-        GameListPresenter presenter = new GameListPresenter(executor, executor1, storage);
-        MockView view = new MockView();
-        presenter.setView(view);
         presenter.onCreate();
         assertTrue(view.isProgressing);
     }
@@ -45,65 +56,29 @@ public class GameListPresenterTest {
     @Test
     public void testOnResume() {
         // For coverage
-        RakutenTotoService service = RakutenTotoService.Factory.create();
-        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        JLeagueService service1 = JLeagueService.Factory.create();
-        JLeagueRequestExecutor executor1 = new JLeagueRequestExecutor(service1);
-        GameListStorage storage = new MockStorage();
-        GameListPresenter presenter = new GameListPresenter(executor, executor1, storage);
         presenter.onResume();
     }
 
     @Test
     public void testOnPause() {
         // For coverage
-        RakutenTotoService service = RakutenTotoService.Factory.create();
-        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        JLeagueService service1 = JLeagueService.Factory.create();
-        JLeagueRequestExecutor executor1 = new JLeagueRequestExecutor(service1);
-        GameListStorage storage = new MockStorage();
-        GameListPresenter presenter = new GameListPresenter(executor, executor1, storage);
         presenter.onPause();
     }
 
     @Test
     public void progressBarStopsWhenOnFailureTotoTop() {
-        RakutenTotoService service = RakutenTotoService.Factory.create();
-        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        JLeagueService service1 = JLeagueService.Factory.create();
-        JLeagueRequestExecutor executor1 = new JLeagueRequestExecutor(service1);
-        GameListStorage storage = new MockStorage();
-        GameListPresenter presenter = new GameListPresenter(executor, executor1, storage);
-        MockView view = new MockView();
-        presenter.setView(view);
         presenter.onFailureTotoTop(null, null);
         assertFalse(view.isProgressing);
     }
 
     @Test
     public void progressBarStopsWhenOnFailureTotoInfo() {
-        RakutenTotoService service = RakutenTotoService.Factory.create();
-        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        JLeagueService service1 = JLeagueService.Factory.create();
-        JLeagueRequestExecutor executor1 = new JLeagueRequestExecutor(service1);
-        GameListStorage storage = new MockStorage();
-        GameListPresenter presenter = new GameListPresenter(executor, executor1, storage);
-        MockView view = new MockView();
-        presenter.setView(view);
         presenter.onFailureTotoInfo(null, null);
         assertFalse(view.isProgressing);
     }
 
     @Test
     public void titleBecomesLatestTotoAfterReceivingTotoTopResponse() {
-        RakutenTotoService service = RakutenTotoService.Factory.create();
-        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        JLeagueService service1 = JLeagueService.Factory.create();
-        JLeagueRequestExecutor executor1 = new JLeagueRequestExecutor(service1);
-        GameListStorage storage = new MockStorage();
-        GameListPresenter presenter = new GameListPresenter(executor, executor1, storage);
-        MockView view = new MockView();
-        presenter.setView(view);
         Response<ResponseBody> response = Response.success(
                 ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoPage.text));
         presenter.onResponseTotoTop(response);
@@ -112,15 +87,10 @@ public class GameListPresenterTest {
 
     @Test
     public void listIsSetWhenStoredListExists() {
-        RakutenTotoService service = RakutenTotoService.Factory.create();
-        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        JLeagueService service1 = JLeagueService.Factory.create();
-        JLeagueRequestExecutor executor1 = new JLeagueRequestExecutor(service1);
-        GameListStorage storage = new MockStorage();
         ArrayList<Game> testList = new ArrayList<>();
         testList.add(new Game("home", "away"));
         storage.store("0923", testList);
-        GameListPresenter presenter = new GameListPresenter(executor, executor1, storage);
+        presenter = new GameListPresenter(rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage);
         MockView view = new MockView();
         presenter.setView(view);
         Response<ResponseBody> response = Response.success(
@@ -131,15 +101,10 @@ public class GameListPresenterTest {
 
     @Test
     public void progressBarStopsWhenStoredListExists() {
-        RakutenTotoService service = RakutenTotoService.Factory.create();
-        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        JLeagueService service1 = JLeagueService.Factory.create();
-        JLeagueRequestExecutor executor1 = new JLeagueRequestExecutor(service1);
-        GameListStorage storage = new MockStorage();
         ArrayList<Game> testList = new ArrayList<>();
         testList.add(new Game("home", "away"));
         storage.store("0923", testList);
-        GameListPresenter presenter = new GameListPresenter(executor, executor1, storage);
+        presenter = new GameListPresenter(rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage);
         MockView view = new MockView();
         presenter.setView(view);
         Response<ResponseBody> response = Response.success(
@@ -150,14 +115,6 @@ public class GameListPresenterTest {
 
     @Test
     public void titleDoesNotChangeAfterReceivingInvalidTotoTopResponse() {
-        RakutenTotoService service = RakutenTotoService.Factory.create();
-        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        JLeagueService service1 = JLeagueService.Factory.create();
-        JLeagueRequestExecutor executor1 = new JLeagueRequestExecutor(service1);
-        GameListStorage storage = new MockStorage();
-        GameListPresenter presenter = new GameListPresenter(executor, executor1, storage);
-        MockView view = new MockView();
-        presenter.setView(view);
         Response<ResponseBody> response = Response.success(
                 ResponseBody.create(MediaType.parse("application/text"), "<html><body>hoge</body></html>"));
         presenter.onResponseTotoTop(response);
@@ -166,14 +123,6 @@ public class GameListPresenterTest {
 
     @Test
     public void gamesAreSetAfterReceivingTotoInfoResponse() {
-        RakutenTotoService service = RakutenTotoService.Factory.create();
-        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        JLeagueService service1 = JLeagueService.Factory.create();
-        JLeagueRequestExecutor executor1 = new JLeagueRequestExecutor(service1);
-        GameListStorage storage = new MockStorage();
-        GameListPresenter presenter = new GameListPresenter(executor, executor1, storage);
-        MockView view = new MockView();
-        presenter.setView(view);
         Response<ResponseBody> response = Response.success(
                 ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text));
         presenter.onResponseTotoInfo(response);
@@ -199,14 +148,6 @@ public class GameListPresenterTest {
 
     @Test
     public void gamesAreEmptyAfterReceivingInvalidTotoInfoResponse() {
-        RakutenTotoService service = RakutenTotoService.Factory.create();
-        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        JLeagueService service1 = JLeagueService.Factory.create();
-        JLeagueRequestExecutor executor1 = new JLeagueRequestExecutor(service1);
-        GameListStorage storage = new MockStorage();
-        GameListPresenter presenter = new GameListPresenter(executor, executor1, storage);
-        MockView view = new MockView();
-        presenter.setView(view);
         Response<ResponseBody> response = Response.success(
                 ResponseBody.create(MediaType.parse("application/text"), "<html><body>hoge</body></html>"));
         presenter.onResponseTotoInfo(response);
@@ -215,14 +156,6 @@ public class GameListPresenterTest {
 
     @Test
     public void anticipationBecomesHomeWhenHomeRadioButtonIsClicked() {
-        RakutenTotoService service = RakutenTotoService.Factory.create();
-        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        JLeagueService service1 = JLeagueService.Factory.create();
-        JLeagueRequestExecutor executor1 = new JLeagueRequestExecutor(service1);
-        GameListStorage storage = new MockStorage();
-        GameListPresenter presenter = new GameListPresenter(executor, executor1, storage);
-        MockView view = new MockView();
-        presenter.setView(view);
         Response<ResponseBody> response = Response.success(
                 ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text));
         presenter.onResponseTotoInfo(response);
@@ -232,14 +165,6 @@ public class GameListPresenterTest {
 
     @Test
     public void anticipationBecomesAwayWhenAwayRadioButtonIsClicked() {
-        RakutenTotoService service = RakutenTotoService.Factory.create();
-        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        JLeagueService service1 = JLeagueService.Factory.create();
-        JLeagueRequestExecutor executor1 = new JLeagueRequestExecutor(service1);
-        GameListStorage storage = new MockStorage();
-        GameListPresenter presenter = new GameListPresenter(executor, executor1, storage);
-        MockView view = new MockView();
-        presenter.setView(view);
         Response<ResponseBody> response = Response.success(
                 ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text));
         presenter.onResponseTotoInfo(response);
@@ -249,14 +174,6 @@ public class GameListPresenterTest {
 
     @Test
     public void anticipationBecomesDrawWhenDrawRadioButtonIsClicked() {
-        RakutenTotoService service = RakutenTotoService.Factory.create();
-        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        JLeagueService service1 = JLeagueService.Factory.create();
-        JLeagueRequestExecutor executor1 = new JLeagueRequestExecutor(service1);
-        GameListStorage storage = new MockStorage();
-        GameListPresenter presenter = new GameListPresenter(executor, executor1, storage);
-        MockView view = new MockView();
-        presenter.setView(view);
         Response<ResponseBody> response = Response.success(
                 ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text));
         presenter.onResponseTotoInfo(response);
@@ -266,14 +183,6 @@ public class GameListPresenterTest {
 
     @Test
     public void clickMinusPositionOfRadioButtonHasNoAffect() {
-        RakutenTotoService service = RakutenTotoService.Factory.create();
-        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        JLeagueService service1 = JLeagueService.Factory.create();
-        JLeagueRequestExecutor executor1 = new JLeagueRequestExecutor(service1);
-        GameListStorage storage = new MockStorage();
-        GameListPresenter presenter = new GameListPresenter(executor, executor1, storage);
-        MockView view = new MockView();
-        presenter.setView(view);
         Response<ResponseBody> response = Response.success(
                 ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text));
         presenter.onResponseTotoInfo(response);
@@ -286,14 +195,6 @@ public class GameListPresenterTest {
 
     @Test
     public void clickBiggerPositionThanGameSizeOfRadioButtonHasNoAffect() {
-        RakutenTotoService service = RakutenTotoService.Factory.create();
-        RakutenTotoRequestExecutor executor = new RakutenTotoRequestExecutor(service);
-        JLeagueService service1 = JLeagueService.Factory.create();
-        JLeagueRequestExecutor executor1 = new JLeagueRequestExecutor(service1);
-        GameListStorage storage = new MockStorage();
-        GameListPresenter presenter = new GameListPresenter(executor, executor1, storage);
-        MockView view = new MockView();
-        presenter.setView(view);
         Response<ResponseBody> response = Response.success(
                 ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text));
         presenter.onResponseTotoInfo(response);
