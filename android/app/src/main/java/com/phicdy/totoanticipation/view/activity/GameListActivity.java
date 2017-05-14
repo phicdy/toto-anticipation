@@ -52,8 +52,7 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                presenter.onFabClicked();
             }
         });
 
@@ -106,6 +105,10 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
                 progressBar.setVisibility(View.GONE);
             }
         }, 3000);
+    }
+
+    @Override
+    public void startTotoAnticipationActivity() {
     }
 
     class SimpleItemRecyclerViewAdapter

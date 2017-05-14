@@ -182,4 +182,9 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
     public int gameSize() {
         return games == null ? 0 : games.size();
     }
+
+    public void onFabClicked() {
+        storage.store(totoNum, games);
+        view.startTotoAnticipationActivity();
+    }
 }
