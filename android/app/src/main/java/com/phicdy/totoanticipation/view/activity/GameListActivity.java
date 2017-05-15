@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -108,7 +107,10 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
     }
 
     @Override
-    public void startTotoAnticipationActivity() {
+    public void startTotoAnticipationActivity(@NonNull String totoNum) {
+        Intent intent = new Intent(this, TotoAnticipationActivity.class);
+        intent.putExtra(TotoAnticipationActivity.KEY_TOTO_NUM, totoNum);
+        startActivity(intent);
     }
 
     class SimpleItemRecyclerViewAdapter

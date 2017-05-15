@@ -185,6 +185,6 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
 
     public void onFabClicked() {
         storage.store(totoNum, games);
-        view.startTotoAnticipationActivity();
+        view.startTotoAnticipationActivity(totoNum);
     }
 }

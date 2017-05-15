@@ -11,5 +11,5 @@ public interface GameListView {
     void setTitleFrom(@NonNull String xxTh);
     void startProgress();
     void stopProgress();
-    void startTotoAnticipationActivity();
+    void startTotoAnticipationActivity(@NonNull String totoNum);
 }
