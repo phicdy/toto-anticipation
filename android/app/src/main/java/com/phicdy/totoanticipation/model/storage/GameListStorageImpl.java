@@ -22,6 +22,11 @@ public class GameListStorageImpl implements GameListStorage {
     }
 
     @Override
+    public String totoNum() {
+        return preferences.getString(KEY_TOTO_NUM, "");
+    }
+
+    @Override
     public List<Game> list(@NonNull String totoNum) {
         String storedNum = preferences.getString(KEY_TOTO_NUM, "");
         if (!storedNum.equals(totoNum)) return new ArrayList<>();
