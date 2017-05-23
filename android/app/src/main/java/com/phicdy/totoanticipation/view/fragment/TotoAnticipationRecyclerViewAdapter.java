@@ -35,12 +35,18 @@ class TotoAnticipationRecyclerViewAdapter extends RecyclerView.Adapter<TotoAntic
         switch (mValues.get(position).anticipation) {
             case HOME:
                 holder.cbHome.setChecked(true);
+                holder.cbAway.setChecked(false);
+                holder.cbDraw.setChecked(false);
                 break;
             case DRAW:
+                holder.cbHome.setChecked(false);
+                holder.cbAway.setChecked(false);
                 holder.cbDraw.setChecked(true);
                 break;
             case AWAY:
+                holder.cbHome.setChecked(false);
                 holder.cbAway.setChecked(true);
+                holder.cbDraw.setChecked(false);
                 break;
         }
     }
