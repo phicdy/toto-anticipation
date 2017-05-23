@@ -34,7 +34,8 @@ def coverageSourceDirs = ['src/main/java']
 def coverageExcludeFiles = ['**/R.class', '**/R$*.class', '**/com/android/**/*.*',
                             '**/BuildConfig.class', '**/*Activity*.class',
                             '**/*Fragment*.class', '**/*Receiver.class',
-                            '**/*Manifest*.class', '**/*Application*.class']
+                            '**/*Manifest*.class', '**/*Application*.class',
+                            '**/*RecyclerViewAdapter.class']
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
     group = "Reporting"
     description = "Generate Jacoco coverage reports after running tests."
