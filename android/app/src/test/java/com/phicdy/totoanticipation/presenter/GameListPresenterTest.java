@@ -205,10 +205,17 @@ public class GameListPresenterTest {
         }
     }
 
+    @Test
+    public void WhenFabIsClickedTotoAnticipationActivityStarts() {
+        presenter.onFabClicked();
+        assertTrue(view.isTotoAnticipationActivityStarted);
+    }
+
     private class MockView implements GameListView {
 
         private String title = "toto予想";
         private boolean isProgressing = false;
+        private boolean isTotoAnticipationActivityStarted = false;
 
         @Override
         public void initList() {
@@ -228,12 +235,23 @@ public class GameListPresenterTest {
         public void stopProgress() {
             isProgressing = false;
         }
+
+        @Override
+        public void startTotoAnticipationActivity(@NonNull String totoNum) {
+            isTotoAnticipationActivityStarted = true;
+        }
     }
 
     private class MockStorage implements GameListStorage {
 
         private String totoNum;
         private List<Game> games;
+
+        @Override
+        public String totoNum() {
+            return null;
+        }
+
         @Override
         public List<Game> list(@NonNull String totoNum) {
             return games;
