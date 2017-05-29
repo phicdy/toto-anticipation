@@ -207,6 +207,9 @@ public class GameListPresenterTest {
 
     @Test
     public void WhenFabIsClickedTotoAnticipationActivityStarts() {
+        Response<ResponseBody> response = Response.success(
+                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoPage.text));
+        presenter.onResponseTotoTop(response);
         presenter.onFabClicked();
         assertTrue(view.isTotoAnticipationActivityStarted);
     }

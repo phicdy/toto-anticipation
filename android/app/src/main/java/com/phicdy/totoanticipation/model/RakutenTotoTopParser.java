@@ -8,6 +8,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class RakutenTotoTopParser {
 
     /**
@@ -62,14 +67,15 @@ public class RakutenTotoTopParser {
      * </ul>
      *
      * @param body HTML string of rakuten toto top page
-     * @return Latest number of toto like "0923" or empty string
+     * @return Latest toto or null
      */
-    public String latestTotoNumber(@NonNull String body) {
-        if (TextUtils.isEmpty(body)) return "";
+    public Toto latestToto(@NonNull String body) {
+        if (TextUtils.isEmpty(body)) return null;
         Document bodyDoc = Jsoup.parse(body);
         Elements scheduleTable = bodyDoc.getElementsByClass("table");
         Elements lis = scheduleTable.select("li");
         String latestNumber = "";
+        Date deadline;
         for (int i = 0; i < lis.size(); i++) {
             Element li = lis.get(i);
             // Check hold on now or not
@@ -88,8 +94,24 @@ public class RakutenTotoTopParser {
                     break;
                 }
             }
-            if (!latestNumber.equals("")) break;
+            if (latestNumber.equals("")) continue;
+
+            // Parse deadline date from "<dd class="span">2017年04月14日(金)～2017年04月21日(金)</dd>"
+            Element span = li.getElementsByClass("span").first();
+            if (span == null) continue;
+            // Cut "2017年04月14日(金)～" and "(金)" at last
+            final int indexDeadlineStart = 15;
+            final int indexDeadlineHi = 26;
+            String deadlineDateStr = span.text().substring(indexDeadlineStart, indexDeadlineHi);
+            deadlineDateStr += " 00:00:00";
+            SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss", Locale.JAPAN);
+            try {
+                deadline = format.parse(deadlineDateStr);
+                return new Toto(latestNumber, deadline);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
-        return latestNumber;
+        return null;
     }
 }
