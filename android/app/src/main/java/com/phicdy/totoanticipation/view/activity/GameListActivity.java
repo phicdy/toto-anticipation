@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -64,7 +66,6 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
             // activity should be in two-pane mode.
             mTwoPane = true;
         }
-
         progressBar = (SmoothProgressBar) findViewById(R.id.progress);
 
         final RakutenTotoService rakutenTotoService = RakutenTotoService.Factory.create();
@@ -76,6 +77,21 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
         presenter = new GameListPresenter(rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage);
         presenter.setView(this);
         presenter.onCreate();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.game_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_setting:
+                presenter.onOptionsSettingSelected();
+        }
+        return false;
     }
 
     @Override
@@ -111,6 +127,11 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
         Intent intent = new Intent(this, TotoAnticipationActivity.class);
         intent.putExtra(TotoAnticipationActivity.KEY_TOTO_NUM, totoNum);
         startActivity(intent);
+    }
+
+    @Override
+    public void goToSetting() {
+        startActivity(new Intent(this, SettingActivity.class));
     }
 
     class SimpleItemRecyclerViewAdapter

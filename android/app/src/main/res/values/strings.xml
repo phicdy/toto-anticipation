@@ -16,4 +16,13 @@
     <string name="zero">0</string>
     <string name="two">2</string>
     <string name="notification_deadline_message">間もなく締め切りです</string>
+
+    <!-- 設定 -->
+    <string name="setting">設定</string>
+    <string name="setting_notification">通知</string>
+    <string name="setting_title_deadline_notification">締め切り前に通知する</string>
+    <string name="setting_license">ライセンス</string>
+    <string name="setting_title_license_info">ライセンス情報</string>
+    <string name="key_deadline_notification">key_deadline_notification</string>
+    <string name="key_license">key_license</string>
 </resources>

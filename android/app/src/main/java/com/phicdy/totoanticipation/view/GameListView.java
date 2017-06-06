@@ -12,4 +12,5 @@ public interface GameListView {
     void startProgress();
     void stopProgress();
     void startTotoAnticipationActivity(@NonNull String totoNum);
+    void goToSetting();
 }

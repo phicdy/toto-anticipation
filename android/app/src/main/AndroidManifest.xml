@@ -25,12 +25,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.activity.TotoAnticipationActivity" />
+        <activity android:name=".view.activity.SettingActivity" />
         <activity android:name=".view.activity.LicenseActivity" />
 
         <receiver
             android:name=".model.scheduler.DeadlineAlarmReceiver"
             android:enabled="true"
-            android:exported="false"></receiver>
+            android:exported="false" />
+
     </application>
 
 </manifest>

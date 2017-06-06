@@ -1,6 +1,7 @@
 package com.phicdy.totoanticipation.presenter;
 
 import android.support.annotation.NonNull;
+import android.view.MenuItem;
 
 import com.phicdy.totoanticipation.model.Game;
 import com.phicdy.totoanticipation.model.JLeagueRankingParser;
@@ -10,6 +11,7 @@ import com.phicdy.totoanticipation.model.RakutenTotoRequestExecutor;
 import com.phicdy.totoanticipation.model.RakutenTotoTopParser;
 import com.phicdy.totoanticipation.model.TeamInfoMapper;
 import com.phicdy.totoanticipation.model.Toto;
+import com.phicdy.totoanticipation.model.scheduler.DeadlineAlarm;
 import com.phicdy.totoanticipation.model.storage.GameListStorage;
 import com.phicdy.totoanticipation.view.GameListView;
 
@@ -188,5 +190,9 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
         if (toto == null) return;
         storage.store(toto.number, games);
         view.startTotoAnticipationActivity(toto.number);
+    }
+
+    public void onOptionsSettingSelected() {
+        view.goToSetting();
     }
 }
