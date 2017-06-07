@@ -3,17 +3,21 @@ package com.phicdy.totoanticipation.presenter;
 import android.support.annotation.NonNull;
 
 import com.phicdy.totoanticipation.model.scheduler.DeadlineAlarm;
+import com.phicdy.totoanticipation.model.storage.GameListStorage;
 import com.phicdy.totoanticipation.view.SettingView;
 
+import java.util.Calendar;
 import java.util.Date;
 
 
 public class SettingPresenter implements Presenter {
     private final DeadlineAlarm alarm;
+    private final GameListStorage storage;
     private SettingView view;
 
-    public SettingPresenter(@NonNull DeadlineAlarm alarm) {
+    public SettingPresenter(@NonNull DeadlineAlarm alarm, @NonNull GameListStorage storage) {
         this.alarm = alarm;
+        this.storage = storage;
     }
 
     public void setView(SettingView view) {
@@ -43,8 +47,12 @@ public class SettingPresenter implements Presenter {
 
     public void onDeadlineNotificationSettingClicked(boolean checked) {
         if (checked) {
-            // TODO set correct date
-            alarm.set(new Date());
+            Date deadline = storage.totoDeadline();
+            if (deadline.getTime() == 0) return;
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(deadline);
+            calendar.add(Calendar.HOUR_OF_DAY, -5);
+            alarm.set(calendar.getTime());
         } else {
             alarm.cancel();
         }

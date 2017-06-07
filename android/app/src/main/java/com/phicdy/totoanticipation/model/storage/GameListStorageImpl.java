@@ -30,6 +30,11 @@ public class GameListStorageImpl implements GameListStorage {
     }
 
     @Override
+    public Date totoDeadline() {
+        return new Date(preferences.getLong(KEY_TOTO_DEADLINE, 0));
+    }
+
+    @Override
     public List<Game> list(@NonNull String totoNum) {
         String storedNum = preferences.getString(KEY_TOTO_NUM, "");
         if (!storedNum.equals(totoNum)) return new ArrayList<>();
