@@ -173,7 +173,7 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
         if (games == null || position >= games.size() || position < 0) return;
         if (isChecked ) {
             games.get(position).anticipation = anticipation;
-            if (toto != null) storage.store(toto.number, games);
+            if (toto != null) storage.store(toto, games);
         }
     }
 
@@ -188,7 +188,7 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
 
     public void onFabClicked() {
         if (toto == null) return;
-        storage.store(toto.number, games);
+        storage.store(toto, games);
         view.startTotoAnticipationActivity(toto.number);
     }
 

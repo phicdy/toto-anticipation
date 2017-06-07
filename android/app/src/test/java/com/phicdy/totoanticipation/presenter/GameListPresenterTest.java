@@ -9,6 +9,7 @@ import com.phicdy.totoanticipation.model.RakutenTotoRequestExecutor;
 import com.phicdy.totoanticipation.model.RakutenTotoService;
 import com.phicdy.totoanticipation.model.TestRakutenTotoInfoPage;
 import com.phicdy.totoanticipation.model.TestRakutenTotoPage;
+import com.phicdy.totoanticipation.model.Toto;
 import com.phicdy.totoanticipation.model.storage.GameListStorage;
 import com.phicdy.totoanticipation.view.GameListView;
 
@@ -16,6 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -89,7 +91,7 @@ public class GameListPresenterTest {
     public void listIsSetWhenStoredListExists() {
         ArrayList<Game> testList = new ArrayList<>();
         testList.add(new Game("home", "away"));
-        storage.store("0923", testList);
+        storage.store(new Toto("0923", new Date()), testList);
         presenter = new GameListPresenter(rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage);
         MockView view = new MockView();
         presenter.setView(view);
@@ -103,7 +105,7 @@ public class GameListPresenterTest {
     public void progressBarStopsWhenStoredListExists() {
         ArrayList<Game> testList = new ArrayList<>();
         testList.add(new Game("home", "away"));
-        storage.store("0923", testList);
+        storage.store(new Toto("0923", new Date()), testList);
         presenter = new GameListPresenter(rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage);
         MockView view = new MockView();
         presenter.setView(view);
@@ -243,6 +245,11 @@ public class GameListPresenterTest {
         public void startTotoAnticipationActivity(@NonNull String totoNum) {
             isTotoAnticipationActivityStarted = true;
         }
+
+        @Override
+        public void goToSetting() {
+
+        }
     }
 
     private class MockStorage implements GameListStorage {
@@ -261,8 +268,8 @@ public class GameListPresenterTest {
         }
 
         @Override
-        public void store(@NonNull String totoNum, @NonNull List<Game> list) {
-            this.totoNum = totoNum;
+        public void store(@NonNull Toto toto, @NonNull List<Game> list) {
+            this.totoNum = toto.number;
             games = list;
         }
     }

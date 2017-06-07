@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.phicdy.totoanticipation.model.Game;
+import com.phicdy.totoanticipation.model.Toto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +36,8 @@ public class GameListStorageImpl implements GameListStorage {
     }
 
     @Override
-    public void store(@NonNull String totoNum, @NonNull List<Game> list) {
-        preferences.edit().putString(KEY_TOTO_NUM, totoNum).apply();
+    public void store(@NonNull Toto toto, @NonNull List<Game> list) {
+        preferences.edit().putString(KEY_TOTO_NUM, toto.number).apply();
         preferences.edit().putString(KEY_LIST, new Gson().toJson(list)).apply();
     }
 }

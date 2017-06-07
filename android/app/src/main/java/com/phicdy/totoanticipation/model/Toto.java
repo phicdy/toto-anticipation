@@ -8,7 +8,7 @@ public class Toto {
     public String number;
     Date deadline;
 
-    Toto(@NonNull String number, @NonNull Date deadline) {
+    public Toto(@NonNull String number, @NonNull Date deadline) {
         this.number = number;
         this.deadline = deadline;
     }
