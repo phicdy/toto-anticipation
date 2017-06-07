@@ -10,6 +10,7 @@ import com.phicdy.totoanticipation.model.Game;
 import com.phicdy.totoanticipation.model.Toto;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class GameListStorageImpl implements GameListStorage {
@@ -17,6 +18,7 @@ public class GameListStorageImpl implements GameListStorage {
     private SharedPreferences preferences;
     private static final String KEY_PREF = "keyPref";
     private static final String KEY_TOTO_NUM = "keyTotoNum";
+    private static final String KEY_TOTO_DEADLINE = "keyTotoDeadline";
     private static final String KEY_LIST = "keyList";
     public GameListStorageImpl(@NonNull Context context) {
         preferences = context.getSharedPreferences(KEY_PREF, Context.MODE_PRIVATE);
@@ -38,6 +40,7 @@ public class GameListStorageImpl implements GameListStorage {
     @Override
     public void store(@NonNull Toto toto, @NonNull List<Game> list) {
         preferences.edit().putString(KEY_TOTO_NUM, toto.number).apply();
+        preferences.edit().putLong(KEY_TOTO_DEADLINE, toto.deadline.getTime()).apply();
         preferences.edit().putString(KEY_LIST, new Gson().toJson(list)).apply();
     }
 }

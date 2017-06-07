@@ -263,6 +263,11 @@ public class GameListPresenterTest {
         }
 
         @Override
+        public Date totoDeadline() {
+            return null;
+        }
+
+        @Override
         public List<Game> list(@NonNull String totoNum) {
             return games;
         }
