@@ -1,7 +1,7 @@
 package com.phicdy.totoanticipation.view;
 
 public interface SettingView {
-    void initView();
+    void initView(boolean isDeadlineNotify);
     void initListener();
     void goToLicenseActivity();
 }

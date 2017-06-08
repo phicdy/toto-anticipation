@@ -39,7 +39,7 @@ public class SettingPresenter implements Presenter {
     }
 
     public void activityCreate() {
-        view.initView();
+        view.initView(storage.isDeadlineNotify());
         view.initListener();
     }
 

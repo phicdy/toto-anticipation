@@ -60,8 +60,9 @@ public class SettingFragment extends PreferenceFragment implements SettingView {
     }
 
     @Override
-    public void initView() {
+    public void initView(boolean isDeadlineNotify) {
         prefDeadlineNotification = (SwitchPreference)findPreference(getString(R.string.key_deadline_notification));
+        prefDeadlineNotification.setChecked(isDeadlineNotify);
         prefLicense = findPreference(getString(R.string.key_license));
     }
 
