@@ -9,6 +9,10 @@ import android.preference.SwitchPreference;
 
 import com.phicdy.totoanticipation.R;
 import com.phicdy.totoanticipation.model.scheduler.DeadlineAlarm;
+import com.phicdy.totoanticipation.model.storage.GameListStorage;
+import com.phicdy.totoanticipation.model.storage.GameListStorageImpl;
+import com.phicdy.totoanticipation.model.storage.SettingStorage;
+import com.phicdy.totoanticipation.model.storage.SettingStorageImpl;
 import com.phicdy.totoanticipation.presenter.SettingPresenter;
 import com.phicdy.totoanticipation.view.SettingView;
 import com.phicdy.totoanticipation.view.activity.LicenseActivity;
@@ -29,9 +33,13 @@ public class SettingFragment extends PreferenceFragment implements SettingView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.setting_fragment);
-        presenter = new SettingPresenter(new DeadlineAlarm(getActivity()));
+        GameListStorage storage = new GameListStorageImpl(getActivity());
+        SettingStorage settingStorage = new SettingStorageImpl(getActivity());
+        presenter = new SettingPresenter(new DeadlineAlarm(getActivity()),
+                storage.totoDeadline(), settingStorage);
         presenter.setView(this);
     }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
