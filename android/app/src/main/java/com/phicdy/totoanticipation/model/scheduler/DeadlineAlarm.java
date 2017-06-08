@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class DeadlineAlarm {
@@ -18,10 +19,13 @@ public class DeadlineAlarm {
         this.context = context;
     }
 
-    public void set(@NonNull Date date) {
+    public void set5hoursBefore(@NonNull Date deadline) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(deadline);
+        calendar.add(Calendar.HOUR_OF_DAY, -5);
         AlarmManager alm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Log.d("Toto alarm", "Set alarm : " + date.toString());
-        alm.set(AlarmManager.RTC_WAKEUP, date.getTime(), generateIntent());
+        Log.d("Toto alarm", "Set alarm : " + deadline.toString());
+        alm.set(AlarmManager.RTC_WAKEUP, deadline.getTime(), generateIntent());
     }
 
     public void cancel() {

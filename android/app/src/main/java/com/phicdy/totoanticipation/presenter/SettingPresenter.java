@@ -6,7 +6,6 @@ import com.phicdy.totoanticipation.model.scheduler.DeadlineAlarm;
 import com.phicdy.totoanticipation.model.storage.SettingStorage;
 import com.phicdy.totoanticipation.view.SettingView;
 
-import java.util.Calendar;
 import java.util.Date;
 
 
@@ -52,10 +51,7 @@ public class SettingPresenter implements Presenter {
         storage.setDeadlineNotify(checked);
         if (checked) {
             if (deadline.getTime() == 0) return;
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(deadline);
-            calendar.add(Calendar.HOUR_OF_DAY, -5);
-            alarm.set(calendar.getTime());
+            alarm.set5hoursBefore(deadline);
         } else {
             alarm.cancel();
         }
