@@ -24,8 +24,11 @@ import com.phicdy.totoanticipation.model.JLeagueRequestExecutor;
 import com.phicdy.totoanticipation.model.JLeagueService;
 import com.phicdy.totoanticipation.model.RakutenTotoRequestExecutor;
 import com.phicdy.totoanticipation.model.RakutenTotoService;
+import com.phicdy.totoanticipation.model.scheduler.DeadlineAlarm;
 import com.phicdy.totoanticipation.model.storage.GameListStorage;
 import com.phicdy.totoanticipation.model.storage.GameListStorageImpl;
+import com.phicdy.totoanticipation.model.storage.SettingStorage;
+import com.phicdy.totoanticipation.model.storage.SettingStorageImpl;
 import com.phicdy.totoanticipation.presenter.GameListPresenter;
 import com.phicdy.totoanticipation.view.GameListView;
 import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment;
@@ -36,7 +39,6 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
 
     private boolean mTwoPane;
     private GameListPresenter presenter;
-    private GameListStorage storage;
     private RecyclerView recyclerView;
     private SmoothProgressBar progressBar;
 
@@ -73,8 +75,10 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
                 new RakutenTotoRequestExecutor(rakutenTotoService);
         final JLeagueService jLeagueService = JLeagueService.Factory.create();
         final JLeagueRequestExecutor jLeagueRequestExecutor = new JLeagueRequestExecutor(jLeagueService);
-        storage = new GameListStorageImpl(this);
-        presenter = new GameListPresenter(rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage);
+        GameListStorage storage = new GameListStorageImpl(this);
+        SettingStorage settingStorage = new SettingStorageImpl(this);
+        presenter = new GameListPresenter(rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage,
+                settingStorage.isDeadlineNotify(), new DeadlineAlarm(this));
         presenter.setView(this);
         presenter.onCreate();
     }

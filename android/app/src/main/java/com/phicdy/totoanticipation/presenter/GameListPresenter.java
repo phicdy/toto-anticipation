@@ -1,7 +1,6 @@
 package com.phicdy.totoanticipation.presenter;
 
 import android.support.annotation.NonNull;
-import android.view.MenuItem;
 
 import com.phicdy.totoanticipation.model.Game;
 import com.phicdy.totoanticipation.model.JLeagueRankingParser;
@@ -34,13 +33,18 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
     private List<Game> games;
     private Map<String, Integer> j1ranking = new HashMap<>();
     private Map<String, Integer> j2ranking = new HashMap<>();
+    private boolean isDeadlineNotify;
+    private DeadlineAlarm alarm;
 
     public GameListPresenter(@NonNull RakutenTotoRequestExecutor rakutenTotoRequestExecutor,
                              @NonNull JLeagueRequestExecutor jLeagueRequestExecutor,
-                             @NonNull GameListStorage storage) {
+                             @NonNull GameListStorage storage, boolean isDeadlineNotify,
+                             @NonNull DeadlineAlarm alarm) {
         this.rakutenTotoRequestExecutor = rakutenTotoRequestExecutor;
         this.jLeagueRequestExecutor = jLeagueRequestExecutor;
         this.storage = storage;
+        this.isDeadlineNotify = isDeadlineNotify;
+        this.alarm = alarm;
     }
 
     public void setView(GameListView view) {
@@ -62,6 +66,7 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
                 view.stopProgress();
                 return;
             }
+            if (isDeadlineNotify) alarm.set5hoursBefore(toto.deadline);
             view.setTitleFrom(toto.number);
             games = storage.list(toto.number);
             if (games == null || games.size() == 0) {

@@ -10,11 +10,14 @@ import com.phicdy.totoanticipation.model.RakutenTotoService;
 import com.phicdy.totoanticipation.model.TestRakutenTotoInfoPage;
 import com.phicdy.totoanticipation.model.TestRakutenTotoPage;
 import com.phicdy.totoanticipation.model.Toto;
+import com.phicdy.totoanticipation.model.scheduler.DeadlineAlarm;
 import com.phicdy.totoanticipation.model.storage.GameListStorage;
+import com.phicdy.totoanticipation.model.storage.SettingStorage;
 import com.phicdy.totoanticipation.view.GameListView;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,6 +39,8 @@ public class GameListPresenterTest {
     private JLeagueRequestExecutor jLeagueRequestExecutor;
     private MockView view;
     private GameListStorage storage;
+    private SettingStorage settingStorage;
+    private DeadlineAlarm alarm;
 
     @Before
     public void setup() {
@@ -44,7 +49,10 @@ public class GameListPresenterTest {
         JLeagueService service1 = JLeagueService.Factory.create();
         jLeagueRequestExecutor = new JLeagueRequestExecutor(service1);
         storage = new MockStorage();
-        presenter = new GameListPresenter(rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage);
+        settingStorage = new MockSettingStorage();
+        alarm = Mockito.mock(DeadlineAlarm.class);
+        presenter = new GameListPresenter(rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage,
+                settingStorage.isDeadlineNotify(), alarm);
         view = new MockView();
         presenter.setView(view);
     }
@@ -92,7 +100,8 @@ public class GameListPresenterTest {
         ArrayList<Game> testList = new ArrayList<>();
         testList.add(new Game("home", "away"));
         storage.store(new Toto("0923", new Date()), testList);
-        presenter = new GameListPresenter(rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage);
+        presenter = new GameListPresenter(rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage,
+                settingStorage.isDeadlineNotify(), alarm);
         MockView view = new MockView();
         presenter.setView(view);
         Response<ResponseBody> response = Response.success(
@@ -106,7 +115,8 @@ public class GameListPresenterTest {
         ArrayList<Game> testList = new ArrayList<>();
         testList.add(new Game("home", "away"));
         storage.store(new Toto("0923", new Date()), testList);
-        presenter = new GameListPresenter(rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage);
+        presenter = new GameListPresenter(rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage,
+                settingStorage.isDeadlineNotify(), alarm);
         MockView view = new MockView();
         presenter.setView(view);
         Response<ResponseBody> response = Response.success(
@@ -276,6 +286,21 @@ public class GameListPresenterTest {
         public void store(@NonNull Toto toto, @NonNull List<Game> list) {
             this.totoNum = toto.number;
             games = list;
+        }
+    }
+
+    private class MockSettingStorage implements SettingStorage {
+
+        private boolean isNotify = false;
+
+        @Override
+        public boolean isDeadlineNotify() {
+            return isNotify;
+        }
+
+        @Override
+        public void setDeadlineNotify(boolean isEnabled) {
+            isNotify = isEnabled;
         }
     }
 }
