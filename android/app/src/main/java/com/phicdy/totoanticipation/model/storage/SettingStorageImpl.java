@@ -24,7 +24,7 @@ public class SettingStorageImpl implements SettingStorage {
 
     @Override
     public boolean isDeadlineNotify() {
-        return preferences.getBoolean(KEY_NOTIFY_DEADLINE, false);
+        return preferences.getBoolean(KEY_NOTIFY_DEADLINE, true);
     }
 
     @Override
