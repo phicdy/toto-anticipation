@@ -24,8 +24,8 @@ public class DeadlineAlarm {
         calendar.setTime(deadline);
         calendar.add(Calendar.HOUR_OF_DAY, -5);
         AlarmManager alm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Log.d("Toto alarm", "Set alarm : " + deadline.toString());
-        alm.set(AlarmManager.RTC_WAKEUP, deadline.getTime(), generateIntent());
+        Log.d("Toto alarm", "Set alarm : " + calendar.getTime().toString());
+        alm.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), generateIntent());
     }
 
     public void cancel() {
