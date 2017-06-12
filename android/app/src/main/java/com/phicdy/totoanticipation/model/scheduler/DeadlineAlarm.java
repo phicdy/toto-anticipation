@@ -19,10 +19,11 @@ public class DeadlineAlarm {
         this.context = context;
     }
 
-    public void set5hoursBefore(@NonNull Date deadline) {
+    public void setAtNoonOf(@NonNull Date deadline) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(deadline);
-        calendar.add(Calendar.HOUR_OF_DAY, -5);
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
+        calendar.set(Calendar.MINUTE, 0);
         AlarmManager alm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Log.d("Toto alarm", "Set alarm : " + calendar.getTime().toString());
         alm.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), generateIntent());

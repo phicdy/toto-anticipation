@@ -51,7 +51,7 @@ public class SettingPresenter implements Presenter {
         storage.setDeadlineNotify(checked);
         if (checked) {
             if (deadline.getTime() == 0) return;
-            alarm.set5hoursBefore(deadline);
+            alarm.setAtNoonOf(deadline);
         } else {
             alarm.cancel();
         }

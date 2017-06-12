@@ -66,7 +66,7 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
                 view.stopProgress();
                 return;
             }
-            if (isDeadlineNotify) alarm.set5hoursBefore(toto.deadline);
+            if (isDeadlineNotify) alarm.setAtNoonOf(toto.deadline);
             view.setTitleFrom(toto.number);
             games = storage.list(toto.number);
             if (games == null || games.size() == 0) {
