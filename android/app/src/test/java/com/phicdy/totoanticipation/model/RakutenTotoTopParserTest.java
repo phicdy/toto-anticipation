@@ -2,6 +2,9 @@ package com.phicdy.totoanticipation.model;
 
 import org.junit.Test;
 
+import java.util.Date;
+
+import static junit.framework.Assert.assertNull;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -10,18 +13,26 @@ public class RakutenTotoTopParserTest {
     @Test
     public void SecondLinkIsParsedWhenFirstLotteryDoesNotHaveToto() {
         RakutenTotoTopParser parser = new RakutenTotoTopParser();
-        assertThat(parser.latestTotoNumber(TestRakutenTotoPage.text), is("0923"));
+        assertThat(parser.latestToto(TestRakutenTotoPage.text).number, is("0923"));
     }
 
     @Test
-    public void EmptyNumberReturnsWhenEmptyHtml() {
+    public void WhenParseTestPageReturnCorrectDate() {
         RakutenTotoTopParser parser = new RakutenTotoTopParser();
-        assertThat(parser.latestTotoNumber(""), is(""));
+        // Expected is 2017/4/22 00:00:00
+        long april22th2017 = 1492786800000L;
+        assertThat(parser.latestToto(TestRakutenTotoPage.text).deadline, is(new Date(april22th2017)));
     }
 
     @Test
-    public void EmptyNumberReturnsWhenInvalidHtml() {
+    public void NullReturnsWhenEmptyHtml() {
         RakutenTotoTopParser parser = new RakutenTotoTopParser();
-        assertThat(parser.latestTotoNumber("<html><body>hoge</body></html>"), is(""));
+        assertNull(parser.latestToto(""));
+    }
+
+    @Test
+    public void NullReturnsWhenInvalidHtml() {
+        RakutenTotoTopParser parser = new RakutenTotoTopParser();
+        assertNull(parser.latestToto("<html><body>hoge</body></html>"));
     }
 }
