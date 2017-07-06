@@ -3,8 +3,6 @@
     <string name="title_history">対戦成績</string>
     <string name="title_home">ホーム</string>
     <string name="title_away">アウェイ</string>
-    <string name="title_item_list">Items</string>
-    <string name="title_item_detail">Item Detail</string>
     <string name="vs">vs</string>
     <string name="top_title">第%1$s回</string>
     <string name="team_label">%1$s位 %2$s</string>

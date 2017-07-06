@@ -29,9 +29,4 @@ public class DeadlineNotification {
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(ID, notification);
     }
-
-    public static void dismiss(@NonNull Context context) {
-        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.cancel(ID);
-    }
 }

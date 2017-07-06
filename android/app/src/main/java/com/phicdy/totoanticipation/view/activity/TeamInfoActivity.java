@@ -16,7 +16,7 @@ public class TeamInfoActivity extends AppCompatActivity {
     public static final String ARG_HOME_TEAM = "homeTeam";
     public static final String ARG_AWAY_TEAM = "awayTeam";
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+    private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override

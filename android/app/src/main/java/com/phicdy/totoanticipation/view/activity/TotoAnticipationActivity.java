@@ -1,13 +1,12 @@
 package com.phicdy.totoanticipation.view.activity;
 
 import android.annotation.SuppressLint;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.webkit.WebViewFragment;
 
 import com.phicdy.totoanticipation.R;
 

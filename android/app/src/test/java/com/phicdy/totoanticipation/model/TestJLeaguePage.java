@@ -1,7 +1,7 @@
 package com.phicdy.totoanticipation.model;
 
-public class TestJLeaguePage {
-    public static final String text = "<!doctype html>\n" +
+class TestJLeaguePage {
+    static final String text = "<!doctype html>\n" +
             "\t<html lang=\"ja\">\n" +
             "\t\t<head>\n" +
             "\t\t\t\t\t\t<meta charset=\"utf-8\">\n" +

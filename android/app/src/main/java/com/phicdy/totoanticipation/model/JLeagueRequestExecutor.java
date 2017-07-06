@@ -15,7 +15,7 @@ public class JLeagueRequestExecutor {
         void onResponseJ2Ranking(@NonNull Response<ResponseBody> response);
         void onFailureJ2Ranking(Call<ResponseBody> call, Throwable throwable);
     }
-    private JLeagueService service;
+    private final JLeagueService service;
     public JLeagueRequestExecutor(@NonNull JLeagueService service) {
         this.service = service;
     }

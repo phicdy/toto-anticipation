@@ -15,7 +15,7 @@ public class RakutenTotoRequestExecutor {
         void onResponseTotoInfo(@NonNull Response<ResponseBody> response);
         void onFailureTotoInfo(Call<ResponseBody> call, Throwable throwable);
     }
-    private RakutenTotoService service;
+    private final RakutenTotoService service;
     public RakutenTotoRequestExecutor(@NonNull RakutenTotoService service) {
         this.service = service;
     }

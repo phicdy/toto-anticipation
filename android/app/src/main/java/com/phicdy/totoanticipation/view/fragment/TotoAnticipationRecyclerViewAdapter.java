@@ -29,7 +29,6 @@ class TotoAnticipationRecyclerViewAdapter extends RecyclerView.Adapter<TotoAntic
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
         holder.tvHome.setText(mValues.get(position).homeTeam);
         holder.tvAway.setText(mValues.get(position).awayTeam);
         switch (mValues.get(position).anticipation) {
@@ -57,17 +56,14 @@ class TotoAnticipationRecyclerViewAdapter extends RecyclerView.Adapter<TotoAntic
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        final View mView;
         final TextView tvHome;
         final TextView tvAway;
         final CheckBox cbHome;
         final CheckBox cbDraw;
         final CheckBox cbAway;
-        Game mItem;
 
         ViewHolder(View view) {
             super(view);
-            mView = view;
             tvHome = (TextView) view.findViewById(R.id.tv_home);
             tvAway = (TextView) view.findViewById(R.id.tv_away);
             cbHome = (CheckBox) view.findViewById(R.id.cb_home);
