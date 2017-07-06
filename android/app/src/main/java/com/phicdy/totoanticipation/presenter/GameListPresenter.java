@@ -26,15 +26,15 @@ import retrofit2.Response;
 public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.RakutenTotoRequestCallback,
         JLeagueRequestExecutor.JLeagueRequestCallback{
     private GameListView view;
-    private RakutenTotoRequestExecutor rakutenTotoRequestExecutor;
-    private JLeagueRequestExecutor jLeagueRequestExecutor;
-    private GameListStorage storage;
+    private final RakutenTotoRequestExecutor rakutenTotoRequestExecutor;
+    private final JLeagueRequestExecutor jLeagueRequestExecutor;
+    private final GameListStorage storage;
     private Toto toto;
     private List<Game> games;
     private Map<String, Integer> j1ranking = new HashMap<>();
     private Map<String, Integer> j2ranking = new HashMap<>();
-    private boolean isDeadlineNotify;
-    private DeadlineAlarm alarm;
+    private final boolean isDeadlineNotify;
+    private final DeadlineAlarm alarm;
 
     public GameListPresenter(@NonNull RakutenTotoRequestExecutor rakutenTotoRequestExecutor,
                              @NonNull JLeagueRequestExecutor jLeagueRequestExecutor,

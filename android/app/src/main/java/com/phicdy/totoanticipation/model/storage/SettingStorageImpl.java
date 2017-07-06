@@ -4,18 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.phicdy.totoanticipation.model.Game;
-import com.phicdy.totoanticipation.model.Toto;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 public class SettingStorageImpl implements SettingStorage {
 
-    private SharedPreferences preferences;
+    private final SharedPreferences preferences;
     private static final String KEY_PREF = "keyPrefSetting";
     private static final String KEY_NOTIFY_DEADLINE = "keyNotifyDeadline";
     public SettingStorageImpl(@NonNull Context context) {

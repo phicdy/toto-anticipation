@@ -12,8 +12,8 @@ import java.util.Date;
 public class SettingPresenter implements Presenter {
     private final DeadlineAlarm alarm;
     private SettingView view;
-    private Date deadline;
-    private SettingStorage storage;
+    private final Date deadline;
+    private final SettingStorage storage;
 
     public SettingPresenter(@NonNull DeadlineAlarm alarm, @NonNull Date deadline,
                             @NonNull SettingStorage storage) {

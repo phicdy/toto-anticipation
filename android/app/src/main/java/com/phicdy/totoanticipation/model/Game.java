@@ -6,7 +6,7 @@ public class Game {
     public String homeRanking;
     public String awayRanking;
     public Anticipation anticipation = Anticipation.HOME;
-    public enum Anticipation {HOME, AWAY, DRAW};
+    public enum Anticipation {HOME, AWAY, DRAW}
 
     public Game(String homeTeam, String awayTeam) {
         this.homeTeam = homeTeam;

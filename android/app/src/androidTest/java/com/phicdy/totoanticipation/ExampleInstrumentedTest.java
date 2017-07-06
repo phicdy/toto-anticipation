@@ -1,13 +1,12 @@
 package com.phicdy.totoanticipation;
 
-import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.phicdy.totoanticipation.model.notification.DeadlineNotification;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.junit.Assert.*;
 
 /**
  * Instrumentation test, which will execute on an Android device.
@@ -18,9 +17,6 @@ import static org.junit.Assert.*;
 public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() throws Exception {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getTargetContext();
-
-        assertEquals("com.phicdy.totoanticipation", appContext.getPackageName());
+        DeadlineNotification.show(InstrumentationRegistry.getTargetContext());
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 
 public class GameListStorageImpl implements GameListStorage {
 
-    private SharedPreferences preferences;
+    private final SharedPreferences preferences;
     private static final String KEY_PREF = "keyPref";
     private static final String KEY_TOTO_NUM = "keyTotoNum";
     private static final String KEY_TOTO_DEADLINE = "keyTotoDeadline";
