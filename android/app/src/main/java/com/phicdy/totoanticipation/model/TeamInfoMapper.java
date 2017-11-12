@@ -21,7 +21,7 @@ public class TeamInfoMapper {
         if (shrunkName.equals("長崎")) return "Ｖ・ファーレン長崎";
         if (shrunkName.equals("松本")) return "松本山雅ＦＣ";
         if (shrunkName.equals("愛媛")) return "愛媛ＦＣ";
-        if (shrunkName.equals("京都")) return "京都サンガＦ.Ｃ.";
+        if (shrunkName.equals("京都")) return "京都サンガF.C.";
         if (shrunkName.equals("山口")) return "レノファ山口ＦＣ";
         return fullNameForFootbellGeist(shrunkName);
     }
