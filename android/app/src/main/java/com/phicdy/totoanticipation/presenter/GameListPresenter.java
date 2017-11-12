@@ -1,6 +1,7 @@
 package com.phicdy.totoanticipation.presenter;
 
 import android.support.annotation.NonNull;
+import android.text.format.DateUtils;
 
 import com.phicdy.totoanticipation.model.Game;
 import com.phicdy.totoanticipation.model.JLeagueRankingParser;
@@ -15,8 +16,10 @@ import com.phicdy.totoanticipation.model.storage.GameListStorage;
 import com.phicdy.totoanticipation.view.GameListView;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import okhttp3.ResponseBody;
@@ -67,7 +70,6 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
                 return;
             }
             if (isDeadlineNotify) alarm.setAtNoonOf(toto.deadline);
-            view.setTitleFrom(toto.number);
             games = storage.list(toto.number);
             if (games == null || games.size() == 0) {
                 jLeagueRequestExecutor.fetchJ1Ranking(this);
@@ -125,7 +127,16 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
         view.stopProgress();
         try {
             String body = response.body().string();
-            games = new RakutenTotoInfoParser().games(body);
+            RakutenTotoInfoParser parser = new RakutenTotoInfoParser();
+
+            // Set title
+            if (toto != null) {
+                SimpleDateFormat format = new SimpleDateFormat("MM/dd ", Locale.JAPAN);
+                view.setTitleFrom(toto.number, format.format(toto.deadline) + parser.deadlineTime(body));
+            }
+
+            // Parse games
+            games = parser.games(body);
             for (Game game : games) {
                 String homeFullName = TeamInfoMapper.fullNameForJLeagueRanking(game.homeTeam);
                 String awayFullName = TeamInfoMapper.fullNameForJLeagueRanking(game.awayTeam);

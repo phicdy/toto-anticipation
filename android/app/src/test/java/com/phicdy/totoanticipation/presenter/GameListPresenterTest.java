@@ -88,11 +88,14 @@ public class GameListPresenterTest {
     }
 
     @Test
-    public void titleBecomesLatestTotoAfterReceivingTotoTopResponse() {
+    public void titleBecomesLatestTotoAfterReceivingTotoInfoResponse() {
         Response<ResponseBody> response = Response.success(
                 ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoPage.text));
+        Response<ResponseBody> infoResponse = Response.success(
+                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text));
         presenter.onResponseTotoTop(response);
-        assertThat(view.title, is("第0923回"));
+        presenter.onResponseTotoInfo(infoResponse);
+        assertThat(view.title, is("第0923回(~04/22 13:50)"));
     }
 
     @Test
@@ -237,8 +240,8 @@ public class GameListPresenterTest {
         }
 
         @Override
-        public void setTitleFrom(@NonNull String xxTh) {
-            title = "第" + xxTh + "回";
+        public void setTitleFrom(@NonNull String xxTh, String deadline) {
+            title = "第" + xxTh + "回(~" + deadline + ")";
         }
 
         @Override
