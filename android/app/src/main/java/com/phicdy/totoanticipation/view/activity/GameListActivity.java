@@ -105,8 +105,8 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
     }
 
     @Override
-    public void setTitleFrom(@NonNull String xxTh) {
-        setTitle(getString(R.string.top_title, xxTh));
+    public void setTitleFrom(@NonNull String xxTh, @NonNull String deadline) {
+        setTitle(getString(R.string.top_title, xxTh, deadline));
     }
 
     @Override

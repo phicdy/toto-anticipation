@@ -44,4 +44,24 @@ public class RakutenTotoInfoParserTest {
         RakutenTotoInfoParser parser = new RakutenTotoInfoParser();
         assertThat(parser.games("<html><body>hoge</body></html>").size(), is(0));
     }
+
+    @Test
+    public void endTimeReturns() {
+        RakutenTotoInfoParser parser = new RakutenTotoInfoParser();
+        String deadlineTime = parser.deadlineTime(TestRakutenTotoInfoPage.text);
+        assertThat(deadlineTime, is("13:50"));
+    }
+
+    @Test
+    public void EmptyTimeReturnsWhenEmptyHtml() {
+        RakutenTotoInfoParser parser = new RakutenTotoInfoParser();
+        assertThat(parser.deadlineTime(""), is(""));
+    }
+
+    @Test
+    public void EmptyTimeReturnsWhenInvalidHtml() {
+        RakutenTotoInfoParser parser = new RakutenTotoInfoParser();
+        assertThat(parser.deadlineTime("<html><body>hoge</body></html>"), is(""));
+    }
+
 }
