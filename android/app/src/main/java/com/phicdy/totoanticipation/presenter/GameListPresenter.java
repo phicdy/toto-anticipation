@@ -76,6 +76,7 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
             } else {
                 view.stopProgress();
                 view.initList();
+                storage.store(toto, games);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -153,6 +154,10 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
                 game.awayRanking = String.valueOf(awayRank);
             }
             view.initList();
+
+            if (toto != null) {
+                storage.store(toto, games);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -19,7 +19,9 @@ public class BootReceiver extends BroadcastReceiver {
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
             GameListStorage storage = new GameListStorageImpl(context);
             Date deadline = storage.totoDeadline();
-            if (deadline.getTime() == 0) return;
+            Log.d("Boot", "deadline: " + deadline.toString());
+            long now = System.currentTimeMillis();
+            if (deadline.getTime() == 0 || deadline.getTime() <= now) return;
             new DeadlineAlarm(context).setAtNoonOf(deadline);
         }
     }
