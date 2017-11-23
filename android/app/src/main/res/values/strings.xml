@@ -10,9 +10,6 @@
     <string name="away_win">アウェイ勝利</string>
     <string name="draw">ドロー</string>
     <string name="team_info">team_info</string>
-    <string name="one">1</string>
-    <string name="zero">0</string>
-    <string name="two">2</string>
     <string name="notification_deadline_message">間もなく締め切りです</string>
 
     <!-- 設定 -->
