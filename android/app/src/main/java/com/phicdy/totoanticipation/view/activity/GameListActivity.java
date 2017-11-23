@@ -151,16 +151,16 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.game = presenter.gameAt(position);
-            holder.tvHome.setText(getString(R.string.team_label, holder.game.homeRanking, holder.game.homeTeam));
-            holder.tvAway.setText(getString(R.string.team_label, holder.game.awayRanking, holder.game.awayTeam));
+            holder.tvHome.setText(getString(R.string.team_label, holder.game.getHomeRanking(), holder.game.getHomeTeam()));
+            holder.tvAway.setText(getString(R.string.team_label, holder.game.getAwayRanking(), holder.game.getAwayTeam()));
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(TeamInfoActivity.ARG_HOME_TEAM, holder.game.homeTeam);
-                        arguments.putString(TeamInfoActivity.ARG_AWAY_TEAM, holder.game.awayTeam);
+                        arguments.putString(TeamInfoActivity.ARG_HOME_TEAM, holder.game.getHomeTeam());
+                        arguments.putString(TeamInfoActivity.ARG_AWAY_TEAM, holder.game.getAwayTeam());
                         TeamInfoFragment fragment = new TeamInfoFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -169,15 +169,15 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, TeamInfoActivity.class);
-                        intent.putExtra(TeamInfoActivity.ARG_HOME_TEAM, holder.game.homeTeam);
-                        intent.putExtra(TeamInfoActivity.ARG_AWAY_TEAM, holder.game.awayTeam);
+                        intent.putExtra(TeamInfoActivity.ARG_HOME_TEAM, holder.game.getHomeTeam());
+                        intent.putExtra(TeamInfoActivity.ARG_AWAY_TEAM, holder.game.getAwayTeam());
 
                         context.startActivity(intent);
                     }
                 }
             });
 
-            switch (holder.game.anticipation) {
+            switch (holder.game.getAnticipation()) {
                 case HOME:
                     holder.rbHome.setChecked(true);
                     break;

@@ -110,7 +110,7 @@ public class GameListPresenterTest {
         Response<ResponseBody> response = Response.success(
                 ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoPage.text));
         presenter.onResponseTotoTop(response);
-        assertThat(presenter.gameAt(0).homeTeam, is("home"));
+        assertThat(presenter.gameAt(0).getHomeTeam(), is("home"));
     }
 
     @Test
@@ -156,8 +156,8 @@ public class GameListPresenterTest {
         expectedGames.add(new Game("東京Ｖ", "群馬"));
         expectedGames.add(new Game("町田", "徳島"));
         for (int i = 0; i < presenter.gameSize(); i++) {
-            assertThat(presenter.gameAt(i).homeTeam, is(expectedGames.get(i).homeTeam));
-            assertThat(presenter.gameAt(i).awayTeam, is(expectedGames.get(i).awayTeam));
+            assertThat(presenter.gameAt(i).getHomeTeam(), is(expectedGames.get(i).getHomeTeam()));
+            assertThat(presenter.gameAt(i).getAwayTeam(), is(expectedGames.get(i).getAwayTeam()));
         }
     }
 
@@ -175,7 +175,7 @@ public class GameListPresenterTest {
                 ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text));
         presenter.onResponseTotoInfo(response);
         presenter.onHomeRadioButtonClicked(0, true);
-        assertThat(presenter.gameAt(0).anticipation, is(Game.Anticipation.HOME));
+        assertThat(presenter.gameAt(0).getAnticipation(), is(Game.Anticipation.HOME));
     }
 
     @Test
@@ -184,7 +184,7 @@ public class GameListPresenterTest {
                 ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text));
         presenter.onResponseTotoInfo(response);
         presenter.onAwayRadioButtonClicked(0, true);
-        assertThat(presenter.gameAt(0).anticipation, is(Game.Anticipation.AWAY));
+        assertThat(presenter.gameAt(0).getAnticipation(), is(Game.Anticipation.AWAY));
     }
 
     @Test
@@ -193,7 +193,7 @@ public class GameListPresenterTest {
                 ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text));
         presenter.onResponseTotoInfo(response);
         presenter.onDrawRadioButtonClicked(0, true);
-        assertThat(presenter.gameAt(0).anticipation, is(Game.Anticipation.DRAW));
+        assertThat(presenter.gameAt(0).getAnticipation(), is(Game.Anticipation.DRAW));
     }
 
     @Test
@@ -204,7 +204,7 @@ public class GameListPresenterTest {
         presenter.onAwayRadioButtonClicked(-1, true);
         // All of the anticipations are default, HOME
         for (int i = 0; i < presenter.gameSize(); i++) {
-            assertThat(presenter.gameAt(i).anticipation, is(Game.Anticipation.HOME));
+            assertThat(presenter.gameAt(i).getAnticipation(), is(Game.Anticipation.HOME));
         }
     }
 
@@ -216,7 +216,7 @@ public class GameListPresenterTest {
         presenter.onAwayRadioButtonClicked(presenter.gameSize()+1, true);
         // All of the anticipations are default, HOME
         for (int i = 0; i < presenter.gameSize(); i++) {
-            assertThat(presenter.gameAt(i).anticipation, is(Game.Anticipation.HOME));
+            assertThat(presenter.gameAt(i).getAnticipation(), is(Game.Anticipation.HOME));
         }
     }
 
