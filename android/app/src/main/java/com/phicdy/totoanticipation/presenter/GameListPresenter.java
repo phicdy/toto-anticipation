@@ -139,8 +139,8 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
             // Parse games
             games = parser.games(body);
             for (Game game : games) {
-                String homeFullName = TeamInfoMapper.fullNameForJLeagueRanking(game.homeTeam);
-                String awayFullName = TeamInfoMapper.fullNameForJLeagueRanking(game.awayTeam);
+                String homeFullName = TeamInfoMapper.fullNameForJLeagueRanking(game.getHomeTeam());
+                String awayFullName = TeamInfoMapper.fullNameForJLeagueRanking(game.getAwayTeam());
                 Integer homeRank = j1ranking.get(homeFullName);
                 Integer awayRank = j1ranking.get(awayFullName);
                 if (homeRank == null || awayRank == null) {
@@ -150,8 +150,8 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
                 if (homeRank == null || awayRank == null) {
                     continue;
                 }
-                game.homeRanking = String.valueOf(homeRank);
-                game.awayRanking = String.valueOf(awayRank);
+                game.setHomeRanking(String.valueOf(homeRank));
+                game.setAwayRanking(String.valueOf(awayRank));
             }
             view.initList();
 
@@ -193,7 +193,7 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
     private void onRadioButtonClicked(int position, boolean isChecked, Game.Anticipation anticipation) {
         if (games == null || position >= games.size() || position < 0) return;
         if (isChecked ) {
-            games.get(position).anticipation = anticipation;
+            games.get(position).setAnticipation(anticipation);
             if (toto != null) storage.store(toto, games);
         }
     }

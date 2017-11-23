@@ -28,8 +28,8 @@ public class RakutenTotoInfoParserTest {
         RakutenTotoInfoParser parser = new RakutenTotoInfoParser();
         ArrayList<Game> actualGames = parser.games(TestRakutenTotoInfoPage.text);
         for (int i = 0; i < actualGames.size(); i++) {
-            assertThat(actualGames.get(i).homeTeam, is(expectedGames.get(i).homeTeam));
-            assertThat(actualGames.get(i).awayTeam, is(expectedGames.get(i).awayTeam));
+            assertThat(actualGames.get(i).getHomeTeam(), is(expectedGames.get(i).getHomeTeam()));
+            assertThat(actualGames.get(i).getAwayTeam(), is(expectedGames.get(i).getAwayTeam()));
         }
     }
 
