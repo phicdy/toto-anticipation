@@ -9,36 +9,33 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.phicdy.totoanticipation.R;
+import com.phicdy.totoanticipation.view.TotoAnticipationView;
 
-public class TotoAnticipationActivity extends AppCompatActivity {
+import org.jetbrains.annotations.NotNull;
+
+
+public class TotoAnticipationActivity extends AppCompatActivity implements TotoAnticipationView {
 
     private WebView webView;
     private String totoNum;
+    private TotoAnticipationPresenter presenter;
     public static final String KEY_TOTO_NUM = "keyTotoNum";
 
-    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_toto_anticipation);
-
         totoNum = getIntent().getStringExtra(KEY_TOTO_NUM);
+        presenter = new TotoAnticipationPresenter(totoNum);
+        presenter.setView(this);
+        presenter.onCreate();
 
-        webView = (WebView) findViewById(R.id.wb_toto_web);
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                return super.shouldOverrideUrlLoading(view, request);
-            }
-        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        webView.loadUrl("http://sp.toto-dream.com/dci/sp/I/IMA/IMA01.do?op=inittotoSP&holdCntId=" + totoNum);
+        presenter.onResume();
     }
 
     @Override
@@ -51,5 +48,24 @@ public class TotoAnticipationActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         totoNum = savedInstanceState.getString(KEY_TOTO_NUM);
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    @Override
+    public void initListener() {
+        webView = (WebView) findViewById(R.id.wb_toto_web);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return super.shouldOverrideUrlLoading(view, request);
+            }
+        });
+    }
+
+    @Override
+    public void loadUrl(@NotNull String url) {
+        webView.loadUrl(url);
     }
 }
