@@ -23,6 +23,12 @@ public class TeamInfoMapper {
         if (shrunkName.equals("愛媛")) return "愛媛ＦＣ";
         if (shrunkName.equals("京都")) return "京都サンガF.C.";
         if (shrunkName.equals("山口")) return "レノファ山口ＦＣ";
+        if (shrunkName.equals("Ｙ横浜")) return "Ｙ．Ｓ．Ｃ．Ｃ．横浜";
+        if (shrunkName.equals("栃木")) return "栃木ＳＣ";
+        if (shrunkName.equals("琉球")) return "ＦＣ琉球";
+        if (shrunkName.equals("長野")) return "ＡＣ長野パルセイロ";
+        if (shrunkName.equals("藤枝")) return "藤枝ＭＹＦＣ";
+        if (shrunkName.equals("相模原")) return "ＳＣ相模原";
         return fullNameForFootbellGeist(shrunkName);
     }
 
@@ -73,6 +79,19 @@ public class TeamInfoMapper {
         if (shrunkName.equals("岡山")) return "ファジアーノ岡山";
         if (shrunkName.equals("愛媛")) return "愛媛FC";
         if (shrunkName.equals("長崎")) return "V・ファーレン長崎";
+        if (shrunkName.equals("沼津")) return "アスルクラロ沼津";
+        if (shrunkName.equals("栃木")) return "栃木SC";
+        if (shrunkName.equals("琉球")) return "FC琉球";
+        if (shrunkName.equals("富山")) return "カターレ富山";
+        if (shrunkName.equals("長野")) return "AC長野パルセイロ";
+        if (shrunkName.equals("北九州")) return "ギラヴァンツ北九州";
+        if (shrunkName.equals("鳥取")) return "ガイナーレ鳥取";
+        if (shrunkName.equals("秋田")) return "ブラウブリッツ秋田";
+        if (shrunkName.equals("福島")) return "福島ユナイテッドFC";
+        if (shrunkName.equals("Ｙ横浜")) return "Y.S.C.C.";
+        if (shrunkName.equals("藤枝")) return "藤枝MYFC";
+        if (shrunkName.equals("相模原")) return "SC相模原";
+        if (shrunkName.equals("盛岡")) return "グルージャ盛岡";
         return "";
     }
 
@@ -122,6 +141,20 @@ public class TeamInfoMapper {
         if (shrunkName.equals("岡山")) return "https://follow.yahoo.co.jp/themes/0d21e1411840d7d94695";
         if (shrunkName.equals("愛媛")) return "https://follow.yahoo.co.jp/themes/0beb2a057bde3e784809";
         if (shrunkName.equals("長崎")) return "https://follow.yahoo.co.jp/themes/0e43011e7a4f342b4949";
+        if (shrunkName.equals("沼津")) return "https://follow.yahoo.co.jp/themes/05b6151e057690a34447";
+        if (shrunkName.equals("栃木")) return "https://follow.yahoo.co.jp/themes/0f63ab146bb622654383";
+        if (shrunkName.equals("琉球")) return "https://follow.yahoo.co.jp/themes/074e45adaffa8bc39675";
+        if (shrunkName.equals("富山")) return "https://follow.yahoo.co.jp/themes/09a08261f6883fd64550";
+        if (shrunkName.equals("長野")) return "https://follow.yahoo.co.jp/themes/04ae0c1cd0c54bd87700";
+        if (shrunkName.equals("北九州")) return "https://follow.yahoo.co.jp/themes/0d49472ef6b17a314886";
+        if (shrunkName.equals("鳥取")) return "https://follow.yahoo.co.jp/themes/06594dbf586c2c014648";
+        if (shrunkName.equals("秋田")) return "https://follow.yahoo.co.jp/themes/08277fafba455a217434";
+        if (shrunkName.equals("福島")) return "https://follow.yahoo.co.jp/themes/04d650e749513b483612";
+        if (shrunkName.equals("Ｙ横浜")) return "https://follow.yahoo.co.jp/themes/05ec2038c45124950041";
+        if (shrunkName.equals("藤枝")) return "https://follow.yahoo.co.jp/themes/0c2549eb94ecf5ce0452";
+        if (shrunkName.equals("相模原")) return "https://follow.yahoo.co.jp/themes/0360a0cc617c9c4e0298";
+        if (shrunkName.equals("鹿児島")) return "https://follow.yahoo.co.jp/themes/024476e4fd08963a6430";
+        if (shrunkName.equals("盛岡")) return "https://follow.yahoo.co.jp/themes/0279ed51de2c87282435";
         return "";
     }
 }
