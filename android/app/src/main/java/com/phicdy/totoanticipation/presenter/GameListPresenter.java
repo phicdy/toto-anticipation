@@ -36,6 +36,7 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
     private List<Game> games;
     private Map<String, Integer> j1ranking = new HashMap<>();
     private Map<String, Integer> j2ranking = new HashMap<>();
+    private Map<String, Integer> j3ranking = new HashMap<>();
     private final boolean isDeadlineNotify;
     private final DeadlineAlarm alarm;
 
@@ -111,7 +112,7 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
         try {
             String body = response.body().string();
             j2ranking = new JLeagueRankingParser().ranking(body);
-            rakutenTotoRequestExecutor.fetchRakutenTotoInfoPage(toto.number, this);
+            jLeagueRequestExecutor.fetchJ3Ranking(this);
         } catch (IOException e) {
             e.printStackTrace();
             view.stopProgress();
@@ -120,6 +121,23 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
 
     @Override
     public void onFailureJ2Ranking(Call<ResponseBody> call, Throwable throwable) {
+        view.stopProgress();
+    }
+
+    @Override
+    public void onResponseJ3Ranking(@NonNull Response<ResponseBody> response) {
+        try {
+            String body = response.body().string();
+            j3ranking = new JLeagueRankingParser().ranking(body);
+            rakutenTotoRequestExecutor.fetchRakutenTotoInfoPage(toto.number, this);
+        } catch (IOException e) {
+            e.printStackTrace();
+            view.stopProgress();
+        }
+    }
+
+    @Override
+    public void onFailureJ3Ranking(Call<ResponseBody> call, Throwable throwable) {
         view.stopProgress();
     }
 
@@ -146,6 +164,10 @@ public class GameListPresenter implements Presenter, RakutenTotoRequestExecutor.
                 if (homeRank == null || awayRank == null) {
                     homeRank = j2ranking.get(homeFullName);
                     awayRank = j2ranking.get(awayFullName);
+                    if (homeRank == null || awayRank == null) {
+                        homeRank = j3ranking.get(homeFullName);
+                        awayRank = j3ranking.get(awayFullName);
+                    }
                 }
                 if (homeRank == null || awayRank == null) {
                     continue;

@@ -14,6 +14,9 @@ public interface JLeagueService {
     @GET("standings/j2/")
     Call<ResponseBody> j2ranking();
 
+    @GET("standings/j3/")
+    Call<ResponseBody> j3ranking();
+
     class Factory {
         public static JLeagueService create() {
             Retrofit retrofit = new Retrofit.Builder()

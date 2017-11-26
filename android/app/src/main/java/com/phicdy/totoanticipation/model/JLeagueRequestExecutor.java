@@ -14,6 +14,8 @@ public class JLeagueRequestExecutor {
         void onFailureJ1Ranking(Call<ResponseBody> call, Throwable throwable);
         void onResponseJ2Ranking(@NonNull Response<ResponseBody> response);
         void onFailureJ2Ranking(Call<ResponseBody> call, Throwable throwable);
+        void onResponseJ3Ranking(@NonNull Response<ResponseBody> response);
+        void onFailureJ3Ranking(Call<ResponseBody> call, Throwable throwable);
     }
     private final JLeagueService service;
     public JLeagueRequestExecutor(@NonNull JLeagueService service) {
@@ -52,4 +54,19 @@ public class JLeagueRequestExecutor {
         call.enqueue(j2Callback);
     }
 
+    public void fetchJ3Ranking(@NonNull final JLeagueRequestCallback callback) {
+        Callback<ResponseBody> j3Callback = new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                callback.onResponseJ3Ranking(response);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+                callback.onFailureJ3Ranking(call, throwable);
+            }
+        };
+        Call<ResponseBody> call = service.j3ranking();
+        call.enqueue(j3Callback);
+    }
 }
