@@ -25,6 +25,7 @@ import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.Response;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -51,10 +52,9 @@ public class GameListPresenterTest {
         storage = new MockStorage();
         settingStorage = new MockSettingStorage();
         alarm = Mockito.mock(DeadlineAlarm.class);
-        presenter = new GameListPresenter(rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage,
-                settingStorage.isDeadlineNotify(), alarm);
         view = new MockView();
-        presenter.setView(view);
+        presenter = new GameListPresenter(view, rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage,
+                settingStorage.isDeadlineNotify(), alarm);
     }
 
     @Test
@@ -77,13 +77,15 @@ public class GameListPresenterTest {
 
     @Test
     public void progressBarStopsWhenOnFailureTotoTop() {
-        presenter.onFailureTotoTop(null, null);
+        Call<ResponseBody> call = Mockito.mock(Call.class);
+        presenter.onFailureTotoTop(call, new Throwable());
         assertFalse(view.isProgressing);
     }
 
     @Test
     public void progressBarStopsWhenOnFailureTotoInfo() {
-        presenter.onFailureTotoInfo(null, null);
+        Call<ResponseBody> call = Mockito.mock(Call.class);
+        presenter.onFailureTotoInfo(call, new Throwable());
         assertFalse(view.isProgressing);
     }
 
@@ -103,10 +105,9 @@ public class GameListPresenterTest {
         ArrayList<Game> testList = new ArrayList<>();
         testList.add(new Game("home", "away"));
         storage.store(new Toto("0923", new Date()), testList);
-        presenter = new GameListPresenter(rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage,
-                settingStorage.isDeadlineNotify(), alarm);
         MockView view = new MockView();
-        presenter.setView(view);
+        presenter = new GameListPresenter(view, rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage,
+                settingStorage.isDeadlineNotify(), alarm);
         Response<ResponseBody> response = Response.success(
                 ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoPage.text));
         presenter.onResponseTotoTop(response);
@@ -118,10 +119,9 @@ public class GameListPresenterTest {
         ArrayList<Game> testList = new ArrayList<>();
         testList.add(new Game("home", "away"));
         storage.store(new Toto("0923", new Date()), testList);
-        presenter = new GameListPresenter(rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage,
-                settingStorage.isDeadlineNotify(), alarm);
         MockView view = new MockView();
-        presenter.setView(view);
+        presenter = new GameListPresenter(view, rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage,
+                settingStorage.isDeadlineNotify(), alarm);
         Response<ResponseBody> response = Response.success(
                 ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoPage.text));
         presenter.onResponseTotoTop(response);
@@ -225,6 +225,9 @@ public class GameListPresenterTest {
         Response<ResponseBody> response = Response.success(
                 ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoPage.text));
         presenter.onResponseTotoTop(response);
+        response = Response.success(
+                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text));
+        presenter.onResponseTotoInfo(response);
         presenter.onFabClicked();
         assertTrue(view.isTotoAnticipationActivityStarted);
     }

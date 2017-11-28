@@ -77,9 +77,8 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
         final JLeagueRequestExecutor jLeagueRequestExecutor = new JLeagueRequestExecutor(jLeagueService);
         GameListStorage storage = new GameListStorageImpl(this);
         SettingStorage settingStorage = new SettingStorageImpl(this);
-        presenter = new GameListPresenter(rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage,
+        presenter = new GameListPresenter(this, rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage,
                 settingStorage.isDeadlineNotify(), new DeadlineAlarm(this));
-        presenter.setView(this);
         presenter.onCreate();
     }
 

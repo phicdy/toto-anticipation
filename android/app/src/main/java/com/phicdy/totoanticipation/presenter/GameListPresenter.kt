@@ -21,23 +21,19 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 
-class GameListPresenter(private val rakutenTotoRequestExecutor: RakutenTotoRequestExecutor,
+class GameListPresenter(private val view: GameListView,
+                        private val rakutenTotoRequestExecutor: RakutenTotoRequestExecutor,
                         private val jLeagueRequestExecutor: JLeagueRequestExecutor,
                         private val storage: GameListStorage, private val isDeadlineNotify: Boolean,
                         private val alarm: DeadlineAlarm) : Presenter, RakutenTotoRequestExecutor.RakutenTotoRequestCallback, JLeagueRequestExecutor.JLeagueRequestCallback {
-    private var view: GameListView? = null
     private var toto: Toto? = null
     private var games: List<Game>? = null
     private var j1ranking: Map<String, Int> = HashMap()
     private var j2ranking: Map<String, Int> = HashMap()
     private var j3ranking: Map<String, Int> = HashMap()
 
-    fun setView(view: GameListView) {
-        this.view = view
-    }
-
     override fun onCreate() {
-        view!!.startProgress()
+        view.startProgress()
         rakutenTotoRequestExecutor.fetchRakutenTotoTopPage(this)
     }
 
@@ -46,7 +42,7 @@ class GameListPresenter(private val rakutenTotoRequestExecutor: RakutenTotoReque
             val body = response.body().string()
             toto = RakutenTotoTopParser().latestToto(body)
             if (toto == null || toto!!.number == "") {
-                view!!.stopProgress()
+                view.stopProgress()
                 return
             }
             if (isDeadlineNotify) alarm.setAtNoonOf(toto!!.deadline)
@@ -54,19 +50,19 @@ class GameListPresenter(private val rakutenTotoRequestExecutor: RakutenTotoReque
             if (games == null || games!!.size == 0) {
                 jLeagueRequestExecutor.fetchJ1Ranking(this)
             } else {
-                view!!.stopProgress()
-                view!!.initList()
+                view.stopProgress()
+                view.initList()
                 storage.store(toto!!, games!!)
             }
         } catch (e: IOException) {
             e.printStackTrace()
-            view!!.stopProgress()
+            view.stopProgress()
         }
 
     }
 
     override fun onFailureTotoTop(call: Call<ResponseBody>, throwable: Throwable) {
-        view!!.stopProgress()
+        view.stopProgress()
     }
 
     override fun onResponseJ1Ranking(response: Response<ResponseBody>) {
@@ -76,13 +72,13 @@ class GameListPresenter(private val rakutenTotoRequestExecutor: RakutenTotoReque
             jLeagueRequestExecutor.fetchJ2Ranking(this)
         } catch (e: IOException) {
             e.printStackTrace()
-            view!!.stopProgress()
+            view.stopProgress()
         }
 
     }
 
     override fun onFailureJ1Ranking(call: Call<ResponseBody>, throwable: Throwable) {
-        view!!.stopProgress()
+        view.stopProgress()
     }
 
     override fun onResponseJ2Ranking(response: Response<ResponseBody>) {
@@ -92,13 +88,13 @@ class GameListPresenter(private val rakutenTotoRequestExecutor: RakutenTotoReque
             jLeagueRequestExecutor.fetchJ3Ranking(this)
         } catch (e: IOException) {
             e.printStackTrace()
-            view!!.stopProgress()
+            view.stopProgress()
         }
 
     }
 
     override fun onFailureJ2Ranking(call: Call<ResponseBody>, throwable: Throwable) {
-        view!!.stopProgress()
+        view.stopProgress()
     }
 
     override fun onResponseJ3Ranking(response: Response<ResponseBody>) {
@@ -108,17 +104,17 @@ class GameListPresenter(private val rakutenTotoRequestExecutor: RakutenTotoReque
             rakutenTotoRequestExecutor.fetchRakutenTotoInfoPage(toto!!.number, this)
         } catch (e: IOException) {
             e.printStackTrace()
-            view!!.stopProgress()
+            view.stopProgress()
         }
 
     }
 
     override fun onFailureJ3Ranking(call: Call<ResponseBody>, throwable: Throwable) {
-        view!!.stopProgress()
+        view.stopProgress()
     }
 
     override fun onResponseTotoInfo(response: Response<ResponseBody>) {
-        view!!.stopProgress()
+        view.stopProgress()
         try {
             val body = response.body().string()
             val parser = RakutenTotoInfoParser()
@@ -126,7 +122,7 @@ class GameListPresenter(private val rakutenTotoRequestExecutor: RakutenTotoReque
             // Set title
             if (toto != null) {
                 val format = SimpleDateFormat("MM/dd ", Locale.JAPAN)
-                view!!.setTitleFrom(toto!!.number, format.format(toto!!.deadline) + parser.deadlineTime(body))
+                view.setTitleFrom(toto!!.number, format.format(toto!!.deadline) + parser.deadlineTime(body))
             }
 
             // Parse games
@@ -150,7 +146,7 @@ class GameListPresenter(private val rakutenTotoRequestExecutor: RakutenTotoReque
                 game.homeRanking = homeRank.toString()
                 game.awayRanking = awayRank.toString()
             }
-            view!!.initList()
+            view.initList()
 
             if (toto != null) {
                 storage.store(toto!!, games!!)
@@ -162,7 +158,7 @@ class GameListPresenter(private val rakutenTotoRequestExecutor: RakutenTotoReque
     }
 
     override fun onFailureTotoInfo(call: Call<ResponseBody>, throwable: Throwable) {
-        view!!.stopProgress()
+        view.stopProgress()
     }
 
     override fun onResume() {
@@ -204,10 +200,10 @@ class GameListPresenter(private val rakutenTotoRequestExecutor: RakutenTotoReque
     fun onFabClicked() {
         if (toto == null) return
         storage.store(toto!!, games!!)
-        view!!.startTotoAnticipationActivity(toto!!.number)
+        view.startTotoAnticipationActivity(toto!!.number)
     }
 
     fun onOptionsSettingSelected() {
-        view!!.goToSetting()
+        view.goToSetting()
     }
 }
