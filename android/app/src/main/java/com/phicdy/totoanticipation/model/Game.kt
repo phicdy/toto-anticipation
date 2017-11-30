@@ -1,8 +1,9 @@
 package com.phicdy.totoanticipation.model
 
 class Game(val homeTeam: String, val awayTeam: String) {
-    var homeRanking: String? = null
-    var awayRanking: String? = null
+    val defaultRank: Int = 0
+    var homeRanking: Int = defaultRank
+    var awayRanking: Int = defaultRank
     var anticipation = Anticipation.HOME
 
     enum class Anticipation {

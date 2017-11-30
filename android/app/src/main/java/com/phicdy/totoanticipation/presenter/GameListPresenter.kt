@@ -143,8 +143,8 @@ class GameListPresenter(private val view: GameListView,
                 if (homeRank == null || awayRank == null) {
                     continue
                 }
-                game.homeRanking = homeRank.toString()
-                game.awayRanking = awayRank.toString()
+                game.homeRanking = homeRank
+                game.awayRanking = awayRank
             }
             view.initList()
 
