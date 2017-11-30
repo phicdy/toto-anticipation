@@ -271,7 +271,7 @@ public class GameListPresenterTest {
     private class MockStorage implements GameListStorage {
 
         private String totoNum;
-        private List<Game> games;
+        private List<Game> games = new ArrayList<>();
 
         @Override
         public String totoNum() {

@@ -27,7 +27,7 @@ class GameListPresenter(private val view: GameListView,
                         private val storage: GameListStorage, private val isDeadlineNotify: Boolean,
                         private val alarm: DeadlineAlarm) : Presenter, RakutenTotoRequestExecutor.RakutenTotoRequestCallback, JLeagueRequestExecutor.JLeagueRequestCallback {
     private var toto: Toto? = null
-    private var games: List<Game>? = null
+    private var games: List<Game> = listOf()
     private var j1ranking: Map<String, Int> = HashMap()
     private var j2ranking: Map<String, Int> = HashMap()
     private var j3ranking: Map<String, Int> = HashMap()
@@ -47,12 +47,12 @@ class GameListPresenter(private val view: GameListView,
             }
             if (isDeadlineNotify) alarm.setAtNoonOf(toto!!.deadline)
             games = storage.list(toto!!.number)
-            if (games == null || games!!.size == 0) {
+            if (games.size == 0) {
                 jLeagueRequestExecutor.fetchJ1Ranking(this)
             } else {
                 view.stopProgress()
                 view.initList()
-                storage.store(toto!!, games!!)
+                storage.store(toto!!, games)
             }
         } catch (e: IOException) {
             e.printStackTrace()
@@ -127,7 +127,7 @@ class GameListPresenter(private val view: GameListView,
 
             // Parse games
             games = parser.games(body)
-            for (game in games!!) {
+            for (game in games) {
                 val homeFullName = TeamInfoMapper.fullNameForJLeagueRanking(game.homeTeam)
                 val awayFullName = TeamInfoMapper.fullNameForJLeagueRanking(game.awayTeam)
                 var homeRank: Int? = j1ranking[homeFullName]
@@ -149,7 +149,7 @@ class GameListPresenter(private val view: GameListView,
             view.initList()
 
             if (toto != null) {
-                storage.store(toto!!, games!!)
+                storage.store(toto!!, games)
             }
         } catch (e: IOException) {
             e.printStackTrace()
@@ -182,24 +182,21 @@ class GameListPresenter(private val view: GameListView,
     }
 
     private fun onRadioButtonClicked(position: Int, isChecked: Boolean, anticipation: Game.Anticipation) {
-        if (games == null || position >= games!!.size || position < 0) return
+        if (position >= games.size || position < 0) return
         if (isChecked) {
-            games!![position].anticipation = anticipation
-            if (toto != null) storage.store(toto!!, games!!)
+            games[position].anticipation = anticipation
+            if (toto != null) storage.store(toto!!, games)
         }
     }
 
-    fun gameAt(position: Int): Game? {
-        return if (games == null || position >= games!!.size || position < 0) null else games!![position]
-    }
+    fun gameAt(position: Int): Game? =
+            if (position >= games.size || position < 0) null else games[position]
 
-    fun gameSize(): Int {
-        return if (games == null) 0 else games!!.size
-    }
+    fun gameSize(): Int = games.size
 
     fun onFabClicked() {
         if (toto == null) return
-        storage.store(toto!!, games!!)
+        storage.store(toto!!, games)
         view.startTotoAnticipationActivity(toto!!.number)
     }
 
