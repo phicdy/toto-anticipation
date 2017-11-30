@@ -26,7 +26,7 @@ class GameListPresenter(private val view: GameListView,
                         private val jLeagueRequestExecutor: JLeagueRequestExecutor,
                         private val storage: GameListStorage, private val isDeadlineNotify: Boolean,
                         private val alarm: DeadlineAlarm) : Presenter, RakutenTotoRequestExecutor.RakutenTotoRequestCallback, JLeagueRequestExecutor.JLeagueRequestCallback {
-    private var toto: Toto? = null
+    private var toto: Toto = Toto(Toto.DEFAULT_NUMBER, Date())
     private var games: List<Game> = listOf()
     private var j1ranking: Map<String, Int> = HashMap()
     private var j2ranking: Map<String, Int> = HashMap()
@@ -41,18 +41,18 @@ class GameListPresenter(private val view: GameListView,
         try {
             val body = response.body().string()
             toto = RakutenTotoTopParser().latestToto(body)
-            if (toto == null || toto!!.number == "") {
+            if (toto.number == Toto.DEFAULT_NUMBER) {
                 view.stopProgress()
                 return
             }
-            if (isDeadlineNotify) alarm.setAtNoonOf(toto!!.deadline)
-            games = storage.list(toto!!.number)
+            if (isDeadlineNotify) alarm.setAtNoonOf(toto.deadline)
+            games = storage.list(toto.number)
             if (games.size == 0) {
                 jLeagueRequestExecutor.fetchJ1Ranking(this)
             } else {
                 view.stopProgress()
                 view.initList()
-                storage.store(toto!!, games)
+                storage.store(toto, games)
             }
         } catch (e: IOException) {
             e.printStackTrace()
@@ -101,7 +101,7 @@ class GameListPresenter(private val view: GameListView,
         try {
             val body = response.body().string()
             j3ranking = JLeagueRankingParser().ranking(body)
-            rakutenTotoRequestExecutor.fetchRakutenTotoInfoPage(toto!!.number, this)
+            rakutenTotoRequestExecutor.fetchRakutenTotoInfoPage(toto.number, this)
         } catch (e: IOException) {
             e.printStackTrace()
             view.stopProgress()
@@ -120,9 +120,9 @@ class GameListPresenter(private val view: GameListView,
             val parser = RakutenTotoInfoParser()
 
             // Set title
-            if (toto != null) {
+            if (toto.number != Toto.DEFAULT_NUMBER) {
                 val format = SimpleDateFormat("MM/dd ", Locale.JAPAN)
-                view.setTitleFrom(toto!!.number, format.format(toto!!.deadline) + parser.deadlineTime(body))
+                view.setTitleFrom(toto.number, format.format(toto.deadline) + parser.deadlineTime(body))
             }
 
             // Parse games
@@ -147,10 +147,7 @@ class GameListPresenter(private val view: GameListView,
                 game.awayRanking = awayRank
             }
             view.initList()
-
-            if (toto != null) {
-                storage.store(toto!!, games)
-            }
+            storage.store(toto, games)
         } catch (e: IOException) {
             e.printStackTrace()
         }
@@ -185,7 +182,7 @@ class GameListPresenter(private val view: GameListView,
         if (position >= games.size || position < 0) return
         if (isChecked) {
             games[position].anticipation = anticipation
-            if (toto != null) storage.store(toto!!, games)
+            storage.store(toto, games)
         }
     }
 
@@ -195,9 +192,8 @@ class GameListPresenter(private val view: GameListView,
     fun gameSize(): Int = games.size
 
     fun onFabClicked() {
-        if (toto == null) return
-        storage.store(toto!!, games)
-        view.startTotoAnticipationActivity(toto!!.number)
+        storage.store(toto, games)
+        view.startTotoAnticipationActivity(toto.number)
     }
 
     fun onOptionsSettingSelected() {

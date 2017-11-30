@@ -25,14 +25,14 @@ public class RakutenTotoTopParserTest {
     }
 
     @Test
-    public void NullReturnsWhenEmptyHtml() {
+    public void DefaultTotoReturnsWhenEmptyHtml() {
         RakutenTotoTopParser parser = new RakutenTotoTopParser();
-        assertNull(parser.latestToto(""));
+        assertThat(parser.latestToto("").number, is(Toto.DEFAULT_NUMBER));
     }
 
     @Test
-    public void NullReturnsWhenInvalidHtml() {
+    public void DefaultTotoReturnsWhenInvalidHtml() {
         RakutenTotoTopParser parser = new RakutenTotoTopParser();
-        assertNull(parser.latestToto("<html><body>hoge</body></html>"));
+        assertThat(parser.latestToto("<html><body>hoge</body></html>").number, is(Toto.DEFAULT_NUMBER));
     }
 }
