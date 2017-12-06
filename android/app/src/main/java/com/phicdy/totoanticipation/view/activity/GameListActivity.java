@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -33,6 +35,8 @@ import com.phicdy.totoanticipation.presenter.GameListPresenter;
 import com.phicdy.totoanticipation.view.GameListView;
 import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment;
 
+import java.util.concurrent.Executor;
+
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
 public class GameListActivity extends AppCompatActivity implements GameListView {
@@ -40,6 +44,7 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
     private boolean mTwoPane;
     private GameListPresenter presenter;
     private RecyclerView recyclerView;
+    private SimpleItemRecyclerViewAdapter adapter;
     private SmoothProgressBar progressBar;
 
     @Override
@@ -91,8 +96,12 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_auto_anticipation:
+                presenter.onOptionsAutoAnticipationSelected();
+                break;
             case R.id.menu_setting:
                 presenter.onOptionsSettingSelected();
+                break;
         }
         return false;
     }
@@ -100,7 +109,8 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
     @Override
     public void initList() {
         recyclerView.setVisibility(View.VISIBLE);
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter());
+        adapter = new SimpleItemRecyclerViewAdapter();
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -135,6 +145,25 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
     @Override
     public void goToSetting() {
         startActivity(new Intent(this, SettingActivity.class));
+    }
+
+    @Override
+    public void showAnticipationStart() {
+        View view = findViewById(android.R.id.content);
+        if (view == null) return;
+        Snackbar.make(view, R.string.start_auto_anticipation, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showAnticipationFinish() {
+        View view = findViewById(android.R.id.content);
+        if (view == null) return;
+        Snackbar.make(view, R.string.finish_auto_anticipation, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        adapter.notifyDataSetChanged();
     }
 
     class SimpleItemRecyclerViewAdapter

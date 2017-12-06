@@ -1,25 +1,21 @@
 package com.phicdy.totoanticipation.presenter
 
-import com.phicdy.totoanticipation.model.Game
-import com.phicdy.totoanticipation.model.JLeagueRankingParser
-import com.phicdy.totoanticipation.model.JLeagueRequestExecutor
-import com.phicdy.totoanticipation.model.RakutenTotoInfoParser
-import com.phicdy.totoanticipation.model.RakutenTotoRequestExecutor
-import com.phicdy.totoanticipation.model.RakutenTotoTopParser
-import com.phicdy.totoanticipation.model.TeamInfoMapper
-import com.phicdy.totoanticipation.model.Toto
+import android.os.Handler
+import android.os.Looper
+import com.phicdy.totoanticipation.model.*
 import com.phicdy.totoanticipation.model.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.model.storage.GameListStorage
 import com.phicdy.totoanticipation.view.GameListView
 
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.HashMap
-import java.util.Locale
 
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
+import java.util.Date
+import java.util.Locale
+import java.util.concurrent.Executor
 
 class GameListPresenter(private val view: GameListView,
                         private val rakutenTotoRequestExecutor: RakutenTotoRequestExecutor,
@@ -198,5 +194,32 @@ class GameListPresenter(private val view: GameListView,
 
     fun onOptionsSettingSelected() {
         view.goToSetting()
+    }
+
+    fun onOptionsAutoAnticipationSelected() {
+        view.showAnticipationStart()
+        view.startProgress()
+        object: Thread() {
+            override fun run() {
+                sleep(4000)
+                AutoAnticipation().exec(games)
+                MainThreadExecutor().execute { finishAnticipation() }
+            }
+        }.start()
+    }
+
+    fun finishAnticipation() {
+        view.stopProgress()
+        view.showAnticipationFinish()
+        view.notifyDataSetChanged()
+        storage.store(toto, games)
+    }
+
+    class MainThreadExecutor : Executor {
+        private val handler: Handler = Handler(Looper.getMainLooper())
+
+        override fun execute(r: Runnable) {
+            handler.post(r);
+        }
     }
 }

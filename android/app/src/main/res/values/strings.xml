@@ -11,6 +11,9 @@
     <string name="draw">ドロー</string>
     <string name="team_info">team_info</string>
     <string name="notification_deadline_message">間もなく締め切りです</string>
+    <string name="auto_anticipation">自動予想</string>
+    <string name="start_auto_anticipation">予想を開始</string>
+    <string name="finish_auto_anticipation">予想終了</string>
 
     <!-- 設定 -->
     <string name="setting">設定</string>
