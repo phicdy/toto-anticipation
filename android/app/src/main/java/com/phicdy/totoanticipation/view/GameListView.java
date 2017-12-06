@@ -12,4 +12,5 @@ public interface GameListView {
     void showAnticipationStart();
     void showAnticipationFinish();
     void notifyDataSetChanged();
+    void showAnticipationNotSupport();
 }

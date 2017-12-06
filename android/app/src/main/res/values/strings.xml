@@ -14,6 +14,7 @@
     <string name="auto_anticipation">自動予想</string>
     <string name="start_auto_anticipation">予想を開始</string>
     <string name="finish_auto_anticipation">予想終了</string>
+    <string name="anticipation_not_support">予想に対応していません</string>
 
     <!-- 設定 -->
     <string name="setting">設定</string>

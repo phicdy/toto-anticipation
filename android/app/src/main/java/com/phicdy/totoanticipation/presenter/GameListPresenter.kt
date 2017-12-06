@@ -197,6 +197,12 @@ class GameListPresenter(private val view: GameListView,
     }
 
     fun onOptionsAutoAnticipationSelected() {
+        for (game in games) {
+            if (game.homeRanking == Game.defaultRank || game.awayRanking == Game.defaultRank) {
+                view.showAnticipationNotSupport()
+                return
+            }
+        }
         view.showAnticipationStart()
         view.startProgress()
         object: Thread() {

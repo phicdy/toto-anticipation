@@ -6,7 +6,9 @@ class Game(val homeTeam: String, val awayTeam: String) {
         this.awayRanking = awayRanking
     }
 
-    val defaultRank: Int = 0
+    companion object {
+        const val defaultRank: Int = 0
+    }
     var homeRanking: Int = defaultRank
     var awayRanking: Int = defaultRank
     var anticipation = Anticipation.HOME

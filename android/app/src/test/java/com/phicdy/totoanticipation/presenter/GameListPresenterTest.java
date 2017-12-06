@@ -312,6 +312,10 @@ public class GameListPresenterTest {
         @Override
         public void notifyDataSetChanged() {
         }
+
+        @Override
+        public void showAnticipationNotSupport() {
+        }
     }
 
     private class MockStorage implements GameListStorage {

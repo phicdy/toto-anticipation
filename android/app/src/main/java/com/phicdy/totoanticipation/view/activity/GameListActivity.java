@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -149,21 +151,31 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
 
     @Override
     public void showAnticipationStart() {
-        View view = findViewById(android.R.id.content);
-        if (view == null) return;
-        Snackbar.make(view, R.string.start_auto_anticipation, Snackbar.LENGTH_SHORT).show();
+        showSnackbar(R.string.start_auto_anticipation, Snackbar.LENGTH_SHORT);
     }
 
     @Override
     public void showAnticipationFinish() {
-        View view = findViewById(android.R.id.content);
-        if (view == null) return;
-        Snackbar.make(view, R.string.finish_auto_anticipation, Snackbar.LENGTH_SHORT).show();
+        showSnackbar(R.string.finish_auto_anticipation, Snackbar.LENGTH_SHORT);
     }
 
     @Override
     public void notifyDataSetChanged() {
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showAnticipationNotSupport() {
+        showSnackbar(R.string.anticipation_not_support, Snackbar.LENGTH_SHORT);
+    }
+
+    @IntDef({Snackbar.LENGTH_SHORT, Snackbar.LENGTH_LONG})
+    @interface SnackbarLength{
+    }
+    private void showSnackbar(@StringRes int res, @SnackbarLength int length) {
+        View view = findViewById(android.R.id.content);
+        if (view == null) return;
+        Snackbar.make(view, res, length).show();
     }
 
     class SimpleItemRecyclerViewAdapter
