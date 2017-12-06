@@ -9,4 +9,8 @@ public interface GameListView {
     void stopProgress();
     void startTotoAnticipationActivity(@NonNull String totoNum);
     void goToSetting();
+    void showAnticipationStart();
+    void showAnticipationFinish();
+    void notifyDataSetChanged();
+    void showAnticipationNotSupport();
 }

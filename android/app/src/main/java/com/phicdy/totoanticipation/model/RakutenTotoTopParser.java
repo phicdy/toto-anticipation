@@ -112,6 +112,6 @@ public class RakutenTotoTopParser {
                 e.printStackTrace();
             }
         }
-        return null;
+        return new Toto(Toto.DEFAULT_NUMBER, new Date());
     }
 }
