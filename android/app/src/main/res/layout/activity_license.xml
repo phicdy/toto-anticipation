@@ -5,4 +5,5 @@
     android:layout_height="match_parent"
     tools:context="com.phicdy.totoanticipation.view.activity.LicenseActivity">
 
+    <include layout="@layout/toolbar" />
 </android.support.constraint.ConstraintLayout>
