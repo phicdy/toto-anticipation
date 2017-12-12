@@ -3,6 +3,7 @@ package com.phicdy.totoanticipation.view.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.webkit.WebView;
 
 import com.phicdy.totoanticipation.R;
 
@@ -15,5 +16,7 @@ public class LicenseActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
+        WebView webView = (WebView)findViewById(R.id.license_web_view);
+        webView.loadUrl("file:///android_asset/license.html");
     }
 }
