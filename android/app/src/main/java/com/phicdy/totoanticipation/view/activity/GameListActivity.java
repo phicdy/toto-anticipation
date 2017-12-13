@@ -192,13 +192,25 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.game = presenter.gameAt(position);
             if (holder.game != null) {
-                holder.tvHome.setText(getString(R.string.team_label, String.valueOf(holder.game.getHomeRanking()), holder.game.getHomeTeam()));
-                holder.tvAway.setText(getString(R.string.team_label, String.valueOf(holder.game.getAwayRanking()), holder.game.getAwayTeam()));
+                if (holder.game.getHomeRanking() == Game.defaultRank) {
+                    holder.tvHome.setText(getString(R.string.team_label, "- ", holder.game.getHomeTeam()));
+                } else {
+                    holder.tvHome.setText(getString(R.string.team_label, String.valueOf(holder.game.getHomeRanking()), holder.game.getHomeTeam()));
+                }
+                if (holder.game.getAwayRanking() == Game.defaultRank) {
+                    holder.tvAway.setText(getString(R.string.team_label, "- ", holder.game.getAwayTeam()));
+                } else {
+                    holder.tvAway.setText(getString(R.string.team_label, String.valueOf(holder.game.getAwayRanking()), holder.game.getAwayTeam()));
+                }
             }
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (holder.game.getHomeRanking() == Game.defaultRank || holder.game.getAwayRanking() == Game.defaultRank) {
+                        showSnackbar(R.string.not_support_foreign_league, Snackbar.LENGTH_SHORT);
+                        return;
+                    }
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
                         arguments.putString(TeamInfoActivity.ARG_HOME_TEAM, holder.game.getHomeTeam());
