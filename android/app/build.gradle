@@ -20,6 +20,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    flavorDimensions "store"
+    productFlavors {
+        googlePlay {
+            dimension "store"
+        }
+        nonGooglePlay {
+            dimension "store"
+        }
+    }
     lintOptions {
         abortOnError true
     }
@@ -41,7 +50,7 @@ def coverageExcludeFiles = ['**/R.class', '**/R$*.class', '**/com/android/**/*.*
                             '**/*Manifest*.class', '**/*Application*.class',
                             '**/*RecyclerViewAdapter.class', '**/*Notification.class',
                             '**/*Alarm.class']
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testNonGooglePlayDebugUnitTest']) {
     group = "Reporting"
     description = "Generate Jacoco coverage reports after running tests."
     reports {
@@ -52,11 +61,11 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
         html.destination "${buildDir}/reports/jacoco/html"
         classDirectories = files(
                 fileTree(
-                        dir: "${buildDir}/intermediates/classes/debug",
+                        dir: "${buildDir}/intermediates/classes/nonGooglePlay/debug",
                         exclude: coverageExcludeFiles))
     }
     sourceDirectories = files(coverageSourceDirs)
-    executionData = files "${buildDir}/jacoco/testDebugUnitTest.exec"
+    executionData = files "${buildDir}/jacoco/testNonGooglePlayDebugUnitTest.exec"
 
     doLast {
         println "jacoco xml report has been generated to file://${buildDir}/reports/jacoco/jacocoTestReport.xml"

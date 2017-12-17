@@ -2,9 +2,9 @@ package com.phicdy.totoanticipation.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -22,6 +22,7 @@ import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.phicdy.totoanticipation.BuildConfig;
 import com.phicdy.totoanticipation.R;
 import com.phicdy.totoanticipation.model.Game;
 import com.phicdy.totoanticipation.model.JLeagueRequestExecutor;
@@ -36,8 +37,6 @@ import com.phicdy.totoanticipation.model.storage.SettingStorageImpl;
 import com.phicdy.totoanticipation.presenter.GameListPresenter;
 import com.phicdy.totoanticipation.view.GameListView;
 import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment;
-
-import java.util.concurrent.Executor;
 
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
@@ -139,8 +138,15 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
 
     @Override
     public void startTotoAnticipationActivity(@NonNull String totoNum) {
-        Intent intent = new Intent(this, TotoAnticipationActivity.class);
-        intent.putExtra(TotoAnticipationActivity.KEY_TOTO_NUM, totoNum);
+        Intent intent;
+        if (BuildConfig.FLAVOR.equals("googlePlay")) {
+            // Google Play forbids to upload gambling app for Japan, open external browser
+            String totoTopUrl = "http://sp.toto-dream.com/dci/sp/I/IMA/IMA01.do?op=inittotoSP&holdCntId=" + totoNum;
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(totoTopUrl));
+        } else {
+            intent = new Intent(this, TotoAnticipationActivity.class);
+            intent.putExtra(TotoAnticipationActivity.KEY_TOTO_NUM, totoNum);
+        }
         startActivity(intent);
     }
 

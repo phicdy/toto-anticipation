@@ -29,8 +29,8 @@ test:
     - cd android && ./gradlew assembleDebug
     - cp -r ~/$CIRCLE_PROJECT_REPONAME/android/app/build/outputs/apk/* $CIRCLE_ARTIFACTS
       # unit test
-    - cd android && ./gradlew testDebugUnitTest 
-    - cp -r ~/$CIRCLE_PROJECT_REPONAME/android/app/build/test-results/testDebugUnitTest/* $CIRCLE_TEST_REPORTS
+    - cd android && ./gradlew testNonGooglePlayDebugUnitTest
+    - cp -r ~/$CIRCLE_PROJECT_REPONAME/android/app/build/test-results/testNonGooglePlayDebugUnitTest/* $CIRCLE_TEST_REPORTS
       # test coverage
     - cd android && ./gradlew jacocoTestReport
     - mkdir -p $CIRCLE_TEST_REPORTS/jacoco/
