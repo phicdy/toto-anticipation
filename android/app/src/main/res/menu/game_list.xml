@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_auto_anticipation"
+        android:orderInCategory="1"
+        android:icon="@drawable/ic_input_black_24dp"
+        app:showAsAction="collapseActionView|ifRoom"
+        android:title="@string/auto_anticipation"/>
+    <item
+        android:id="@+id/menu_setting"
+        android:orderInCategory="2"
+        android:icon="@drawable/ic_settings_black_24dp"
+        app:showAsAction="collapseActionView|ifRoom"
+        android:title="@string/setting"/>
+</menu>

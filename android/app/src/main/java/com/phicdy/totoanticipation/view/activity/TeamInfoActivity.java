@@ -4,33 +4,26 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.phicdy.totoanticipation.R;
+import com.phicdy.totoanticipation.model.TeamInfoMapper;
+import com.phicdy.totoanticipation.view.fragment.GameHistoryFragment;
 import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment;
 
 public class TeamInfoActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
+    public static final String ARG_HOME_TEAM = "homeTeam";
+    public static final String ARG_AWAY_TEAM = "awayTeam";
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+    private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_anticipate);
-                    return true;
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
-                    return true;
-                case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
-                    return true;
-            }
-            return false;
+            replaceFragmentWith(item.getItemId());
+            return true;
         }
 
     };
@@ -39,23 +32,53 @@ public class TeamInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_info);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle(getTitle());
 
-        mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         if (savedInstanceState == null) {
-            // Create the detail fragment and add it to the activity
-            // using a fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putString(TeamInfoFragment.ARG_HOME_TEAM,
-                    getIntent().getStringExtra(TeamInfoFragment.ARG_HOME_TEAM));
-            TeamInfoFragment fragment = new TeamInfoFragment();
-            fragment.setArguments(arguments);
-//            getSupportFragmentManager().beginTransaction()
-//                    .add(R.id.item_detail_container, fragment)
-//                    .commit();
+            replaceFragmentWith(navigation.getSelectedItemId());
         }
+        String title = getIntent().getStringExtra(ARG_HOME_TEAM) + " vs " +
+                getIntent().getStringExtra(ARG_AWAY_TEAM);
+        setTitle(title);
     }
 
+    private void replaceFragmentWith(int menuId) {
+        Bundle arguments = new Bundle();
+        switch (menuId) {
+            case R.id.navigation_history:
+                GameHistoryFragment fragment = new GameHistoryFragment();
+                arguments.putString(GameHistoryFragment.ARG_HOME_TEAM,
+                        TeamInfoMapper.fullNameForFootbellGeist(getIntent().getStringExtra(ARG_HOME_TEAM)));
+                arguments.putString(GameHistoryFragment.ARG_AWAY_TEAM,
+                        TeamInfoMapper.fullNameForFootbellGeist(getIntent().getStringExtra(ARG_AWAY_TEAM)));
+                fragment.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fr_content, fragment)
+                        .commit();
+                break;
+            case R.id.navigation_home:
+                TeamInfoFragment homeFragment = new TeamInfoFragment();
+                arguments.putString(TeamInfoFragment.ARG_TEAM,
+                        getIntent().getStringExtra(ARG_HOME_TEAM));
+                homeFragment.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fr_content, homeFragment)
+                        .commit();
+                break;
+            case R.id.navigation_away:
+                TeamInfoFragment awayFragment = new TeamInfoFragment();
+                arguments.putString(TeamInfoFragment.ARG_TEAM,
+                        getIntent().getStringExtra(ARG_AWAY_TEAM));
+                awayFragment.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fr_content, awayFragment)
+                        .commit();
+                break;
+        }
+    }
 }

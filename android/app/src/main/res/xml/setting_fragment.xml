@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/setting_notification" >
+        <SwitchPreference
+            android:title="@string/setting_title_deadline_notification"
+            android:key="@string/key_deadline_notification"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/setting_license" >
+        <Preference
+            android:title="@string/setting_title_license_info"
+            android:key="@string/key_license" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
