@@ -40,4 +40,4 @@ deployment:
   master:
     branch: master
     commands:
-      - ./gradlew assembleRelease
+      - cd android && ./gradlew assembleRelease
