@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 
 import com.phicdy.totoanticipation.R;
 import com.phicdy.totoanticipation.view.activity.GameListActivity;
@@ -22,9 +23,10 @@ public class DeadlineNotification {
                 .setContentTitle(context.getString(R.string.app_name))
                 .setTicker(context.getString(R.string.notification_deadline_message)) // Message when notification shows for ~4.4
                 .setContentText(context.getString(R.string.notification_deadline_message))
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.ic_launcher_material)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher))
                 .setContentIntent(pi)
+                .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .build();
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(ID, notification);
