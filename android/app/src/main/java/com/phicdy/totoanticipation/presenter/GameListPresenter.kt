@@ -35,26 +35,26 @@ class GameListPresenter(private val view: GameListView,
 
     override fun onResponseTotoTop(response: Response<ResponseBody>) {
         try {
-            val body = response.body().string()
-            toto = RakutenTotoTopParser().latestToto(body)
-            if (toto.number == Toto.DEFAULT_NUMBER) {
-                view.stopProgress()
-                return
-            }
-            if (isDeadlineNotify) alarm.setAtNoonOf(toto.deadline)
-            games = storage.list(toto.number)
-            if (games.size == 0) {
-                jLeagueRequestExecutor.fetchJ1Ranking(this)
-            } else {
-                view.stopProgress()
-                view.initList()
-                storage.store(toto, games)
-            }
+            response.body()?.let {
+                toto = RakutenTotoTopParser().latestToto(it.string())
+                if (toto.number == Toto.DEFAULT_NUMBER) {
+                    view.stopProgress()
+                    return
+                }
+                if (isDeadlineNotify) alarm.setAtNoonOf(toto.deadline)
+                games = storage.list(toto.number)
+                if (games.size == 0) {
+                    jLeagueRequestExecutor.fetchJ1Ranking(this)
+                } else {
+                    view.stopProgress()
+                    view.initList()
+                    storage.store(toto, games)
+                }
+            } ?: view.stopProgress()
         } catch (e: IOException) {
             e.printStackTrace()
             view.stopProgress()
         }
-
     }
 
     override fun onFailureTotoTop(call: Call<ResponseBody>, throwable: Throwable) {
@@ -63,9 +63,10 @@ class GameListPresenter(private val view: GameListView,
 
     override fun onResponseJ1Ranking(response: Response<ResponseBody>) {
         try {
-            val body = response.body().string()
-            j1ranking = JLeagueRankingParser().ranking(body)
-            jLeagueRequestExecutor.fetchJ2Ranking(this)
+            response.body()?.let {
+                j1ranking = JLeagueRankingParser().ranking(it.string())
+                jLeagueRequestExecutor.fetchJ2Ranking(this)
+            } ?: view.stopProgress()
         } catch (e: IOException) {
             e.printStackTrace()
             view.stopProgress()
@@ -79,9 +80,10 @@ class GameListPresenter(private val view: GameListView,
 
     override fun onResponseJ2Ranking(response: Response<ResponseBody>) {
         try {
-            val body = response.body().string()
-            j2ranking = JLeagueRankingParser().ranking(body)
-            jLeagueRequestExecutor.fetchJ3Ranking(this)
+            response.body()?.let {
+                j2ranking = JLeagueRankingParser().ranking(it.string())
+                jLeagueRequestExecutor.fetchJ3Ranking(this)
+            } ?: view.stopProgress()
         } catch (e: IOException) {
             e.printStackTrace()
             view.stopProgress()
@@ -95,9 +97,10 @@ class GameListPresenter(private val view: GameListView,
 
     override fun onResponseJ3Ranking(response: Response<ResponseBody>) {
         try {
-            val body = response.body().string()
-            j3ranking = JLeagueRankingParser().ranking(body)
-            rakutenTotoRequestExecutor.fetchRakutenTotoInfoPage(toto.number, this)
+            response.body()?.let {
+                j3ranking = JLeagueRankingParser().ranking(it.string())
+                rakutenTotoRequestExecutor.fetchRakutenTotoInfoPage(toto.number, this)
+            } ?: view.stopProgress()
         } catch (e: IOException) {
             e.printStackTrace()
             view.stopProgress()
@@ -112,38 +115,41 @@ class GameListPresenter(private val view: GameListView,
     override fun onResponseTotoInfo(response: Response<ResponseBody>) {
         view.stopProgress()
         try {
-            val body = response.body().string()
-            val parser = RakutenTotoInfoParser()
+            response.body()?.let {
+                val body = it.string()
+                val parser = RakutenTotoInfoParser()
 
-            // Set title
-            if (toto.number != Toto.DEFAULT_NUMBER) {
-                val format = SimpleDateFormat("MM/dd ", Locale.JAPAN)
-                view.setTitleFrom(toto.number, format.format(toto.deadline) + parser.deadlineTime(body))
-            }
+                // Set title
+                if (toto.number != Toto.DEFAULT_NUMBER) {
+                    val format = SimpleDateFormat("MM/dd ", Locale.JAPAN)
+                    view.setTitleFrom(toto.number, format.format(toto.deadline) + parser.deadlineTime(body))
+                }
 
-            // Parse games
-            games = parser.games(body)
-            for (game in games) {
-                val homeFullName = TeamInfoMapper.fullNameForJLeagueRanking(game.homeTeam)
-                val awayFullName = TeamInfoMapper.fullNameForJLeagueRanking(game.awayTeam)
-                var homeRank: Int? = j1ranking[homeFullName]
-                var awayRank: Int? = j1ranking[awayFullName]
-                if (homeRank == null || awayRank == null) {
-                    homeRank = j2ranking[homeFullName]
-                    awayRank = j2ranking[awayFullName]
+                // Parse games
+                games = parser.games(body)
+                for (game in games) {
+                    val homeFullName = TeamInfoMapper.fullNameForJLeagueRanking(game.homeTeam)
+                    val awayFullName = TeamInfoMapper.fullNameForJLeagueRanking(game.awayTeam)
+                    var homeRank: Int? = j1ranking[homeFullName]
+                    var awayRank: Int? = j1ranking[awayFullName]
                     if (homeRank == null || awayRank == null) {
-                        homeRank = j3ranking[homeFullName]
-                        awayRank = j3ranking[awayFullName]
+                        homeRank = j2ranking[homeFullName]
+                        awayRank = j2ranking[awayFullName]
+                        if (homeRank == null || awayRank == null) {
+                            homeRank = j3ranking[homeFullName]
+                            awayRank = j3ranking[awayFullName]
+                        }
                     }
+                    if (homeRank == null || awayRank == null) {
+                        continue
+                    }
+                    game.homeRanking = homeRank
+                    game.awayRanking = awayRank
                 }
-                if (homeRank == null || awayRank == null) {
-                    continue
-                }
-                game.homeRanking = homeRank
-                game.awayRanking = awayRank
+                view.initList()
+                storage.store(toto, games)
+
             }
-            view.initList()
-            storage.store(toto, games)
         } catch (e: IOException) {
             e.printStackTrace()
         }
@@ -225,7 +231,7 @@ class GameListPresenter(private val view: GameListView,
         private val handler: Handler = Handler(Looper.getMainLooper())
 
         override fun execute(r: Runnable) {
-            handler.post(r);
+            handler.post(r)
         }
     }
 }
