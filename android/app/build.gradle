@@ -4,7 +4,6 @@ apply plugin: 'jacoco'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.phicdy.totoanticipation"
         minSdkVersion 21
@@ -50,22 +49,25 @@ def coverageExcludeFiles = ['**/R.class', '**/R$*.class', '**/com/android/**/*.*
                             '**/*Manifest*.class', '**/*Application*.class',
                             '**/*RecyclerViewAdapter.class', '**/*Notification.class',
                             '**/*Alarm.class']
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testNonGooglePlayDebugUnitTest']) {
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testGooglePlayDebugUnitTest']) {
     group = "Reporting"
     description = "Generate Jacoco coverage reports after running tests."
     reports {
         xml.enabled true
         html.enabled true
         csv.enabled false
-        xml.destination "${buildDir}/reports/jacoco/jacocoTestReport.xml"
-        html.destination "${buildDir}/reports/jacoco/html"
-        classDirectories = files(
-                fileTree(
-                        dir: "${buildDir}/intermediates/classes/nonGooglePlay/debug",
-                        exclude: coverageExcludeFiles))
+        xml.destination new File("${buildDir}/reports/jacoco/jacocoTestReport.xml")
+        html.destination new File("${buildDir}/reports/jacoco/html")
+        classDirectories.setFrom(
+                files(
+                    fileTree(
+                            dir: "${buildDir}/intermediates/classes/googlePlay/debug",
+                            exclude: coverageExcludeFiles)
+                )
+        )
     }
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files "${buildDir}/jacoco/testNonGooglePlayDebugUnitTest.exec"
+    sourceDirectories.setFrom(files(coverageSourceDirs))
+    executionData.setFrom(new File("${buildDir}/jacoco/testGooglePlayDebugUnitTest.exec"))
 
     doLast {
         println "jacoco xml report has been generated to file://${buildDir}/reports/jacoco/jacocoTestReport.xml"
