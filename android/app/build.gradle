@@ -1,6 +1,8 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'jacoco'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'jacoco'
+}
 
 android {
     compileSdkVersion 27
@@ -41,7 +43,7 @@ jacoco {
 }
 
 // A list of directories which should be included in coverage report
-def coverageSourceDirs = ['src/main/java']
+def coverageSourceDirs = ['src/main/java', 'src/main/kotlin']
 // A list of files which should be excluded from coverage report since they are generated and/or framework code
 def coverageExcludeFiles = ['**/R.class', '**/R$*.class', '**/com/android/**/*.*',
                             '**/BuildConfig.class', '**/*Activity*.class',
@@ -61,8 +63,13 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testGooglePlayDebugUnitTe
         classDirectories.setFrom(
                 files(
                     fileTree(
-                            dir: "${buildDir}/intermediates/classes/googlePlay/debug",
-                            exclude: coverageExcludeFiles)
+                            dir: "${buildDir}/intermediates/javac/googlePlayDebug/compileGooglePlayDebugJavaWithJavac/classes/",
+                            exclude: coverageExcludeFiles
+                    ) +
+                    fileTree(
+                            dir: "$buildDir/tmp/kotlin-classes/googlePlayDebug",
+                            excludes: coverageExcludeFiles
+                    )
                 )
         )
     }
