@@ -2,17 +2,23 @@ package com.phicdy.totoanticipation.presenter
 
 import android.os.Handler
 import android.os.Looper
-import com.phicdy.totoanticipation.model.*
+import com.phicdy.totoanticipation.model.AutoAnticipation
+import com.phicdy.totoanticipation.model.Game
+import com.phicdy.totoanticipation.model.JLeagueRankingParser
+import com.phicdy.totoanticipation.model.JLeagueRequestExecutor
+import com.phicdy.totoanticipation.model.RakutenTotoInfoParser
+import com.phicdy.totoanticipation.model.RakutenTotoRequestExecutor
+import com.phicdy.totoanticipation.model.RakutenTotoTopParser
+import com.phicdy.totoanticipation.model.TeamInfoMapper
+import com.phicdy.totoanticipation.model.Toto
 import com.phicdy.totoanticipation.model.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.model.storage.GameListStorage
 import com.phicdy.totoanticipation.view.GameListView
-
-import java.io.IOException
-import java.text.SimpleDateFormat
-
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
+import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.Executor
@@ -43,7 +49,7 @@ class GameListPresenter(private val view: GameListView,
                 }
                 if (isDeadlineNotify) alarm.setAtNoonOf(toto.deadline)
                 games = storage.list(toto.number)
-                if (games.size == 0) {
+                if (games.isEmpty()) {
                     jLeagueRequestExecutor.fetchJ1Ranking(this)
                 } else {
                     view.stopProgress()
@@ -57,7 +63,7 @@ class GameListPresenter(private val view: GameListView,
         }
     }
 
-    override fun onFailureTotoTop(call: Call<ResponseBody>, throwable: Throwable) {
+    override fun onFailureTotoTop(throwable: Throwable) {
         view.stopProgress()
     }
 
@@ -128,8 +134,8 @@ class GameListPresenter(private val view: GameListView,
                 // Parse games
                 games = parser.games(body)
                 for (game in games) {
-                    val homeFullName = TeamInfoMapper.fullNameForJLeagueRanking(game.homeTeam)
-                    val awayFullName = TeamInfoMapper.fullNameForJLeagueRanking(game.awayTeam)
+                    val homeFullName = TeamInfoMapper().fullNameForJLeagueRanking(game.homeTeam)
+                    val awayFullName = TeamInfoMapper().fullNameForJLeagueRanking(game.awayTeam)
                     var homeRank: Int? = j1ranking[homeFullName]
                     var awayRank: Int? = j1ranking[awayFullName]
                     if (homeRank == null || awayRank == null) {
@@ -156,7 +162,7 @@ class GameListPresenter(private val view: GameListView,
 
     }
 
-    override fun onFailureTotoInfo(call: Call<ResponseBody>, throwable: Throwable) {
+    override fun onFailureTotoInfo(throwable: Throwable) {
         view.stopProgress()
     }
 
@@ -188,8 +194,9 @@ class GameListPresenter(private val view: GameListView,
         }
     }
 
-    fun gameAt(position: Int): Game? =
-            if (position >= games.size || position < 0) null else games[position]
+    fun gameAt(position: Int): Game =
+            if (position >= games.size || position < 0) throw IndexOutOfBoundsException("Invalid game position")
+            else games[position]
 
     fun gameSize(): Int = games.size
 
@@ -211,7 +218,7 @@ class GameListPresenter(private val view: GameListView,
         }
         view.showAnticipationStart()
         view.startProgress()
-        object: Thread() {
+        object : Thread() {
             override fun run() {
                 sleep(4000)
                 AutoAnticipation().exec(games)
