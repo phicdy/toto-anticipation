@@ -76,7 +76,7 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
         }
         progressBar = (SmoothProgressBar) findViewById(R.id.progress);
 
-        final RakutenTotoService rakutenTotoService = RakutenTotoService.Factory.create();
+        final RakutenTotoService rakutenTotoService = RakutenTotoService.Factory.INSTANCE.create();
         final RakutenTotoRequestExecutor rakutenTotoRequestExecutor =
                 new RakutenTotoRequestExecutor(rakutenTotoService);
         final JLeagueService jLeagueService = JLeagueService.Factory.INSTANCE.create();

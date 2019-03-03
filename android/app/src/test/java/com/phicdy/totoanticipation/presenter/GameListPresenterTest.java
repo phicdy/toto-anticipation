@@ -46,7 +46,7 @@ public class GameListPresenterTest {
 
     @Before
     public void setup() {
-        RakutenTotoService service = RakutenTotoService.Factory.create();
+        RakutenTotoService service = RakutenTotoService.Factory.INSTANCE.create();
         rakutenTotoRequestExecutor = new RakutenTotoRequestExecutor(service);
         JLeagueService service1 = JLeagueService.Factory.INSTANCE.create();
         jLeagueRequestExecutor = new JLeagueRequestExecutor(service1);
