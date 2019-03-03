@@ -1,7 +1,6 @@
 package com.phicdy.totoanticipation.view.activity
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -49,7 +48,7 @@ class TotoAnticipationActivity : AppCompatActivity(), TotoAnticipationView {
     @SuppressLint("SetJavaScriptEnabled")
     override fun initListener() {
         webView = findViewById(R.id.wb_toto_web)
-        if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (BuildConfig.DEBUG) {
             WebView.setWebContentsDebuggingEnabled(true)
         }
         val webSettings = webView.settings
@@ -68,11 +67,7 @@ class TotoAnticipationActivity : AppCompatActivity(), TotoAnticipationView {
     }
 
     override fun exec(javaScript: String) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            webView.evaluateJavascript(javaScript, null)
-        } else {
-            webView.loadUrl("javascript:$javaScript")
-        }
+        webView.evaluateJavascript(javaScript, null)
     }
 
     companion object {
