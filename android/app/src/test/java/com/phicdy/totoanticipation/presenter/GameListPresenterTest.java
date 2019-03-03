@@ -48,7 +48,7 @@ public class GameListPresenterTest {
     public void setup() {
         RakutenTotoService service = RakutenTotoService.Factory.create();
         rakutenTotoRequestExecutor = new RakutenTotoRequestExecutor(service);
-        JLeagueService service1 = JLeagueService.Factory.create();
+        JLeagueService service1 = JLeagueService.Factory.INSTANCE.create();
         jLeagueRequestExecutor = new JLeagueRequestExecutor(service1);
         storage = new MockStorage();
         settingStorage = new MockSettingStorage();
@@ -214,7 +214,7 @@ public class GameListPresenterTest {
         Response<ResponseBody> response = Response.success(
                 ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text));
         presenter.onResponseTotoInfo(response);
-        presenter.onAwayRadioButtonClicked(presenter.gameSize()+1, true);
+        presenter.onAwayRadioButtonClicked(presenter.gameSize() + 1, true);
         // All of the anticipations are default, HOME
         for (int i = 0; i < presenter.gameSize(); i++) {
             assertThat(presenter.gameAt(i).getAnticipation(), is(Game.Anticipation.HOME));

@@ -79,7 +79,7 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
         final RakutenTotoService rakutenTotoService = RakutenTotoService.Factory.create();
         final RakutenTotoRequestExecutor rakutenTotoRequestExecutor =
                 new RakutenTotoRequestExecutor(rakutenTotoService);
-        final JLeagueService jLeagueService = JLeagueService.Factory.create();
+        final JLeagueService jLeagueService = JLeagueService.Factory.INSTANCE.create();
         final JLeagueRequestExecutor jLeagueRequestExecutor = new JLeagueRequestExecutor(jLeagueService);
         GameListStorage storage = new GameListStorageImpl(this);
         SettingStorage settingStorage = new SettingStorageImpl(this);
@@ -175,13 +175,14 @@ public class GameListActivity extends AppCompatActivity implements GameListView 
         showSnackbar(R.string.anticipation_not_support, Snackbar.LENGTH_SHORT);
     }
 
-    @IntDef({Snackbar.LENGTH_SHORT, Snackbar.LENGTH_LONG})
-    @interface SnackbarLength{
-    }
     private void showSnackbar(@StringRes int res, @SnackbarLength int length) {
         View view = findViewById(android.R.id.content);
         if (view == null) return;
         Snackbar.make(view, res, length).show();
+    }
+
+    @IntDef({Snackbar.LENGTH_SHORT, Snackbar.LENGTH_LONG})
+    @interface SnackbarLength {
     }
 
     class SimpleItemRecyclerViewAdapter
