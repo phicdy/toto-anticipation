@@ -194,8 +194,9 @@ class GameListPresenter(private val view: GameListView,
         }
     }
 
-    fun gameAt(position: Int): Game? =
-            if (position >= games.size || position < 0) null else games[position]
+    fun gameAt(position: Int): Game =
+            if (position >= games.size || position < 0) throw IndexOutOfBoundsException("Invalid game position")
+            else games[position]
 
     fun gameSize(): Int = games.size
 
