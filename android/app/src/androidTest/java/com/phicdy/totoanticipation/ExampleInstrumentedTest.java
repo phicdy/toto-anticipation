@@ -17,6 +17,6 @@ import org.junit.runner.RunWith;
 public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() throws Exception {
-        DeadlineNotification.show(InstrumentationRegistry.getTargetContext());
+        DeadlineNotification.Companion.show(InstrumentationRegistry.getTargetContext());
     }
 }

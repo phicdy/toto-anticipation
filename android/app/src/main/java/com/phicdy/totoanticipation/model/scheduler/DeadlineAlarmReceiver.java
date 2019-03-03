@@ -13,6 +13,6 @@ public class DeadlineAlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (context == null || intent == null || TextUtils.isEmpty(intent.getAction()) ||
                 !intent.getAction().equals(DeadlineAlarm.ACTION)) return;
-        DeadlineNotification.show(context);
+        DeadlineNotification.Companion.show(context);
     }
 }
