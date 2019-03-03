@@ -61,8 +61,11 @@ jobs:
           name: Download Dependencies
           command: cd android && ./gradlew androidDependencies
       - run:
-          name: Run lint
-          command: cd android && ./gradlew lint
+          name: Run lint for Google Play
+          command: cd android && ./gradlew lintGooglePlayDebug
+      - run:
+          name: Run lint for non Google Play
+          command: cd android && ./gradlew lintNonGooglePlayDebug
       - store_artifacts:
           path: android/app/build/reports
           destination: reports
