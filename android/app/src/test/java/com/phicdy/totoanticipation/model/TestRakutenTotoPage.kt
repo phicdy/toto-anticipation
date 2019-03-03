@@ -1,8 +1,8 @@
-package com.phicdy.totoanticipation.model;
+package com.phicdy.totoanticipation.model
 
-public class TestRakutenTotoPage {
+object TestRakutenTotoPage {
     // 0923 is latest
-    public static final String text = "<!DOCTYPE html>\n" +
+    val text = "<!DOCTYPE html>\n" +
             "<html lang=\"ja\" prefix=\"og: http://ogp.me/ns# fb: http://www.facebook.com/2008/fbml\">\n" +
             "<head>\n" +
             "\n" +
@@ -449,6 +449,6 @@ public class TestRakutenTotoPage {
             "\n" +
             "\n" +
             "</body>\n" +
-            "</html>";
+            "</html>"
 }
 
