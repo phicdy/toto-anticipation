@@ -63,7 +63,7 @@ class GameListPresenter(private val view: GameListView,
         }
     }
 
-    override fun onFailureTotoTop(call: Call<ResponseBody>, throwable: Throwable) {
+    override fun onFailureTotoTop(throwable: Throwable) {
         view.stopProgress()
     }
 
@@ -162,7 +162,7 @@ class GameListPresenter(private val view: GameListView,
 
     }
 
-    override fun onFailureTotoInfo(call: Call<ResponseBody>, throwable: Throwable) {
+    override fun onFailureTotoInfo(throwable: Throwable) {
         view.stopProgress()
     }
 

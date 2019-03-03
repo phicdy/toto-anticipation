@@ -9,9 +9,9 @@ class RakutenTotoRequestExecutor(private val service: RakutenTotoService) {
 
     interface RakutenTotoRequestCallback {
         fun onResponseTotoTop(response: Response<ResponseBody>)
-        fun onFailureTotoTop(call: Call<ResponseBody>, throwable: Throwable)
+        fun onFailureTotoTop(throwable: Throwable)
         fun onResponseTotoInfo(response: Response<ResponseBody>)
-        fun onFailureTotoInfo(call: Call<ResponseBody>, throwable: Throwable)
+        fun onFailureTotoInfo(throwable: Throwable)
     }
 
     fun fetchRakutenTotoTopPage(callback: RakutenTotoRequestCallback) {
@@ -21,7 +21,7 @@ class RakutenTotoRequestExecutor(private val service: RakutenTotoService) {
             }
 
             override fun onFailure(call: Call<ResponseBody>, throwable: Throwable) {
-                callback.onFailureTotoTop(call, throwable)
+                callback.onFailureTotoTop(throwable)
             }
         }
         val call = service.schedule()
@@ -36,7 +36,7 @@ class RakutenTotoRequestExecutor(private val service: RakutenTotoService) {
             }
 
             override fun onFailure(call: Call<ResponseBody>, throwable: Throwable) {
-                callback.onFailureTotoInfo(call, throwable)
+                callback.onFailureTotoInfo(throwable)
             }
         }
         val call = service.totoInfo(num)
