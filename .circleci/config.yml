@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  test:
     working_directory: ~/code
     docker:
       - image: circleci/android:api-27-alpha
@@ -23,7 +23,7 @@ jobs:
           command: cd android && ./gradlew androidDependencies
       - run:
           name: Run Tests
-          command: cd android && ./gradlew lint test
+          command: cd android && ./gradlew test
       - run:
           name: Create jacoco report
           command: cd android && ./gradlew jacocoTestReport 
@@ -39,4 +39,41 @@ jobs:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "android/app/build.gradle" }}
+  lint:
+    working_directory: ~/code
+    docker:
+      - image: circleci/android:api-27-alpha
+        environment:
+          TZ: Asia/Tokyo
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "android/app/build.gradle" }}
+      - run:
+          name: Print Android home
+          command: echo $ANDROID_HOME
+      - run:
+          name: Accept licenses
+          command: yes | sdkmanager --licenses || true
+      - run:
+          name: Download Dependencies
+          command: cd android && ./gradlew androidDependencies
+      - run:
+          name: Run lint
+          command: cd android && ./gradlew lint
+      - store_artifacts:
+          path: android/app/build/reports
+          destination: reports
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "android/app/build.gradle" }}
 
+workflows:
+  version: 2
+  test_and_lint:
+    jobs:
+      - test
+      - lint
