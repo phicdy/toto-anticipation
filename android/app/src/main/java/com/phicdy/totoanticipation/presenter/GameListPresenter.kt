@@ -134,8 +134,8 @@ class GameListPresenter(private val view: GameListView,
                 // Parse games
                 games = parser.games(body)
                 for (game in games) {
-                    val homeFullName = TeamInfoMapper.fullNameForJLeagueRanking(game.homeTeam)
-                    val awayFullName = TeamInfoMapper.fullNameForJLeagueRanking(game.awayTeam)
+                    val homeFullName = TeamInfoMapper().fullNameForJLeagueRanking(game.homeTeam)
+                    val awayFullName = TeamInfoMapper().fullNameForJLeagueRanking(game.awayTeam)
                     var homeRank: Int? = j1ranking[homeFullName]
                     var awayRank: Int? = j1ranking[awayFullName]
                     if (homeRank == null || awayRank == null) {

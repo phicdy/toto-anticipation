@@ -41,8 +41,8 @@ public class TeamInfoFragment extends Fragment {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient() {
-             @Override
-             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 return super.shouldOverrideUrlLoading(view, request);
             }
         });
@@ -53,6 +53,6 @@ public class TeamInfoFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        webView.loadUrl(TeamInfoMapper.yahooNewsUrl(team));
+        webView.loadUrl(new TeamInfoMapper().yahooNewsUrl(team));
     }
 }
