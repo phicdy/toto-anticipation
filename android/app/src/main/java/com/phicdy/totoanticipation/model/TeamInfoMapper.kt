@@ -27,6 +27,7 @@ class TeamInfoMapper {
         "長野" -> "ＡＣ長野パルセイロ"
         "藤枝" -> "藤枝ＭＹＦＣ"
         "相模原" -> "ＳＣ相模原"
+        "岩手" -> "いわてグルージャ盛岡"
         else -> fullNameForFootbellGeist(shrunkName)
     }
 
@@ -89,7 +90,8 @@ class TeamInfoMapper {
         "Ｙ横浜" -> "Y.S.C.C."
         "藤枝" -> "藤枝MYFC"
         "相模原" -> "SC相模原"
-        "盛岡" -> "グルージャ盛岡"
+        "岩手" -> "グルージャ盛岡"
+        "八戸" -> "ヴァンラーレ八戸"
         else -> ""
     }
 
@@ -152,7 +154,8 @@ class TeamInfoMapper {
         "藤枝" -> "https://follow.yahoo.co.jp/themes/0c2549eb94ecf5ce0452"
         "相模原" -> "https://follow.yahoo.co.jp/themes/0360a0cc617c9c4e0298"
         "鹿児島" -> "https://follow.yahoo.co.jp/themes/024476e4fd08963a6430"
-        "盛岡" -> "https://follow.yahoo.co.jp/themes/0279ed51de2c87282435"
+        "岩手" -> "https://follow.yahoo.co.jp/themes/0279ed51de2c87282435"
+        "八戸" -> "https://follow.yahoo.co.jp/themes/0eab583eab9c47080228"
         else -> ""
     }
 }

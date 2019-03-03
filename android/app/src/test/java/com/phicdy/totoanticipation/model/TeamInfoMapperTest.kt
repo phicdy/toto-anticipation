@@ -216,4 +216,14 @@ class TeamInfoMapperTest {
     fun convertNagasaki() {
         assertThat(TeamInfoMapper().fullNameForFootbellGeist("長崎"), `is`("V・ファーレン長崎"))
     }
+
+    @Test
+    fun convertIwate() {
+        assertThat(TeamInfoMapper().fullNameForFootbellGeist("岩手"), `is`("グルージャ盛岡"))
+    }
+
+    @Test
+    fun convertHachinohe() {
+        assertThat(TeamInfoMapper().fullNameForFootbellGeist("八戸"), `is`("ヴァンラーレ八戸"))
+    }
 }
