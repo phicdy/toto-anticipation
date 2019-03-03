@@ -58,6 +58,6 @@ public class GameHistoryFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        webView.loadUrl(GameHistory.url(homeTeam, awayTeam));
+        webView.loadUrl(new GameHistory().url(homeTeam, awayTeam));
     }
 }
