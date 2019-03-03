@@ -340,7 +340,7 @@ public class GameListPresenterTest {
 
         @Override
         public void store(@NonNull Toto toto, @NonNull List<Game> list) {
-            this.totoNum = toto.number;
+            this.totoNum = toto.getNumber();
             games = list;
         }
     }
