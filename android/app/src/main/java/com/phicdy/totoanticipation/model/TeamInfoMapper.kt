@@ -28,6 +28,7 @@ class TeamInfoMapper {
         "藤枝" -> "藤枝ＭＹＦＣ"
         "相模原" -> "ＳＣ相模原"
         "岩手" -> "いわてグルージャ盛岡"
+        "鹿児島" -> "鹿児島ユナイテッドＦＣ"
         else -> fullNameForFootbellGeist(shrunkName)
     }
 
@@ -92,6 +93,7 @@ class TeamInfoMapper {
         "相模原" -> "SC相模原"
         "岩手" -> "グルージャ盛岡"
         "八戸" -> "ヴァンラーレ八戸"
+        "鹿児島" -> "鹿児島ユナイテッドFC"
         else -> ""
     }
 
