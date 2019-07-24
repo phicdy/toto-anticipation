@@ -1,2 +1,3 @@
 include ':app',
+        ':admob',
         ':advertisement'
