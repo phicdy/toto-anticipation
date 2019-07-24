@@ -5,21 +5,21 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/tools"
+    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
         android:layout_gravity="center"
-        card_view:paddingBottom="8dp"
-        card_view:cardCornerRadius="4dp">
+        android:layout_margin="4dp"
+        card_view:cardCornerRadius="4dp"
+        card_view:paddingBottom="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:orientation="vertical"
-            android:baselineAligned="false">
+            android:baselineAligned="false"
+            android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,9 +30,9 @@
                     android:id="@+id/tv_home"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
-                    android:layout_margin="@dimen/text_margin"
                     android:textAppearance="?attr/textAppearanceListItem" />
 
                 <TextView
@@ -46,43 +46,46 @@
                     android:id="@+id/tv_away"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/text_margin"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
-                    android:layout_margin="@dimen/text_margin"
                     android:textAppearance="?attr/textAppearanceListItem" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    app:srcCompat="@drawable/ic_info_outline_black_24dp"
-                    android:contentDescription="@string/team_info" />
+                    android:contentDescription="@string/team_info"
+                    app:srcCompat="@drawable/ic_info_outline_black_24dp" />
             </LinearLayout>
 
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <RadioButton
                     android:id="@+id/rb_home"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/home_win"/>
+                    android:text="@string/home_win" />
+
                 <RadioButton
                     android:id="@+id/rb_draw"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
-                    android:text="@string/draw"/>
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/draw" />
+
                 <RadioButton
                     android:id="@+id/rb_away"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
-                    android:text="@string/away_win"/>
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/away_win" />
             </RadioGroup>
         </LinearLayout>
-        </android.support.v7.widget.CardView>
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

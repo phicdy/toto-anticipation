@@ -2,10 +2,10 @@ package com.phicdy.totoanticipation.view.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.phicdy.totoanticipation.BuildConfig
 import com.phicdy.totoanticipation.R
 import com.phicdy.totoanticipation.model.storage.GameListStorageImpl

@@ -9,13 +9,14 @@
     tools:context="com.phicdy.totoanticipation.view.activity.TeamInfoActivity">
 
     <include layout="@layout/toolbar" />
+
     <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
         android:id="@+id/progress_webview"
+        style="@style/ProgressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:indeterminate="true"
-        style="@style/ProgressBar" />
+        android:visibility="gone" />
 
     <FrameLayout
         android:id="@+id/fr_content"
@@ -23,7 +24,7 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <android.support.design.widget.BottomNavigationView
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
