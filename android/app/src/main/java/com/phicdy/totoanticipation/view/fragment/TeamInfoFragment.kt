@@ -2,12 +2,12 @@ package com.phicdy.totoanticipation.view.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.fragment.app.Fragment
 import com.phicdy.totoanticipation.R
 import com.phicdy.totoanticipation.model.TeamInfoMapper
 
