@@ -16,6 +16,8 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.phicdy.totoanticipation.BuildConfig
@@ -150,10 +152,19 @@ class GameListActivity : AppCompatActivity(), GameListView {
 
     internal inner class SimpleItemRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.game_list_content, parent, false)
-            return ViewHolder(view)
+        private val VIEW_TYPE_CONTENT = 1
+        private val VIEW_TYPE_AD = 2
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+            return when (viewType) {
+                VIEW_TYPE_CONTENT -> {
+                    val view = LayoutInflater.from(parent.context)
+                            .inflate(R.layout.game_list_content, parent, false)
+                    ViewHolder(view)
+                }
+                VIEW_TYPE_AD -> AdViewHolder(parent)
+                else -> throw IllegalStateException()
+            }
         }
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -204,6 +215,7 @@ class GameListActivity : AppCompatActivity(), GameListView {
                     holder.rbAway.setOnCheckedChangeListener { _, isChecked -> presenter.onAwayRadioButtonClicked(holder.adapterPosition, isChecked) }
                     holder.rbDraw.setOnCheckedChangeListener { _, isChecked -> presenter.onDrawRadioButtonClicked(holder.adapterPosition, isChecked) }
                 }
+                is AdViewHolder -> holder.bind()
             }
         }
 
@@ -211,16 +223,30 @@ class GameListActivity : AppCompatActivity(), GameListView {
             return presenter.gameSize()
         }
 
-        internal inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-            val tvHome: TextView = mView.findViewById(R.id.tv_home)
-            val tvAway: TextView = mView.findViewById(R.id.tv_away)
-            val rbHome: RadioButton = mView.findViewById(R.id.rb_home)
-            val rbAway: RadioButton = mView.findViewById(R.id.rb_away)
-            val rbDraw: RadioButton = mView.findViewById(R.id.rb_draw)
+        override fun getItemViewType(position: Int) = if (position == presenter.gameSize() - 1) VIEW_TYPE_AD else VIEW_TYPE_CONTENT
+    }
 
-            override fun toString(): String {
-                return super.toString() + " '" + tvAway.text + "'"
-            }
+    internal inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+        val tvHome: TextView = mView.findViewById(R.id.tv_home)
+        val tvAway: TextView = mView.findViewById(R.id.tv_away)
+        val rbHome: RadioButton = mView.findViewById(R.id.rb_home)
+        val rbAway: RadioButton = mView.findViewById(R.id.rb_away)
+        val rbDraw: RadioButton = mView.findViewById(R.id.rb_draw)
+
+        override fun toString(): String {
+            return super.toString() + " '" + tvAway.text + "'"
+        }
+    }
+
+    private inner class AdViewHolder(
+            parent: ViewGroup,
+            view: View = LayoutInflater.from(parent.context).inflate(R.layout.game_list_ad, parent, false)
+    ) : RecyclerView.ViewHolder(view) {
+
+        val adView: AdView = view.findViewById(R.id.adView)
+
+        fun bind() {
+            adView.loadAd(AdRequest.Builder().build())
         }
     }
 }

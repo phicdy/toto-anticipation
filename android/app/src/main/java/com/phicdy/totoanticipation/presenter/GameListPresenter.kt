@@ -198,7 +198,7 @@ class GameListPresenter(private val view: GameListView,
             if (position >= games.size || position < 0) throw IndexOutOfBoundsException("Invalid game position")
             else games[position]
 
-    fun gameSize(): Int = games.size
+    fun gameSize(): Int = games.size + 1 // 1 for Ad
 
     fun onFabClicked() {
         storage.store(toto, games)

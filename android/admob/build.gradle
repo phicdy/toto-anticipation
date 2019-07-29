@@ -18,6 +18,7 @@ android {
         ]
 
         buildConfigField "String", "ADD_APP_ID", "\"$ADMOB_ID_TOTO\""
+        resValue "string", "ad_unit_id", "\"$ADMOB_UNIT_ID_TOTO\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -34,7 +35,7 @@ android {
 dependencies {
     implementation project(':advertisement')
 
-    implementation 'com.google.android.gms:play-services-ads:18.1.1'
+    implementation "com.google.android.gms:play-services-ads:$admob_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation "com.google.dagger:dagger:$daggerVer"
