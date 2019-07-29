@@ -148,7 +148,7 @@ class GameListActivity : AppCompatActivity(), GameListView {
     @IntDef(Snackbar.LENGTH_SHORT, Snackbar.LENGTH_LONG)
     internal annotation class SnackbarLength
 
-    internal inner class SimpleItemRecyclerViewAdapter : RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
+    internal inner class SimpleItemRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context)
@@ -156,51 +156,55 @@ class GameListActivity : AppCompatActivity(), GameListView {
             return ViewHolder(view)
         }
 
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val game = presenter.gameAt(position)
-            holder.tvHome.text = when (game.homeRanking) {
-                Game.defaultRank -> getString(R.string.team_label, "- ", game.homeTeam)
-                else -> getString(R.string.team_label, game.homeRanking.toString(), game.homeTeam)
-            }
-            holder.tvAway.text = when (game.awayRanking) {
-                Game.defaultRank -> getString(R.string.team_label, "- ", game.awayTeam)
-                else -> getString(R.string.team_label, game.awayRanking.toString(), game.awayTeam)
-            }
-
-            holder.mView.setOnClickListener(View.OnClickListener { v ->
-                if (game.homeRanking == Game.defaultRank || game.awayRanking == Game.defaultRank) {
-                    showSnackbar(R.string.not_support_foreign_league, Snackbar.LENGTH_SHORT)
-                    return@OnClickListener
-                }
-                if (mTwoPane) {
-                    val arguments = Bundle().apply {
-                        putString(TeamInfoActivity.ARG_HOME_TEAM, game.homeTeam)
-                        putString(TeamInfoActivity.ARG_AWAY_TEAM, game.awayTeam)
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+            when (holder) {
+                is ViewHolder -> {
+                    val game = presenter.gameAt(position)
+                    holder.tvHome.text = when (game.homeRanking) {
+                        Game.defaultRank -> getString(R.string.team_label, "- ", game.homeTeam)
+                        else -> getString(R.string.team_label, game.homeRanking.toString(), game.homeTeam)
                     }
-                    val fragment = TeamInfoFragment()
-                    fragment.arguments = arguments
-                    supportFragmentManager.beginTransaction()
-                            .replace(R.id.item_detail_container, fragment)
-                            .commit()
-                } else {
-                    val context = v.context
-                    val intent = Intent(context, TeamInfoActivity::class.java).apply {
-                        putExtra(TeamInfoActivity.ARG_HOME_TEAM, game.homeTeam)
-                        putExtra(TeamInfoActivity.ARG_AWAY_TEAM, game.awayTeam)
+                    holder.tvAway.text = when (game.awayRanking) {
+                        Game.defaultRank -> getString(R.string.team_label, "- ", game.awayTeam)
+                        else -> getString(R.string.team_label, game.awayRanking.toString(), game.awayTeam)
                     }
 
-                    context.startActivity(intent)
-                }
-            })
+                    holder.mView.setOnClickListener(View.OnClickListener { v ->
+                        if (game.homeRanking == Game.defaultRank || game.awayRanking == Game.defaultRank) {
+                            showSnackbar(R.string.not_support_foreign_league, Snackbar.LENGTH_SHORT)
+                            return@OnClickListener
+                        }
+                        if (mTwoPane) {
+                            val arguments = Bundle().apply {
+                                putString(TeamInfoActivity.ARG_HOME_TEAM, game.homeTeam)
+                                putString(TeamInfoActivity.ARG_AWAY_TEAM, game.awayTeam)
+                            }
+                            val fragment = TeamInfoFragment()
+                            fragment.arguments = arguments
+                            supportFragmentManager.beginTransaction()
+                                    .replace(R.id.item_detail_container, fragment)
+                                    .commit()
+                        } else {
+                            val context = v.context
+                            val intent = Intent(context, TeamInfoActivity::class.java).apply {
+                                putExtra(TeamInfoActivity.ARG_HOME_TEAM, game.homeTeam)
+                                putExtra(TeamInfoActivity.ARG_AWAY_TEAM, game.awayTeam)
+                            }
 
-            when (game.anticipation) {
-                Game.Anticipation.HOME -> holder.rbHome.isChecked = true
-                Game.Anticipation.AWAY -> holder.rbAway.isChecked = true
-                Game.Anticipation.DRAW -> holder.rbDraw.isChecked = true
+                            context.startActivity(intent)
+                        }
+                    })
+
+                    when (game.anticipation) {
+                        Game.Anticipation.HOME -> holder.rbHome.isChecked = true
+                        Game.Anticipation.AWAY -> holder.rbAway.isChecked = true
+                        Game.Anticipation.DRAW -> holder.rbDraw.isChecked = true
+                    }
+                    holder.rbHome.setOnCheckedChangeListener { _, isChecked -> presenter.onHomeRadioButtonClicked(holder.adapterPosition, isChecked) }
+                    holder.rbAway.setOnCheckedChangeListener { _, isChecked -> presenter.onAwayRadioButtonClicked(holder.adapterPosition, isChecked) }
+                    holder.rbDraw.setOnCheckedChangeListener { _, isChecked -> presenter.onDrawRadioButtonClicked(holder.adapterPosition, isChecked) }
+                }
             }
-            holder.rbHome.setOnCheckedChangeListener { _, isChecked -> presenter.onHomeRadioButtonClicked(holder.adapterPosition, isChecked) }
-            holder.rbAway.setOnCheckedChangeListener { _, isChecked -> presenter.onAwayRadioButtonClicked(holder.adapterPosition, isChecked) }
-            holder.rbDraw.setOnCheckedChangeListener { _, isChecked -> presenter.onDrawRadioButtonClicked(holder.adapterPosition, isChecked) }
         }
 
         override fun getItemCount(): Int {
