@@ -19,6 +19,9 @@ jobs:
           name: Accept licenses
           command: yes | sdkmanager --licenses || true
       - run:
+          name: Decode google-services.json
+          command: echo $GOOGLE_SERVICE | base64 --decode > ./android/app/google-services.json
+      - run:
           name: Download Dependencies
           command: cd android && ./gradlew androidDependencies
       - run:
