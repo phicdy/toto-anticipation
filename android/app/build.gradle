@@ -123,4 +123,8 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$daggerVer"
     kapt "com.google.dagger:dagger-compiler:$daggerVer"
     kapt "com.google.dagger:dagger-android-processor:$daggerVer"
+
+    implementation 'com.google.firebase:firebase-core:17.0.1'
 }
+
+apply plugin: 'com.google.gms.google-services'
