@@ -3,7 +3,7 @@ jobs:
   test:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-27-alpha
+      - image: circleci/android:api-28
         environment:
           TZ: Asia/Tokyo
     environment:
@@ -45,7 +45,7 @@ jobs:
   lint:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-27-alpha
+      - image: circleci/android:api-28
         environment:
           TZ: Asia/Tokyo
     environment:
