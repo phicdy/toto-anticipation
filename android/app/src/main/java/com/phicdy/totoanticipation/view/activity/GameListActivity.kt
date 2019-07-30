@@ -13,7 +13,6 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.annotation.IntDef
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
@@ -33,9 +32,10 @@ import com.phicdy.totoanticipation.model.storage.SettingStorageImpl
 import com.phicdy.totoanticipation.presenter.GameListPresenter
 import com.phicdy.totoanticipation.view.GameListView
 import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment
+import dagger.android.support.DaggerAppCompatActivity
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar
 
-class GameListActivity : AppCompatActivity(), GameListView {
+class GameListActivity : DaggerAppCompatActivity(), GameListView {
 
     private var mTwoPane: Boolean = false
     private lateinit var presenter: GameListPresenter
