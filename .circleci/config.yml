@@ -3,7 +3,7 @@ jobs:
   test:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-27-alpha
+      - image: circleci/android:api-28
         environment:
           TZ: Asia/Tokyo
     environment:
@@ -11,13 +11,16 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "android/app/build.gradle" }}
+          key: jars-{{ checksum "android/build.gradle" }}-{{ checksum  "android/app/build.gradle" }}
       - run:
           name: Print Android home
           command: echo $ANDROID_HOME
       - run:
           name: Accept licenses
           command: yes | sdkmanager --licenses || true
+      - run:
+          name: Decode google-services.json
+          command: echo $GOOGLE_SERVICE | base64 --decode > ./android/app/google-services.json
       - run:
           name: Download Dependencies
           command: cd android && ./gradlew androidDependencies
@@ -38,11 +41,11 @@ jobs:
       - save_cache:
           paths:
             - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "android/app/build.gradle" }}
+          key: jars-{{ checksum "android/build.gradle" }}-{{ checksum  "android/app/build.gradle" }}
   lint:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-27-alpha
+      - image: circleci/android:api-28
         environment:
           TZ: Asia/Tokyo
     environment:
@@ -50,13 +53,16 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "android/app/build.gradle" }}
+          key: jars-{{ checksum "android/build.gradle" }}-{{ checksum  "android/app/build.gradle" }}
       - run:
           name: Print Android home
           command: echo $ANDROID_HOME
       - run:
           name: Accept licenses
           command: yes | sdkmanager --licenses || true
+      - run:
+          name: Decode google-services.json
+          command: echo $GOOGLE_SERVICE | base64 --decode > ./android/app/google-services.json
       - run:
           name: Download Dependencies
           command: cd android && ./gradlew androidDependencies
@@ -72,7 +78,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "android/app/build.gradle" }}
+          key: jars-{{ checksum "android/build.gradle" }}-{{ checksum  "android/app/build.gradle" }}
 
 workflows:
   version: 2
