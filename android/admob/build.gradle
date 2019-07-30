@@ -36,6 +36,8 @@ dependencies {
     implementation project(':advertisement')
 
     implementation "com.google.android.gms:play-services-ads:$admob_version"
+    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
+   
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation "com.google.dagger:dagger:$daggerVer"
