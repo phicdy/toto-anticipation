@@ -15,12 +15,12 @@ import androidx.annotation.IntDef
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.phicdy.totoanticipation.BuildConfig
 import com.phicdy.totoanticipation.R
+import com.phicdy.totoanticipation.advertisement.AdProvider
+import com.phicdy.totoanticipation.advertisement.AdViewHolder
 import com.phicdy.totoanticipation.model.Game
 import com.phicdy.totoanticipation.model.JLeagueRequestExecutor
 import com.phicdy.totoanticipation.model.JLeagueService
@@ -34,6 +34,7 @@ import com.phicdy.totoanticipation.view.GameListView
 import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment
 import dagger.android.support.DaggerAppCompatActivity
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+import javax.inject.Inject
 
 class GameListActivity : DaggerAppCompatActivity(), GameListView {
 
@@ -42,6 +43,9 @@ class GameListActivity : DaggerAppCompatActivity(), GameListView {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: SimpleItemRecyclerViewAdapter
     private lateinit var progressBar: SmoothProgressBar
+
+    @Inject
+    lateinit var adProvider: AdProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -162,7 +166,7 @@ class GameListActivity : DaggerAppCompatActivity(), GameListView {
                             .inflate(R.layout.game_list_content, parent, false)
                     ViewHolder(view)
                 }
-                VIEW_TYPE_AD -> AdViewHolder(parent)
+                VIEW_TYPE_AD -> adProvider.newViewHolderInstance(parent)
                 else -> throw IllegalStateException()
             }
         }
@@ -235,18 +239,6 @@ class GameListActivity : DaggerAppCompatActivity(), GameListView {
 
         override fun toString(): String {
             return super.toString() + " '" + tvAway.text + "'"
-        }
-    }
-
-    private inner class AdViewHolder(
-            parent: ViewGroup,
-            view: View = LayoutInflater.from(parent.context).inflate(R.layout.game_list_ad, parent, false)
-    ) : RecyclerView.ViewHolder(view) {
-
-        val adView: AdView = view.findViewById(R.id.adView)
-
-        fun bind() {
-            adView.loadAd(AdRequest.Builder().build())
         }
     }
 }
