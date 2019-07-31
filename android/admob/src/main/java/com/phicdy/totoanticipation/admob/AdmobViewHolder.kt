@@ -6,9 +6,8 @@ import android.view.ViewGroup
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.phicdy.totoanticipation.advertisement.AdViewHolder
-import javax.inject.Inject
 
-class AdmobViewHolder @Inject constructor(
+class AdmobViewHolder(
         parent: ViewGroup,
         itemView: View = LayoutInflater.from(parent.context).inflate(R.layout.game_list_ad, parent, false)
 ) : AdViewHolder(itemView) {
