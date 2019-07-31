@@ -10,6 +10,6 @@ class AdmobProvider : AdProvider {
     override fun newViewHolderInstance(parent: ViewGroup): AdViewHolder = AdmobViewHolder(parent)
 
     override fun init(context: Context) {
-        MobileAds.initialize(context, BuildConfig.ADD_APP_ID)
+        MobileAds.initialize(context, BuildConfig.AD_APP_ID)
     }
 }
