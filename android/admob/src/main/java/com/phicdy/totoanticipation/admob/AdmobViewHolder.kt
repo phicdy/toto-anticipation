@@ -13,10 +13,9 @@ class AdmobViewHolder @Inject constructor(
         itemView: View = LayoutInflater.from(parent.context).inflate(R.layout.game_list_ad, parent, false)
 ) : AdViewHolder(itemView) {
 
-    val adView: AdView = itemView.findViewById(R.id.adView)
+    private val adView: AdView = itemView.findViewById(R.id.adView)
 
     override fun bind() {
-        val id = itemView.context.getString(R.string.ad_unit_id)
         adView.loadAd(AdRequest.Builder().build())
     }
 }
