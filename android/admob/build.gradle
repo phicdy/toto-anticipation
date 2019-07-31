@@ -18,7 +18,7 @@ android {
         ]
 
         buildConfigField "String", "ADD_APP_ID", "\"$ADMOB_ID_TOTO\""
-        resValue "string", "ad_unit_id", "\"$ADMOB_UNIT_ID_TOTO\""
+        resValue "string", "ad_unit_id", "$ADMOB_UNIT_ID_TOTO"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
