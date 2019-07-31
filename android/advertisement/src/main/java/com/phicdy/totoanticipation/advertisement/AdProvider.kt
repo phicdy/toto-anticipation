@@ -6,4 +6,5 @@ import android.view.ViewGroup
 interface AdProvider {
     fun init(context: Context)
     fun newViewHolderInstance(parent: ViewGroup): AdViewHolder
+    fun newFragmentInstance(): AdFragment
 }

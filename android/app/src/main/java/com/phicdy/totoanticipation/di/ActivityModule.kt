@@ -1,6 +1,7 @@
 package com.phicdy.totoanticipation.di
 
 import com.phicdy.totoanticipation.view.activity.GameListActivity
+import com.phicdy.totoanticipation.view.activity.TeamInfoActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -8,4 +9,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityModule {
     @ContributesAndroidInjector
     abstract fun contributeGameListActivity(): GameListActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributeTeamInfoActivity(): TeamInfoActivity
 }
