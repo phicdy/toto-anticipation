@@ -1,15 +1,22 @@
 package com.phicdy.totoanticipation.view.activity
 
 import android.os.Bundle
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.phicdy.totoanticipation.R
+import com.phicdy.totoanticipation.advertisement.AdProvider
 import com.phicdy.totoanticipation.model.TeamInfoMapper
 import com.phicdy.totoanticipation.view.fragment.GameHistoryFragment
 import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment
+import dagger.android.support.DaggerAppCompatActivity
+import javax.inject.Inject
 
-class TeamInfoActivity : AppCompatActivity() {
+class TeamInfoActivity : DaggerAppCompatActivity() {
+
+    @Inject
+    lateinit var provider: AdProvider
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         replaceFragmentWith(item.itemId)
@@ -28,10 +35,14 @@ class TeamInfoActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             replaceFragmentWith(navigation.selectedItemId)
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.adContainer, provider.newFragmentInstance())
+                    .commit()
         }
         val title = intent.getStringExtra(ARG_HOME_TEAM) + " vs " +
                 intent.getStringExtra(ARG_AWAY_TEAM)
         setTitle(title)
+
     }
 
     private fun replaceFragmentWith(menuId: Int) {
