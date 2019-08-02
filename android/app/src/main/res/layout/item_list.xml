@@ -10,5 +10,7 @@
     android:layout_marginRight="16dp"
     android:visibility="gone"
     app:layoutManager="LinearLayoutManager"
+    android:paddingBottom="84dp"
+    android:clipToPadding="false"
     tools:context="com.phicdy.totoanticipation.view.activity.GameListActivity"
     tools:listitem="@layout/game_list_content" />
