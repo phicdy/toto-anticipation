@@ -224,10 +224,10 @@ class GameListActivity : DaggerAppCompatActivity(), GameListView {
         }
 
         override fun getItemCount(): Int {
-            return presenter.gameSize()
+            return presenter.gameSize() + 1 // 1 for Ad
         }
 
-        override fun getItemViewType(position: Int) = if (position == presenter.gameSize() - 1) VIEW_TYPE_AD else VIEW_TYPE_CONTENT
+        override fun getItemViewType(position: Int) = if (position == presenter.gameSize()) VIEW_TYPE_AD else VIEW_TYPE_CONTENT
     }
 
     internal inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
