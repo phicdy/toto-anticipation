@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#FFD600</color>
     <color name="colorAccent">#D50000</color>
     <color name="black">#000000</color>
+    <color name="background_card">#fafafa</color>
 
     <integer-array name="progress_bar_colors">
         <item>@color/progress_color_1</item>
