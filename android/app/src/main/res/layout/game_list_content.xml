@@ -8,6 +8,7 @@
     android:foreground="?android:attr/selectableItemBackground"
     card_view:cardCornerRadius="4dp"
     card_view:paddingBottom="8dp">
+    app:cardBackgroundColor="@color/background_card"
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
