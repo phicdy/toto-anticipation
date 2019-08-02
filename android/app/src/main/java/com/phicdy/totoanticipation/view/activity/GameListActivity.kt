@@ -4,13 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.support.annotation.IntDef
-import android.support.annotation.StringRes
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -18,8 +11,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.TextView
+import androidx.annotation.IntDef
+import androidx.annotation.StringRes
+import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.phicdy.totoanticipation.BuildConfig
 import com.phicdy.totoanticipation.R
+import com.phicdy.totoanticipation.advertisement.AdProvider
+import com.phicdy.totoanticipation.advertisement.AdViewHolder
 import com.phicdy.totoanticipation.model.Game
 import com.phicdy.totoanticipation.model.JLeagueRequestExecutor
 import com.phicdy.totoanticipation.model.JLeagueService
@@ -31,15 +32,20 @@ import com.phicdy.totoanticipation.model.storage.SettingStorageImpl
 import com.phicdy.totoanticipation.presenter.GameListPresenter
 import com.phicdy.totoanticipation.view.GameListView
 import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment
+import dagger.android.support.DaggerAppCompatActivity
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+import javax.inject.Inject
 
-class GameListActivity : AppCompatActivity(), GameListView {
+class GameListActivity : DaggerAppCompatActivity(), GameListView {
 
     private var mTwoPane: Boolean = false
     private lateinit var presenter: GameListPresenter
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: SimpleItemRecyclerViewAdapter
     private lateinit var progressBar: SmoothProgressBar
+
+    @Inject
+    lateinit var adProvider: AdProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -148,75 +154,91 @@ class GameListActivity : AppCompatActivity(), GameListView {
     @IntDef(Snackbar.LENGTH_SHORT, Snackbar.LENGTH_LONG)
     internal annotation class SnackbarLength
 
-    internal inner class SimpleItemRecyclerViewAdapter : RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
+    internal inner class SimpleItemRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.game_list_content, parent, false)
-            return ViewHolder(view)
+        private val VIEW_TYPE_CONTENT = 1
+        private val VIEW_TYPE_AD = 2
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+            return when (viewType) {
+                VIEW_TYPE_CONTENT -> {
+                    val view = LayoutInflater.from(parent.context)
+                            .inflate(R.layout.game_list_content, parent, false)
+                    ViewHolder(view)
+                }
+                VIEW_TYPE_AD -> adProvider.newViewHolderInstance(parent)
+                else -> throw IllegalStateException()
+            }
         }
 
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val game = presenter.gameAt(position)
-            holder.tvHome.text = when (game.homeRanking) {
-                Game.defaultRank -> getString(R.string.team_label, "- ", game.homeTeam)
-                else -> getString(R.string.team_label, game.homeRanking.toString(), game.homeTeam)
-            }
-            holder.tvAway.text = when (game.awayRanking) {
-                Game.defaultRank -> getString(R.string.team_label, "- ", game.awayTeam)
-                else -> getString(R.string.team_label, game.awayRanking.toString(), game.awayTeam)
-            }
-
-            holder.mView.setOnClickListener(View.OnClickListener { v ->
-                if (game.homeRanking == Game.defaultRank || game.awayRanking == Game.defaultRank) {
-                    showSnackbar(R.string.not_support_foreign_league, Snackbar.LENGTH_SHORT)
-                    return@OnClickListener
-                }
-                if (mTwoPane) {
-                    val arguments = Bundle().apply {
-                        putString(TeamInfoActivity.ARG_HOME_TEAM, game.homeTeam)
-                        putString(TeamInfoActivity.ARG_AWAY_TEAM, game.awayTeam)
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+            when (holder) {
+                is ViewHolder -> {
+                    val game = presenter.gameAt(position)
+                    holder.tvHome.text = when (game.homeRanking) {
+                        Game.defaultRank -> getString(R.string.team_label, "- ", game.homeTeam)
+                        else -> getString(R.string.team_label, game.homeRanking.toString(), game.homeTeam)
                     }
-                    val fragment = TeamInfoFragment()
-                    fragment.arguments = arguments
-                    supportFragmentManager.beginTransaction()
-                            .replace(R.id.item_detail_container, fragment)
-                            .commit()
-                } else {
-                    val context = v.context
-                    val intent = Intent(context, TeamInfoActivity::class.java).apply {
-                        putExtra(TeamInfoActivity.ARG_HOME_TEAM, game.homeTeam)
-                        putExtra(TeamInfoActivity.ARG_AWAY_TEAM, game.awayTeam)
+                    holder.tvAway.text = when (game.awayRanking) {
+                        Game.defaultRank -> getString(R.string.team_label, "- ", game.awayTeam)
+                        else -> getString(R.string.team_label, game.awayRanking.toString(), game.awayTeam)
                     }
 
-                    context.startActivity(intent)
-                }
-            })
+                    holder.mView.setOnClickListener(View.OnClickListener { v ->
+                        if (game.homeRanking == Game.defaultRank || game.awayRanking == Game.defaultRank) {
+                            showSnackbar(R.string.not_support_foreign_league, Snackbar.LENGTH_SHORT)
+                            return@OnClickListener
+                        }
+                        if (mTwoPane) {
+                            val arguments = Bundle().apply {
+                                putString(TeamInfoActivity.ARG_HOME_TEAM, game.homeTeam)
+                                putString(TeamInfoActivity.ARG_AWAY_TEAM, game.awayTeam)
+                            }
+                            val fragment = TeamInfoFragment()
+                            fragment.arguments = arguments
+                            supportFragmentManager.beginTransaction()
+                                    .replace(R.id.item_detail_container, fragment)
+                                    .commit()
+                        } else {
+                            val context = v.context
+                            val intent = Intent(context, TeamInfoActivity::class.java).apply {
+                                putExtra(TeamInfoActivity.ARG_HOME_TEAM, game.homeTeam)
+                                putExtra(TeamInfoActivity.ARG_AWAY_TEAM, game.awayTeam)
+                            }
 
-            when (game.anticipation) {
-                Game.Anticipation.HOME -> holder.rbHome.isChecked = true
-                Game.Anticipation.AWAY -> holder.rbAway.isChecked = true
-                Game.Anticipation.DRAW -> holder.rbDraw.isChecked = true
+                            context.startActivity(intent)
+                        }
+                    })
+
+                    when (game.anticipation) {
+                        Game.Anticipation.HOME -> holder.rbHome.isChecked = true
+                        Game.Anticipation.AWAY -> holder.rbAway.isChecked = true
+                        Game.Anticipation.DRAW -> holder.rbDraw.isChecked = true
+                    }
+                    holder.rbHome.setOnCheckedChangeListener { _, isChecked -> presenter.onHomeRadioButtonClicked(holder.adapterPosition, isChecked) }
+                    holder.rbAway.setOnCheckedChangeListener { _, isChecked -> presenter.onAwayRadioButtonClicked(holder.adapterPosition, isChecked) }
+                    holder.rbDraw.setOnCheckedChangeListener { _, isChecked -> presenter.onDrawRadioButtonClicked(holder.adapterPosition, isChecked) }
+                }
+                is AdViewHolder -> holder.bind()
             }
-            holder.rbHome.setOnCheckedChangeListener { _, isChecked -> presenter.onHomeRadioButtonClicked(holder.adapterPosition, isChecked) }
-            holder.rbAway.setOnCheckedChangeListener { _, isChecked -> presenter.onAwayRadioButtonClicked(holder.adapterPosition, isChecked) }
-            holder.rbDraw.setOnCheckedChangeListener { _, isChecked -> presenter.onDrawRadioButtonClicked(holder.adapterPosition, isChecked) }
         }
 
         override fun getItemCount(): Int {
-            return presenter.gameSize()
+            return presenter.gameSize() + 1 // 1 for Ad
         }
 
-        internal inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-            val tvHome: TextView = mView.findViewById(R.id.tv_home)
-            val tvAway: TextView = mView.findViewById(R.id.tv_away)
-            val rbHome: RadioButton = mView.findViewById(R.id.rb_home)
-            val rbAway: RadioButton = mView.findViewById(R.id.rb_away)
-            val rbDraw: RadioButton = mView.findViewById(R.id.rb_draw)
+        override fun getItemViewType(position: Int) = if (position == presenter.gameSize()) VIEW_TYPE_AD else VIEW_TYPE_CONTENT
+    }
 
-            override fun toString(): String {
-                return super.toString() + " '" + tvAway.text + "'"
-            }
+    internal inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+        val tvHome: TextView = mView.findViewById(R.id.tv_home)
+        val tvAway: TextView = mView.findViewById(R.id.tv_away)
+        val rbHome: RadioButton = mView.findViewById(R.id.rb_home)
+        val rbAway: RadioButton = mView.findViewById(R.id.rb_away)
+        val rbDraw: RadioButton = mView.findViewById(R.id.rb_draw)
+
+        override fun toString(): String {
+            return super.toString() + " '" + tvAway.text + "'"
         }
     }
 }
