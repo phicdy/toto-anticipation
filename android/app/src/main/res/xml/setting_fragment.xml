@@ -6,10 +6,13 @@
             android:title="@string/setting_title_deadline_notification"
             android:key="@string/key_deadline_notification"/>
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/setting_license" >
+    <PreferenceCategory android:title="@string/setting_other" >
         <Preference
             android:title="@string/setting_title_license_info"
             android:key="@string/key_license" />
+        <Preference
+            android:title="@string/setting_title_privacy_policy"
+            android:key="@string/key_privacy_policy" />
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -13,6 +13,7 @@ import com.phicdy.totoanticipation.model.TeamInfoMapper
 import com.phicdy.totoanticipation.model.Toto
 import com.phicdy.totoanticipation.model.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.model.storage.GameListStorage
+import com.phicdy.totoanticipation.model.storage.SettingStorage
 import com.phicdy.totoanticipation.view.GameListView
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -26,8 +27,10 @@ import java.util.concurrent.Executor
 class GameListPresenter(private val view: GameListView,
                         private val rakutenTotoRequestExecutor: RakutenTotoRequestExecutor,
                         private val jLeagueRequestExecutor: JLeagueRequestExecutor,
-                        private val storage: GameListStorage, private val isDeadlineNotify: Boolean,
-                        private val alarm: DeadlineAlarm) : Presenter, RakutenTotoRequestExecutor.RakutenTotoRequestCallback, JLeagueRequestExecutor.JLeagueRequestCallback {
+                        private val storage: GameListStorage,
+                        private val alarm: DeadlineAlarm,
+                        private val settingStorage: SettingStorage
+) : Presenter, RakutenTotoRequestExecutor.RakutenTotoRequestCallback, JLeagueRequestExecutor.JLeagueRequestCallback {
     private var toto: Toto = Toto(Toto.DEFAULT_NUMBER, Date())
     private var games: List<Game> = listOf()
     private var j1ranking: Map<String, Int> = HashMap()
@@ -37,6 +40,7 @@ class GameListPresenter(private val view: GameListView,
     override fun onCreate() {
         view.startProgress()
         rakutenTotoRequestExecutor.fetchRakutenTotoTopPage(this)
+        if (!settingStorage.isPrivacyPolicyAccepted) view.showPrivacyPolicyDialog()
     }
 
     override fun onResponseTotoTop(response: Response<ResponseBody>) {
@@ -47,7 +51,7 @@ class GameListPresenter(private val view: GameListView,
                     view.stopProgress()
                     return
                 }
-                if (isDeadlineNotify) alarm.setAtNoonOf(toto.deadline)
+                if (settingStorage.isDeadlineNotify) alarm.setAtNoonOf(toto.deadline)
                 games = storage.list(toto.number)
                 if (games.isEmpty()) {
                     jLeagueRequestExecutor.fetchJ1Ranking(this)
@@ -232,6 +236,10 @@ class GameListPresenter(private val view: GameListView,
         view.showAnticipationFinish()
         view.notifyDataSetChanged()
         storage.store(toto, games)
+    }
+
+    fun onPrivacyPolicyAccepted() {
+        settingStorage.isPrivacyPolicyAccepted = true
     }
 
     class MainThreadExecutor : Executor {
