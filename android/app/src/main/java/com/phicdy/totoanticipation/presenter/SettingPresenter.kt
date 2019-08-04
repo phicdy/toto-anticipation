@@ -39,4 +39,8 @@ class SettingPresenter(private val alarm: DeadlineAlarm, private val deadline: D
             alarm.cancel()
         }
     }
+
+    fun onPrivacyPolicyClicked() {
+        view.openPrivacyPolicy()
+    }
 }
