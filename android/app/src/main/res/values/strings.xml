@@ -15,6 +15,10 @@
     <string name="finish_auto_anticipation">予想終了</string>
     <string name="anticipation_not_support">予想に対応していません</string>
     <string name="not_support_foreign_league">海外サッカーに対応していません</string>
+    <string name="privacy_policy">プライバシーポリシー</string>
+    <string name="privacy_policy_message">&lt;a href="https://toto-anticipation.netlify.com/privacy-policy.html">プライバシーポリシー&lt;/a>を読み、同意してください。同意後、プライバシーポリシーは設定から確認することができます。</string>
+    <string name="accept">同意する</string>
+    <string name="not_accept">同意しない</string>
 
     <!-- 設定 -->
     <string name="setting">設定</string>
