@@ -71,7 +71,7 @@ jobs:
           command: cd android && ./gradlew lintGooglePlayDebug
       - run:
           name: Run lint for non Google Play
-          command: cd android && ./gradlew lintNonGooglePlayDebug
+          command: cd android && ./gradlew clean && ./gradlew lintNonGooglePlayDebug
       - store_artifacts:
           path: android/app/build/reports
           destination: reports
