@@ -4,6 +4,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.text.Html
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -13,6 +15,7 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.annotation.IntDef
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -28,6 +31,7 @@ import com.phicdy.totoanticipation.model.RakutenTotoRequestExecutor
 import com.phicdy.totoanticipation.model.RakutenTotoService
 import com.phicdy.totoanticipation.model.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.model.storage.GameListStorageImpl
+import com.phicdy.totoanticipation.model.storage.SettingStorage
 import com.phicdy.totoanticipation.model.storage.SettingStorageImpl
 import com.phicdy.totoanticipation.presenter.GameListPresenter
 import com.phicdy.totoanticipation.view.GameListView
@@ -37,7 +41,6 @@ import fr.castorflex.android.smoothprogressbar.SmoothProgressBar
 import javax.inject.Inject
 
 class GameListActivity : DaggerAppCompatActivity(), GameListView {
-
     private var mTwoPane: Boolean = false
     private lateinit var presenter: GameListPresenter
     private lateinit var recyclerView: RecyclerView
@@ -74,9 +77,9 @@ class GameListActivity : DaggerAppCompatActivity(), GameListView {
         val jLeagueService = JLeagueService.Factory.create()
         val jLeagueRequestExecutor = JLeagueRequestExecutor(jLeagueService)
         val storage = GameListStorageImpl(this)
-        val settingStorage = SettingStorageImpl(this)
+        val settingStorage = SettingStorageImpl(this) as SettingStorage
         presenter = GameListPresenter(this, rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage,
-                settingStorage.isDeadlineNotify, DeadlineAlarm(this))
+                DeadlineAlarm(this), settingStorage)
         presenter.onCreate()
     }
 
@@ -149,6 +152,21 @@ class GameListActivity : DaggerAppCompatActivity(), GameListView {
     private fun showSnackbar(@StringRes res: Int, @SnackbarLength length: Int) {
         val view = findViewById<View>(android.R.id.content) ?: return
         Snackbar.make(view, res, length).show()
+    }
+
+    override fun showPrivacyPolicyDialog() {
+        val alert = AlertDialog.Builder(this)
+                .setMessage(Html.fromHtml(getString(R.string.privacy_policy_message)))
+                .setCancelable(false)
+                .setPositiveButton(R.string.accept) { _, _ ->
+                    presenter.onPrivacyPolicyAccepted()
+                }
+                .setNegativeButton(R.string.not_accept) { _, _ ->
+                    finish()
+                }
+                .create()
+        alert.show()
+        alert.findViewById<TextView>(android.R.id.message)?.movementMethod = LinkMovementMethod.getInstance()
     }
 
     @IntDef(Snackbar.LENGTH_SHORT, Snackbar.LENGTH_LONG)

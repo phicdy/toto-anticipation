@@ -48,7 +48,7 @@ class GameListPresenterTest {
         alarm = Mockito.mock(DeadlineAlarm::class.java)
         view = MockView()
         presenter = GameListPresenter(view, rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage,
-                settingStorage.isDeadlineNotify, alarm)
+                alarm, settingStorage)
     }
 
     @Test
@@ -98,8 +98,7 @@ class GameListPresenterTest {
         testList.add(Game("home", "away"))
         storage.store(Toto("0923", Date()), testList)
         val view = MockView()
-        presenter = GameListPresenter(view, rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage,
-                settingStorage.isDeadlineNotify, alarm)
+        presenter = GameListPresenter(view, rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage, alarm, settingStorage)
         val response = Response.success(
                 ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoPage.text))
         presenter.onResponseTotoTop(response)
@@ -112,8 +111,7 @@ class GameListPresenterTest {
         testList.add(Game("home", "away"))
         storage.store(Toto("0923", Date()), testList)
         val view = MockView()
-        presenter = GameListPresenter(view, rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage,
-                settingStorage.isDeadlineNotify, alarm)
+        presenter = GameListPresenter(view, rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage, alarm, settingStorage)
         val response = Response.success(
                 ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoPage.text))
         presenter.onResponseTotoTop(response)
@@ -255,7 +253,6 @@ class GameListPresenterTest {
     }
 
     private inner class MockView : GameListView {
-
         var title = "toto予想"
         var isProgressing = false
         var showStartSnakeBar = false
@@ -293,6 +290,8 @@ class GameListPresenterTest {
         override fun notifyDataSetChanged() {}
 
         override fun showAnticipationNotSupport() {}
+
+        override fun showPrivacyPolicyDialog() {}
     }
 
     private inner class MockStorage : GameListStorage {
@@ -321,5 +320,6 @@ class GameListPresenterTest {
     private inner class MockSettingStorage : SettingStorage {
 
         override var isDeadlineNotify = false
+        override var isPrivacyPolicyAccepted = false
     }
 }

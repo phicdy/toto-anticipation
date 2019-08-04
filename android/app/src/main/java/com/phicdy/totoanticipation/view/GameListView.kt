@@ -11,4 +11,5 @@ interface GameListView {
     fun showAnticipationFinish()
     fun notifyDataSetChanged()
     fun showAnticipationNotSupport()
+    fun showPrivacyPolicyDialog()
 }

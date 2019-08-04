@@ -113,10 +113,13 @@ class SettingPresenterTest {
         override fun goToLicenseActivity() {
             isLicenseActivityOpened = true
         }
+
+        override fun openPrivacyPolicy() {}
     }
 
     private inner class MockSettingStorage : SettingStorage {
 
         override var isDeadlineNotify = false
+        override var isPrivacyPolicyAccepted = false
     }
 }
