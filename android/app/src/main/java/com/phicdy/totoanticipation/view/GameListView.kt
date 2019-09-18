@@ -5,6 +5,7 @@ interface GameListView {
     fun setTitleFrom(xxTh: String, deadline: String)
     fun startProgress()
     fun stopProgress()
+    fun showEmptyView()
     fun startTotoAnticipationActivity(totoNum: String)
     fun goToSetting()
     fun showAnticipationStart()

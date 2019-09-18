@@ -17,6 +17,7 @@ import androidx.annotation.IntDef
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -167,6 +168,11 @@ class GameListActivity : DaggerAppCompatActivity(), GameListView {
                 .create()
         alert.show()
         alert.findViewById<TextView>(android.R.id.message)?.movementMethod = LinkMovementMethod.getInstance()
+    }
+
+    override fun showEmptyView() {
+        val empty = findViewById<ConstraintLayout>(R.id.empty)
+        empty.visibility = View.VISIBLE
     }
 
     @IntDef(Snackbar.LENGTH_SHORT, Snackbar.LENGTH_LONG)

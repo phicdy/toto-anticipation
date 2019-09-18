@@ -24,6 +24,11 @@
             android:visibility="gone" />
 
         <include layout="@layout/item_list" />
+
+        <include
+            android:id="@+id/empty"
+            layout="@layout/item_empty"
+            android:visibility="gone" />
     </FrameLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
