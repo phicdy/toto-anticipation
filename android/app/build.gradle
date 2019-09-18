@@ -113,7 +113,7 @@ dependencies {
 
     implementation "androidx.appcompat:appcompat:$appcompat_veriosn"
     implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
