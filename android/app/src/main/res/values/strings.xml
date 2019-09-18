@@ -19,6 +19,7 @@
     <string name="privacy_policy_message">&lt;a href="https://toto-anticipation.netlify.com/privacy-policy.html">プライバシーポリシー&lt;/a>を読み、同意してください。同意後、プライバシーポリシーは設定から確認することができます。</string>
     <string name="accept">同意する</string>
     <string name="not_accept">同意しない</string>
+    <string name="toto_not_for_sale">現在販売中のtotoがありません</string>
 
     <!-- 設定 -->
     <string name="setting">設定</string>
