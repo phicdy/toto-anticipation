@@ -16,7 +16,7 @@ class RakutenTotoRequestExecutor(private val service: RakutenTotoService) {
 
     fun fetchRakutenTotoTopPage(callback: RakutenTotoRequestCallback) {
         val topPageCallback = object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: retrofit2.Response<ResponseBody>) {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 callback.onResponseTotoTop(response)
             }
 
@@ -31,7 +31,7 @@ class RakutenTotoRequestExecutor(private val service: RakutenTotoService) {
     fun fetchRakutenTotoInfoPage(num: String,
                                  callback: RakutenTotoRequestCallback) {
         val rakutenTotoInfoPageCallback = object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: retrofit2.Response<ResponseBody>) {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 callback.onResponseTotoInfo(response)
             }
 
