@@ -1,2 +1,39 @@
 <resources>
+    <string name="app_name">toto予想</string>
+    <string name="title_history">対戦成績</string>
+    <string name="title_home">ホーム</string>
+    <string name="title_away">アウェイ</string>
+    <string name="vs">vs</string>
+    <string name="top_title">第%1$s回(~%2$s)</string>
+    <string name="team_label">%1$s位 %2$s</string>
+    <string name="home_win">ホーム勝利</string>
+    <string name="away_win">アウェイ勝利</string>
+    <string name="draw">ドロー</string>
+    <string name="team_info">team_info</string>
+    <string name="auto_anticipation">自動予想</string>
+    <string name="start_auto_anticipation">予想を開始</string>
+    <string name="finish_auto_anticipation">予想終了</string>
+    <string name="anticipation_not_support">予想に対応していません</string>
+    <string name="not_support_foreign_league">海外サッカーに対応していません</string>
+    <string name="privacy_policy">プライバシーポリシー</string>
+    <string name="privacy_policy_message">&lt;a href="https://toto-anticipation.netlify.com/privacy-policy.html">プライバシーポリシー&lt;/a>を読み、同意してください。同意後、プライバシーポリシーは設定から確認することができます。</string>
+    <string name="accept">同意する</string>
+    <string name="not_accept">同意しない</string>
+    <string name="toto_not_for_sale">現在販売中のtotoがありません</string>
+
+    <!-- 設定 -->
+    <string name="setting">設定</string>
+    <string name="setting_notification">通知</string>
+    <string name="setting_title_deadline_notification">締め切り前に通知する</string>
+    <string name="setting_other">その他</string>
+    <string name="setting_title_license_info">ライセンス情報</string>
+    <string name="setting_title_privacy_policy">プライバシーポリシー</string>
+    <string name="error_no_browser">ブラウザがありません</string>
+    <string name="key_deadline_notification">key_deadline_notification</string>
+    <string name="key_license">key_license</string>
+    <string name="key_privacy_policy">key_privacy_policy</string>
+
+    <!-- 通知 -->
+    <string name="notification_deadline_message">間もなく締め切りです</string>
+    <string name="notification_channel_deadline">締め切り通知</string>
 </resources>
