@@ -11,10 +11,10 @@ import com.phicdy.totoanticipation.legacy.model.RakutenTotoRequestExecutor
 import com.phicdy.totoanticipation.legacy.model.RakutenTotoTopParser
 import com.phicdy.totoanticipation.legacy.model.TeamInfoMapper
 import com.phicdy.totoanticipation.legacy.model.Toto
+import com.phicdy.totoanticipation.legacy.model.storage.GameListStorage
+import com.phicdy.totoanticipation.legacy.model.storage.SettingStorage
 import com.phicdy.totoanticipation.legacy.view.GameListView
 import com.phicdy.totoanticipation.model.scheduler.DeadlineAlarm
-import com.phicdy.totoanticipation.model.storage.GameListStorage
-import com.phicdy.totoanticipation.model.storage.SettingStorage
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response

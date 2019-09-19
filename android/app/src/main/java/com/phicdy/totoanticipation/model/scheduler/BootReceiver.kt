@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.phicdy.totoanticipation.model.storage.GameListStorageImpl
+import com.phicdy.totoanticipation.legacy.model.storage.GameListStorageImpl
 
 class BootReceiver : BroadcastReceiver() {
 

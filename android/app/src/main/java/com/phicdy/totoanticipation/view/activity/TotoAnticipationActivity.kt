@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.phicdy.totoanticipation.BuildConfig
 import com.phicdy.totoanticipation.R
+import com.phicdy.totoanticipation.legacy.model.storage.GameListStorageImpl
 import com.phicdy.totoanticipation.legacy.view.TotoAnticipationView
-import com.phicdy.totoanticipation.model.storage.GameListStorageImpl
 import com.phicdy.totoanticipation.presenter.TotoAnticipationPresenter
 
 class TotoAnticipationActivity : AppCompatActivity(), TotoAnticipationView {

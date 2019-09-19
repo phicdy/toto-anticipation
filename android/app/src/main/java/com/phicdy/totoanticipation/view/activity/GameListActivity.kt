@@ -30,11 +30,11 @@ import com.phicdy.totoanticipation.legacy.model.JLeagueRequestExecutor
 import com.phicdy.totoanticipation.legacy.model.JLeagueService
 import com.phicdy.totoanticipation.legacy.model.RakutenTotoRequestExecutor
 import com.phicdy.totoanticipation.legacy.model.RakutenTotoService
+import com.phicdy.totoanticipation.legacy.model.storage.GameListStorageImpl
+import com.phicdy.totoanticipation.legacy.model.storage.SettingStorage
+import com.phicdy.totoanticipation.legacy.model.storage.SettingStorageImpl
 import com.phicdy.totoanticipation.legacy.view.GameListView
 import com.phicdy.totoanticipation.model.scheduler.DeadlineAlarm
-import com.phicdy.totoanticipation.model.storage.GameListStorageImpl
-import com.phicdy.totoanticipation.model.storage.SettingStorage
-import com.phicdy.totoanticipation.model.storage.SettingStorageImpl
 import com.phicdy.totoanticipation.presenter.GameListPresenter
 import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment
 import dagger.android.support.DaggerAppCompatActivity

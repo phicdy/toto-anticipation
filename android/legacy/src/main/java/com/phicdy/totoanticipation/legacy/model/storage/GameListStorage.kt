@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.model.storage
+package com.phicdy.totoanticipation.legacy.model.storage
 
 import com.phicdy.totoanticipation.legacy.model.Game
 import com.phicdy.totoanticipation.legacy.model.Toto

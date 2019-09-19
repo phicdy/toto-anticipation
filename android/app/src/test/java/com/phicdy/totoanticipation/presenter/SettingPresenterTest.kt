@@ -1,8 +1,8 @@
 package com.phicdy.totoanticipation.presenter
 
+import com.phicdy.totoanticipation.legacy.model.storage.SettingStorage
 import com.phicdy.totoanticipation.legacy.view.SettingView
 import com.phicdy.totoanticipation.model.scheduler.DeadlineAlarm
-import com.phicdy.totoanticipation.model.storage.SettingStorage
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
