@@ -9,7 +9,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context="com.phicdy.totoanticipation.view.activity.GameListActivity">
+    tools:context="com.phicdy.totoanticipation.legacy.view.activity.GameListActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/game_list"
@@ -18,10 +18,10 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:paddingBottom="84dp"
         android:clipToPadding="false"
+        android:paddingBottom="84dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context="com.phicdy.totoanticipation.view.activity.GameListActivity"
+        tools:context="com.phicdy.totoanticipation.legacy.view.activity.GameListActivity"
         tools:listitem="@layout/game_list_content" />
 
     <FrameLayout

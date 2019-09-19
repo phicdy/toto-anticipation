@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.phicdy.totoanticipation.view.activity.LicenseActivity">
+    tools:context="com.phicdy.totoanticipation.legacy.view.activity.LicenseActivity">
 
     <include
         android:id="@+id/license_toolbar"

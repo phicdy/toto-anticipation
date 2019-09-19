@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.phicdy.totoanticipation.view.activity.TeamInfoActivity">
+    tools:context="com.phicdy.totoanticipation.legacy.view.activity.TeamInfoActivity">
 
     <include layout="@layout/toolbar" />
 
@@ -35,5 +35,5 @@
     <FrameLayout
         android:id="@+id/adContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 </LinearLayout>
