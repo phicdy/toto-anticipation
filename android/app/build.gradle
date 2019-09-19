@@ -114,6 +114,7 @@ dependencies {
 
     implementation project(':advertisement')
     implementation project(':admob')
+    implementation project(':legacy')
 
     implementation "androidx.appcompat:appcompat:$appcompat_veriosn"
     implementation 'com.google.android.material:material:1.0.0'
