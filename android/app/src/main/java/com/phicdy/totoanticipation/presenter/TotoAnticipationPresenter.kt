@@ -1,8 +1,8 @@
 package com.phicdy.totoanticipation.presenter
 
 import android.util.Log
+import com.phicdy.totoanticipation.legacy.view.TotoAnticipationView
 import com.phicdy.totoanticipation.model.Game
-import com.phicdy.totoanticipation.view.TotoAnticipationView
 
 class TotoAnticipationPresenter(private val totoNum: String) : Presenter {
     lateinit var view: TotoAnticipationView

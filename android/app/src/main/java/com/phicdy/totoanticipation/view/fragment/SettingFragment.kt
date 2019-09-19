@@ -11,11 +11,11 @@ import android.preference.SwitchPreference
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import com.phicdy.totoanticipation.R
+import com.phicdy.totoanticipation.legacy.view.SettingView
 import com.phicdy.totoanticipation.model.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.model.storage.GameListStorageImpl
 import com.phicdy.totoanticipation.model.storage.SettingStorageImpl
 import com.phicdy.totoanticipation.presenter.SettingPresenter
-import com.phicdy.totoanticipation.view.SettingView
 import com.phicdy.totoanticipation.view.activity.LicenseActivity
 
 

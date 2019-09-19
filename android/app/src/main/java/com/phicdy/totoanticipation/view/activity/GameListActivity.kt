@@ -25,6 +25,7 @@ import com.phicdy.totoanticipation.BuildConfig
 import com.phicdy.totoanticipation.R
 import com.phicdy.totoanticipation.advertisement.AdProvider
 import com.phicdy.totoanticipation.advertisement.AdViewHolder
+import com.phicdy.totoanticipation.legacy.view.GameListView
 import com.phicdy.totoanticipation.model.Game
 import com.phicdy.totoanticipation.model.JLeagueRequestExecutor
 import com.phicdy.totoanticipation.model.JLeagueService
@@ -35,7 +36,6 @@ import com.phicdy.totoanticipation.model.storage.GameListStorageImpl
 import com.phicdy.totoanticipation.model.storage.SettingStorage
 import com.phicdy.totoanticipation.model.storage.SettingStorageImpl
 import com.phicdy.totoanticipation.presenter.GameListPresenter
-import com.phicdy.totoanticipation.view.GameListView
 import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment
 import dagger.android.support.DaggerAppCompatActivity
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar

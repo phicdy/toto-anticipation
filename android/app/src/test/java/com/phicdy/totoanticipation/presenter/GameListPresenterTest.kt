@@ -1,5 +1,6 @@
 package com.phicdy.totoanticipation.presenter
 
+import com.phicdy.totoanticipation.legacy.view.GameListView
 import com.phicdy.totoanticipation.model.Game
 import com.phicdy.totoanticipation.model.Game.Anticipation
 import com.phicdy.totoanticipation.model.JLeagueRequestExecutor
@@ -12,7 +13,6 @@ import com.phicdy.totoanticipation.model.Toto
 import com.phicdy.totoanticipation.model.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.model.storage.GameListStorage
 import com.phicdy.totoanticipation.model.storage.SettingStorage
-import com.phicdy.totoanticipation.view.GameListView
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import org.hamcrest.CoreMatchers.`is`

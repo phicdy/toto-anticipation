@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.view
+package com.phicdy.totoanticipation.legacy.view
 
 interface GameListView {
     fun initList()

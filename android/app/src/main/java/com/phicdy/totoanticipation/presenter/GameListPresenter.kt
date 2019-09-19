@@ -2,6 +2,7 @@ package com.phicdy.totoanticipation.presenter
 
 import android.os.Handler
 import android.os.Looper
+import com.phicdy.totoanticipation.legacy.view.GameListView
 import com.phicdy.totoanticipation.model.AutoAnticipation
 import com.phicdy.totoanticipation.model.Game
 import com.phicdy.totoanticipation.model.JLeagueRankingParser
@@ -14,7 +15,6 @@ import com.phicdy.totoanticipation.model.Toto
 import com.phicdy.totoanticipation.model.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.model.storage.GameListStorage
 import com.phicdy.totoanticipation.model.storage.SettingStorage
-import com.phicdy.totoanticipation.view.GameListView
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
