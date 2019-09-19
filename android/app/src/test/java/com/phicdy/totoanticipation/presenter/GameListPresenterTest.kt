@@ -292,6 +292,18 @@ class GameListPresenterTest {
         override fun showAnticipationNotSupport() {}
 
         override fun showPrivacyPolicyDialog() {}
+
+        override fun hideList() {
+        }
+
+        override fun hideFab() {
+        }
+
+        override fun hideAnticipationMenu() {
+        }
+
+        override fun showEmptyView() {
+        }
     }
 
     private inner class MockStorage : GameListStorage {

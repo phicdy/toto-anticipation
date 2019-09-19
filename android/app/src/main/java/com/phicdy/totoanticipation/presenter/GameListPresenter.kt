@@ -45,10 +45,15 @@ class GameListPresenter(private val view: GameListView,
 
     override fun onResponseTotoTop(response: Response<ResponseBody>) {
         try {
-            response.body()?.let {
-                toto = RakutenTotoTopParser().latestToto(it.string())
+            val body = response.body()?.string()
+            body?.let {
+                toto = RakutenTotoTopParser().latestToto(body)
                 if (toto.number == Toto.DEFAULT_NUMBER) {
                     view.stopProgress()
+                    view.hideList()
+                    view.hideFab()
+                    view.hideAnticipationMenu()
+                    view.showEmptyView()
                     return
                 }
                 if (settingStorage.isDeadlineNotify) alarm.setAtNoonOf(toto.deadline)

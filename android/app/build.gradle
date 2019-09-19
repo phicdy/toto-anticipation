@@ -11,8 +11,8 @@ android {
         applicationId "com.phicdy.totoanticipation"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 9
-        versionName "0.6"
+        versionCode 10
+        versionName "0.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -32,6 +32,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dataBinding {
+        enabled = true
     }
 
     flavorDimensions "store"
@@ -108,10 +117,10 @@ dependencies {
 
     implementation "androidx.appcompat:appcompat:$appcompat_veriosn"
     implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
     implementation 'org.jsoup:jsoup:1.10.2'
     implementation 'com.github.castorflex.smoothprogressbar:library:1.1.0'
     implementation 'com.google.code.gson:gson:2.8.5'
@@ -124,7 +133,7 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$daggerVer"
     kapt "com.google.dagger:dagger-android-processor:$daggerVer"
 
-    implementation 'com.google.firebase:firebase-core:17.0.1'
+    implementation 'com.google.firebase:firebase-core:17.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

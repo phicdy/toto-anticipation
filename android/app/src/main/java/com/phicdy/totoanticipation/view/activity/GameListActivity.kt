@@ -17,6 +17,7 @@ import androidx.annotation.IntDef
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -46,9 +47,12 @@ class GameListActivity : DaggerAppCompatActivity(), GameListView {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: SimpleItemRecyclerViewAdapter
     private lateinit var progressBar: SmoothProgressBar
+    private val fab by lazy { findViewById<FloatingActionButton>(R.id.fab) }
 
     @Inject
     lateinit var adProvider: AdProvider
+
+    private var isAnticipationMenuVisible = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +62,6 @@ class GameListActivity : DaggerAppCompatActivity(), GameListView {
         setSupportActionBar(toolbar)
         toolbar.title = title
 
-        val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener { presenter.onFabClicked() }
 
         recyclerView = findViewById(R.id.game_list)
@@ -81,6 +84,11 @@ class GameListActivity : DaggerAppCompatActivity(), GameListView {
         presenter = GameListPresenter(this, rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage,
                 DeadlineAlarm(this), settingStorage)
         presenter.onCreate()
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.menu_auto_anticipation)?.isVisible = isAnticipationMenuVisible
+        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -167,6 +175,24 @@ class GameListActivity : DaggerAppCompatActivity(), GameListView {
                 .create()
         alert.show()
         alert.findViewById<TextView>(android.R.id.message)?.movementMethod = LinkMovementMethod.getInstance()
+    }
+
+    override fun hideList() {
+        recyclerView.visibility = View.GONE
+    }
+
+    override fun hideFab() {
+        fab.hide()
+    }
+
+    override fun hideAnticipationMenu() {
+        isAnticipationMenuVisible = false
+        invalidateOptionsMenu()
+    }
+
+    override fun showEmptyView() {
+        val empty = findViewById<ConstraintLayout>(R.id.empty)
+        empty.visibility = View.VISIBLE
     }
 
     @IntDef(Snackbar.LENGTH_SHORT, Snackbar.LENGTH_LONG)
