@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.model
+package com.phicdy.totoanticipation.legacy.model
 
 class GameHistory {
     fun url(homeTeam: String, awayTeam: String) =

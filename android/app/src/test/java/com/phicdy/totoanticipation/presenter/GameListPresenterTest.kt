@@ -1,15 +1,15 @@
 package com.phicdy.totoanticipation.presenter
 
+import com.phicdy.totoanticipation.legacy.model.Game
+import com.phicdy.totoanticipation.legacy.model.Game.Anticipation
+import com.phicdy.totoanticipation.legacy.model.JLeagueRequestExecutor
+import com.phicdy.totoanticipation.legacy.model.JLeagueService
+import com.phicdy.totoanticipation.legacy.model.RakutenTotoRequestExecutor
+import com.phicdy.totoanticipation.legacy.model.RakutenTotoService
+import com.phicdy.totoanticipation.legacy.model.Toto
 import com.phicdy.totoanticipation.legacy.view.GameListView
-import com.phicdy.totoanticipation.model.Game
-import com.phicdy.totoanticipation.model.Game.Anticipation
-import com.phicdy.totoanticipation.model.JLeagueRequestExecutor
-import com.phicdy.totoanticipation.model.JLeagueService
-import com.phicdy.totoanticipation.model.RakutenTotoRequestExecutor
-import com.phicdy.totoanticipation.model.RakutenTotoService
 import com.phicdy.totoanticipation.model.TestRakutenTotoInfoPage
 import com.phicdy.totoanticipation.model.TestRakutenTotoPage
-import com.phicdy.totoanticipation.model.Toto
 import com.phicdy.totoanticipation.model.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.model.storage.GameListStorage
 import com.phicdy.totoanticipation.model.storage.SettingStorage

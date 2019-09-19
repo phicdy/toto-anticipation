@@ -1,13 +1,11 @@
 package com.phicdy.totoanticipation.view.activity
 
 import android.os.Bundle
-import android.widget.FrameLayout
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.phicdy.totoanticipation.R
 import com.phicdy.totoanticipation.advertisement.AdProvider
-import com.phicdy.totoanticipation.model.TeamInfoMapper
+import com.phicdy.totoanticipation.legacy.model.TeamInfoMapper
 import com.phicdy.totoanticipation.view.fragment.GameHistoryFragment
 import com.phicdy.totoanticipation.view.fragment.TeamInfoFragment
 import dagger.android.support.DaggerAppCompatActivity

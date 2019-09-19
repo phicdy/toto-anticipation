@@ -1,5 +1,6 @@
 package com.phicdy.totoanticipation.model
 
+import com.phicdy.totoanticipation.legacy.model.TeamInfoMapper
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.experimental.theories.DataPoints

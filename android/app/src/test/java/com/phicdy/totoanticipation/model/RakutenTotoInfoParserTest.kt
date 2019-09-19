@@ -1,5 +1,7 @@
 package com.phicdy.totoanticipation.model
 
+import com.phicdy.totoanticipation.legacy.model.Game
+import com.phicdy.totoanticipation.legacy.model.RakutenTotoInfoParser
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.Assert.assertThat
 import org.junit.Test

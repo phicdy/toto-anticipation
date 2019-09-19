@@ -24,6 +24,13 @@ android {
 }
 
 dependencies {
+    implementation project(':advertisement')
+    implementation project(':admob')
+
+    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
+
+    implementation 'org.jsoup:jsoup:1.10.2'
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation 'junit:junit:4.12'
 }

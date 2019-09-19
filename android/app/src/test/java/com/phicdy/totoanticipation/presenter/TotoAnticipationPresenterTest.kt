@@ -1,7 +1,7 @@
 package com.phicdy.totoanticipation.presenter
 
+import com.phicdy.totoanticipation.legacy.model.Game
 import com.phicdy.totoanticipation.legacy.view.TotoAnticipationView
-import com.phicdy.totoanticipation.model.Game
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito

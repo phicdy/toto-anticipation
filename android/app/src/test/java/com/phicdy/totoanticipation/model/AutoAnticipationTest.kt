@@ -1,12 +1,15 @@
 package com.phicdy.totoanticipation.model
 
+import com.phicdy.totoanticipation.legacy.model.AutoAnticipation
+import com.phicdy.totoanticipation.legacy.model.Game
+import com.phicdy.totoanticipation.legacy.model.Game.Anticipation.AWAY
+import com.phicdy.totoanticipation.legacy.model.Game.Anticipation.DRAW
+import com.phicdy.totoanticipation.legacy.model.Game.Anticipation.HOME
 import junit.framework.Assert.assertEquals
 import org.junit.experimental.theories.DataPoints
 import org.junit.experimental.theories.Theories
 import org.junit.experimental.theories.Theory
 import org.junit.runner.RunWith
-
-import com.phicdy.totoanticipation.model.Game.Anticipation.*
 
 @RunWith(Theories::class)
 class AutoAnticipationTest {

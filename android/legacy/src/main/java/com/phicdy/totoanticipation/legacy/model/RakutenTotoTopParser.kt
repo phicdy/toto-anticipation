@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.model
+package com.phicdy.totoanticipation.legacy.model
 
 import org.jsoup.Jsoup
 import java.text.ParseException

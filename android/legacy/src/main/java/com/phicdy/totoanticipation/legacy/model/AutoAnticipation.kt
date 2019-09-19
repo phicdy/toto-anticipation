@@ -1,6 +1,9 @@
-package com.phicdy.totoanticipation.model
+package com.phicdy.totoanticipation.legacy.model
 
-import com.phicdy.totoanticipation.model.Game.Anticipation.*
+import com.phicdy.totoanticipation.legacy.model.Game.Anticipation.AWAY
+import com.phicdy.totoanticipation.legacy.model.Game.Anticipation.DRAW
+import com.phicdy.totoanticipation.legacy.model.Game.Anticipation.HOME
+
 class AutoAnticipation {
     fun exec(games: List<Game>) {
         for (game in games) {

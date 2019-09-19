@@ -1,7 +1,7 @@
-package com.phicdy.totoanticipation.model
+package com.phicdy.totoanticipation.legacy.model
 
 class Game(val homeTeam: String, val awayTeam: String) {
-    constructor(homeRanking: Int, awayRanking: Int): this("", "") {
+    constructor(homeRanking: Int, awayRanking: Int) : this("", "") {
         this.homeRanking = homeRanking
         this.awayRanking = awayRanking
     }
@@ -9,6 +9,7 @@ class Game(val homeTeam: String, val awayTeam: String) {
     companion object {
         const val defaultRank: Int = 0
     }
+
     var homeRanking: Int = defaultRank
     var awayRanking: Int = defaultRank
     var anticipation = Anticipation.HOME

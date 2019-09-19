@@ -1,5 +1,6 @@
 package com.phicdy.totoanticipation.model
 
+import com.phicdy.totoanticipation.legacy.model.JLeagueRankingParser
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.Assert.assertThat
 import org.junit.Test

@@ -1,8 +1,7 @@
 package com.phicdy.totoanticipation.model.storage
 
-import com.phicdy.totoanticipation.model.Game
-import com.phicdy.totoanticipation.model.Toto
-
+import com.phicdy.totoanticipation.legacy.model.Game
+import com.phicdy.totoanticipation.legacy.model.Toto
 import java.util.Date
 
 interface GameListStorage {

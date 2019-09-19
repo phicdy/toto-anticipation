@@ -25,12 +25,12 @@ import com.phicdy.totoanticipation.BuildConfig
 import com.phicdy.totoanticipation.R
 import com.phicdy.totoanticipation.advertisement.AdProvider
 import com.phicdy.totoanticipation.advertisement.AdViewHolder
+import com.phicdy.totoanticipation.legacy.model.Game
+import com.phicdy.totoanticipation.legacy.model.JLeagueRequestExecutor
+import com.phicdy.totoanticipation.legacy.model.JLeagueService
+import com.phicdy.totoanticipation.legacy.model.RakutenTotoRequestExecutor
+import com.phicdy.totoanticipation.legacy.model.RakutenTotoService
 import com.phicdy.totoanticipation.legacy.view.GameListView
-import com.phicdy.totoanticipation.model.Game
-import com.phicdy.totoanticipation.model.JLeagueRequestExecutor
-import com.phicdy.totoanticipation.model.JLeagueService
-import com.phicdy.totoanticipation.model.RakutenTotoRequestExecutor
-import com.phicdy.totoanticipation.model.RakutenTotoService
 import com.phicdy.totoanticipation.model.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.model.storage.GameListStorageImpl
 import com.phicdy.totoanticipation.model.storage.SettingStorage

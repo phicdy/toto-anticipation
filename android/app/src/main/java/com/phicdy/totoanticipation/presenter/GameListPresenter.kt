@@ -2,16 +2,16 @@ package com.phicdy.totoanticipation.presenter
 
 import android.os.Handler
 import android.os.Looper
+import com.phicdy.totoanticipation.legacy.model.AutoAnticipation
+import com.phicdy.totoanticipation.legacy.model.Game
+import com.phicdy.totoanticipation.legacy.model.JLeagueRankingParser
+import com.phicdy.totoanticipation.legacy.model.JLeagueRequestExecutor
+import com.phicdy.totoanticipation.legacy.model.RakutenTotoInfoParser
+import com.phicdy.totoanticipation.legacy.model.RakutenTotoRequestExecutor
+import com.phicdy.totoanticipation.legacy.model.RakutenTotoTopParser
+import com.phicdy.totoanticipation.legacy.model.TeamInfoMapper
+import com.phicdy.totoanticipation.legacy.model.Toto
 import com.phicdy.totoanticipation.legacy.view.GameListView
-import com.phicdy.totoanticipation.model.AutoAnticipation
-import com.phicdy.totoanticipation.model.Game
-import com.phicdy.totoanticipation.model.JLeagueRankingParser
-import com.phicdy.totoanticipation.model.JLeagueRequestExecutor
-import com.phicdy.totoanticipation.model.RakutenTotoInfoParser
-import com.phicdy.totoanticipation.model.RakutenTotoRequestExecutor
-import com.phicdy.totoanticipation.model.RakutenTotoTopParser
-import com.phicdy.totoanticipation.model.TeamInfoMapper
-import com.phicdy.totoanticipation.model.Toto
 import com.phicdy.totoanticipation.model.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.model.storage.GameListStorage
 import com.phicdy.totoanticipation.model.storage.SettingStorage
