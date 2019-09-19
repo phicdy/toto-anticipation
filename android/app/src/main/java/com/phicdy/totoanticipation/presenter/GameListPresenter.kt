@@ -13,6 +13,7 @@ import com.phicdy.totoanticipation.legacy.model.TeamInfoMapper
 import com.phicdy.totoanticipation.legacy.model.Toto
 import com.phicdy.totoanticipation.legacy.model.storage.GameListStorage
 import com.phicdy.totoanticipation.legacy.model.storage.SettingStorage
+import com.phicdy.totoanticipation.legacy.presenter.Presenter
 import com.phicdy.totoanticipation.legacy.view.GameListView
 import com.phicdy.totoanticipation.model.scheduler.DeadlineAlarm
 import okhttp3.ResponseBody

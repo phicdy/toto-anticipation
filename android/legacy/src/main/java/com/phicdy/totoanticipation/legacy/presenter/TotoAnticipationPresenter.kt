@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.presenter
+package com.phicdy.totoanticipation.legacy.presenter
 
 import android.util.Log
 import com.phicdy.totoanticipation.legacy.model.Game

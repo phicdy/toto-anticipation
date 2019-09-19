@@ -1,6 +1,7 @@
 package com.phicdy.totoanticipation.presenter
 
 import com.phicdy.totoanticipation.legacy.model.Game
+import com.phicdy.totoanticipation.legacy.presenter.TotoAnticipationPresenter
 import com.phicdy.totoanticipation.legacy.view.TotoAnticipationView
 import org.junit.Before
 import org.junit.Test
