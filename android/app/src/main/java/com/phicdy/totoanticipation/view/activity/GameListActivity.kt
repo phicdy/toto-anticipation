@@ -44,9 +44,9 @@ import javax.inject.Inject
 class GameListActivity : DaggerAppCompatActivity(), GameListView {
     private var mTwoPane: Boolean = false
     private lateinit var presenter: GameListPresenter
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: SimpleItemRecyclerViewAdapter
-    private lateinit var progressBar: SmoothProgressBar
+    private val recyclerView by lazy { findViewById<RecyclerView>(R.id.game_list) }
+    private val adapter by lazy { SimpleItemRecyclerViewAdapter() }
+    private val progressBar by lazy { findViewById<SmoothProgressBar>(R.id.progress) }
     private val fab by lazy { findViewById<FloatingActionButton>(R.id.fab) }
 
     @Inject
@@ -64,8 +64,6 @@ class GameListActivity : DaggerAppCompatActivity(), GameListView {
 
         fab.setOnClickListener { presenter.onFabClicked() }
 
-        recyclerView = findViewById(R.id.game_list)
-
         if (findViewById<View>(R.id.item_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
@@ -73,7 +71,6 @@ class GameListActivity : DaggerAppCompatActivity(), GameListView {
             // activity should be in two-pane mode.
             mTwoPane = true
         }
-        progressBar = findViewById(R.id.progress)
 
         val rakutenTotoService = RakutenTotoService.Factory.create()
         val rakutenTotoRequestExecutor = RakutenTotoRequestExecutor(rakutenTotoService)
@@ -106,7 +103,6 @@ class GameListActivity : DaggerAppCompatActivity(), GameListView {
 
     override fun initList() {
         recyclerView.visibility = View.VISIBLE
-        adapter = SimpleItemRecyclerViewAdapter()
         recyclerView.adapter = adapter
     }
 
