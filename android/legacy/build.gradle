@@ -29,7 +29,6 @@ android {
 
 dependencies {
     implementation project(':advertisement')
-    implementation project(':advertisement_provider')
 
     implementation "androidx.appcompat:appcompat:$appcompat_veriosn"
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

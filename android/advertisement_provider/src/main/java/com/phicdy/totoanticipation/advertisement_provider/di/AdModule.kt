@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.admob.di
+package com.phicdy.totoanticipation.advertisement_provider.di
 
 import com.phicdy.totoanticipation.admob.AdmobProvider
 import com.phicdy.totoanticipation.advertisement.AdProvider
