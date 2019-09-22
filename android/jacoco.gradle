@@ -1,0 +1,46 @@
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = jacoco_version
+}
+
+// A list of directories which should be included in coverage report
+def coverageSourceDirs = ['src/main/java', 'src/main/kotlin']
+// A list of files which should be excluded from coverage report since they are generated and/or framework code
+def coverageExcludeFiles = ['**/R.class', '**/R$*.class', '**/com/android/**/*.*',
+                            '**/BuildConfig.class', '**/*Activity*.class',
+                            '**/*Fragment*.class', '**/*Receiver.class',
+                            '**/*Manifest*.class', '**/*Application*.class',
+                            '**/*RecyclerViewAdapter.class', '**/*Notification.class',
+                            '**/*Alarm.class']
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testGooglePlayDebugUnitTest']) {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports after running tests."
+    reports {
+        xml.enabled true
+        html.enabled true
+        csv.enabled false
+        xml.destination new File("${buildDir}/reports/jacoco/jacocoTestReport.xml")
+        html.destination new File("${buildDir}/reports/jacoco/html")
+        classDirectories.setFrom(
+                files(
+                        fileTree(
+                                dir: "${buildDir}/intermediates/javac/googlePlayDebug/compileGooglePlayDebugJavaWithJavac/classes/",
+                                exclude: coverageExcludeFiles
+                        ) +
+                                fileTree(
+                                        dir: "$buildDir/tmp/kotlin-classes/googlePlayDebug",
+                                        excludes: coverageExcludeFiles
+                                )
+                )
+        )
+    }
+    sourceDirectories.setFrom(files(coverageSourceDirs))
+    executionData.setFrom(new File("${buildDir}/jacoco/testGooglePlayDebugUnitTest.exec"))
+
+    doLast {
+        println "jacoco xml report has been generated to file://${buildDir}/reports/jacoco/jacocoTestReport.xml"
+        println "jacoco html report has been generated to file://${reports.html.destination}/index.html"
+    }
+}
+

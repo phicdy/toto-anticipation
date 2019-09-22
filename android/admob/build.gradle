@@ -1,18 +1,5 @@
-plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-}
-
 android {
-    compileSdkVersion 28
-
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-
         manifestPlaceholders = [
                 ad_app_id: "$ADMOB_ID_TOTO"
         ]
@@ -20,8 +7,6 @@ android {
         buildConfigField "String", "AD_APP_ID", "\"$ADMOB_ID_TOTO\""
         resValue "string", "ad_unit_id_main", "$ADMOB_UNIT_ID_TOTO_MAIN"
         resValue "string", "ad_unit_id_team_info", "$ADMOB_UNIT_ID_TOTO_TEAM_INFO"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -30,7 +15,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
@@ -39,10 +23,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-ads:18.2.0'
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
     implementation "com.google.dagger:dagger:$daggerVer"
     kapt "com.google.dagger:dagger-compiler:$daggerVer"
-
-    testImplementation 'junit:junit:4.12'
 }
