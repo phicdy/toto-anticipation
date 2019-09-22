@@ -3,7 +3,7 @@ package com.phicdy.totoanticipation
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
 
-import com.phicdy.totoanticipation.model.notification.DeadlineNotification
+import com.phicdy.totoanticipation.legacy.model.notification.DeadlineNotification
 
 import org.junit.Test
 import org.junit.runner.RunWith

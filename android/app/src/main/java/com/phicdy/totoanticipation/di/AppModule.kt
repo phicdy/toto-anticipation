@@ -11,5 +11,5 @@ object AppModule {
     @JvmStatic
     @Provides
     @Singleton
-    fun provideAdProvider(application: TotoAnticipationApplication): Application = application
+    fun provideApp(application: TotoAnticipationApplication): Application = application
 }

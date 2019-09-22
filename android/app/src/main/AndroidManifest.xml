@@ -8,19 +8,19 @@
     <application
         android:name=".TotoAnticipationApplication"
         android:allowBackup="true"
+        android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher"
         android:networkSecurityConfig="@xml/network_security_config"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:fullBackupContent="false">
+        android:theme="@style/AppTheme">
         <activity
-            android:name=".view.activity.TeamInfoActivity"
+            android:name=".legacy.view.activity.TeamInfoActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".view.activity.GameListActivity"
+            android:name=".legacy.view.activity.GameListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,19 +32,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.activity.TotoAnticipationActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".view.activity.SettingActivity" />
+            android:name=".legacy.view.activity.TotoAnticipationActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".legacy.view.activity.SettingActivity" />
         <activity
-            android:name=".view.activity.LicenseActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:name=".legacy.view.activity.LicenseActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver
-            android:name=".model.scheduler.DeadlineAlarmReceiver"
+            android:name=".legacy.model.scheduler.DeadlineAlarmReceiver"
             android:enabled="true"
             android:exported="false" />
         <receiver
-            android:name=".model.scheduler.BootReceiver"
+            android:name=".legacy.model.scheduler.BootReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

@@ -5,6 +5,7 @@ buildscript {
     ext.daggerVer = '2.24'
     ext.recyclerview_version = '1.0.0'
     ext.appcompat_veriosn = '1.1.0'
+    ext.jacoco_version = "0.7.7.201606060606"
     repositories {
         jcenter()
         google()
@@ -13,6 +14,64 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.5.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:4.3.2'
+    }
+}
+
+
+subprojects {
+    if (name == 'app') {
+        apply plugin: 'com.android.application'
+    } else {
+        apply plugin: 'com.android.library'
+    }
+    apply plugin: 'kotlin-android'
+    apply plugin: 'kotlin-kapt'
+    apply from: "$rootDir/jacoco.gradle"
+
+    android {
+        compileSdkVersion 28
+
+        defaultConfig {
+            minSdkVersion 21
+            targetSdkVersion 28
+            versionName "0.7"
+            versionCode 10
+
+            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        }
+
+        flavorDimensions "store"
+        productFlavors {
+            googlePlay {
+                dimension "store"
+            }
+            nonGooglePlay {
+                dimension "store"
+            }
+        }
+       
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+
+        dataBinding {
+            enabled = true
+        }
+
+        lintOptions {
+            abortOnError true
+        }
+
+        testOptions {
+            unitTests.returnDefaultValues = true
+        }
+    }
+
+    dependencies {
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+        testImplementation 'junit:junit:4.12'
     }
 }
 

@@ -1,3 +1,5 @@
 include ':app',
         ':admob',
-        ':advertisement'
+        ':advertisement',
+        ':advertisement_provider',
+        ':legacy'

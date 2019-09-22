@@ -1,8 +1,8 @@
 package com.phicdy.totoanticipation.di
 
-import com.phicdy.totoanticipation.admob.di.AdComponent
-import com.phicdy.totoanticipation.admob.di.DaggerAdComponent
 import com.phicdy.totoanticipation.advertisement.AdProvider
+import com.phicdy.totoanticipation.advertisement_provider.di.AdComponent
+import com.phicdy.totoanticipation.advertisement_provider.di.DaggerAdComponent
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
