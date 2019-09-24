@@ -9,6 +9,8 @@ android {
 
 dependencies {
     implementation project(':advertisement')
+    implementation project(':domain')
+    implementation project(':repository')
     implementation project(':di_common')
 
     implementation "androidx.appcompat:appcompat:$appcompat_veriosn"
@@ -17,7 +19,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
 
-    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
 
     implementation "com.google.dagger:dagger:$daggerVer"
     implementation "com.google.dagger:dagger-android:$daggerVer"

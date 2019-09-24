@@ -1,10 +1,12 @@
-package com.phicdy.totoanticipation.legacy.model
+package com.phicdy.totoanticipation.api
 
 import android.text.TextUtils
+import com.phicdy.totoanticipation.domain.League
+import com.phicdy.totoanticipation.domain.Team
 import org.jsoup.Jsoup
-import java.util.HashMap
+import javax.inject.Inject
 
-class JLeagueRankingParser {
+class JLeagueRankingParser @Inject constructor() {
 
     /**
      *
@@ -47,12 +49,12 @@ class JLeagueRankingParser {
      * @param body HTML body of J League ranking page
      * @return Ranking map or empty map. The key is team name and the value is ranking integer.
      */
-    fun ranking(body: String): Map<String, Int> {
-        if (TextUtils.isEmpty(body)) return HashMap()
+    fun ranking(body: String, league: League): List<Team> {
+        if (TextUtils.isEmpty(body)) return emptyList()
         val bodyDoc = Jsoup.parse(body)
         val rankingTbody = bodyDoc.getElementsByTag("tbody")
         val trs = rankingTbody.select("tr")
-        val result = HashMap<String, Int>()
+        val result = mutableListOf<Team>()
         for (i in trs.indices) {
             val tr = trs[i]
             val tds = tr.getElementsByTag("td")
@@ -79,7 +81,7 @@ class JLeagueRankingParser {
             val spans = tds[2].getElementsByTag("span")
             if (spans == null || spans.size == 0) continue
             val fullTeamName = spans.first().text()
-            result[fullTeamName] = ranking
+            result.add(Team(name = fullTeamName, league = league, ranking = ranking))
         }
         return result
     }

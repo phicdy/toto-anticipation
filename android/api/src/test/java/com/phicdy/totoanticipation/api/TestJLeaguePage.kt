@@ -1,6 +1,8 @@
-package com.phicdy.totoanticipation.legacy.model
+package com.phicdy.totoanticipation.api
 
-const val text = """
+object TestJLeaguePage {
+
+    const val text = """
         <!doctype html>
         <html lang="ja">
         <head>
@@ -745,3 +747,4 @@ const val text = """
         </body>
         </html>
         """
+}

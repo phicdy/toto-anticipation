@@ -2,8 +2,6 @@ package com.phicdy.totoanticipation.legacy.presenter
 
 import com.phicdy.totoanticipation.legacy.model.Game
 import com.phicdy.totoanticipation.legacy.model.Game.Anticipation
-import com.phicdy.totoanticipation.legacy.model.JLeagueRequestExecutor
-import com.phicdy.totoanticipation.legacy.model.JLeagueService
 import com.phicdy.totoanticipation.legacy.model.RakutenTotoRequestExecutor
 import com.phicdy.totoanticipation.legacy.model.RakutenTotoService
 import com.phicdy.totoanticipation.legacy.model.TestRakutenTotoInfoPage
@@ -13,6 +11,7 @@ import com.phicdy.totoanticipation.legacy.model.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.legacy.model.storage.GameListStorage
 import com.phicdy.totoanticipation.legacy.model.storage.SettingStorage
 import com.phicdy.totoanticipation.legacy.view.GameListView
+import com.phicdy.totoanticipation.repository.JLeagueRepository
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import org.hamcrest.CoreMatchers.`is`
@@ -31,24 +30,22 @@ class GameListPresenterTest {
 
     private lateinit var presenter: GameListPresenter
     private lateinit var rakutenTotoRequestExecutor: RakutenTotoRequestExecutor
-    private lateinit var jLeagueRequestExecutor: JLeagueRequestExecutor
     private lateinit var view: MockView
     private lateinit var storage: GameListStorage
     private lateinit var settingStorage: SettingStorage
     private lateinit var alarm: DeadlineAlarm
+    private lateinit var jLeagueRepository: JLeagueRepository
 
     @Before
     fun setup() {
         val service = RakutenTotoService.Factory.create()
         rakutenTotoRequestExecutor = RakutenTotoRequestExecutor(service)
-        val service1 = JLeagueService.Factory.create()
-        jLeagueRequestExecutor = JLeagueRequestExecutor(service1)
         storage = MockStorage()
         settingStorage = MockSettingStorage()
         alarm = Mockito.mock(DeadlineAlarm::class.java)
         view = MockView()
-        presenter = GameListPresenter(view, rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage,
-                alarm, settingStorage)
+        jLeagueRepository = Mockito.mock(JLeagueRepository::class.java)
+        presenter = GameListPresenter(view, rakutenTotoRequestExecutor, jLeagueRepository, storage, alarm, settingStorage)
     }
 
     @Test
@@ -98,7 +95,7 @@ class GameListPresenterTest {
         testList.add(Game("home", "away"))
         storage.store(Toto("0923", Date()), testList)
         val view = MockView()
-        presenter = GameListPresenter(view, rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage, alarm, settingStorage)
+        presenter = GameListPresenter(view, rakutenTotoRequestExecutor, jLeagueRepository, storage, alarm, settingStorage)
         val response = Response.success(
                 ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoPage.text))
         presenter.onResponseTotoTop(response)
@@ -111,7 +108,7 @@ class GameListPresenterTest {
         testList.add(Game("home", "away"))
         storage.store(Toto("0923", Date()), testList)
         val view = MockView()
-        presenter = GameListPresenter(view, rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage, alarm, settingStorage)
+        presenter = GameListPresenter(view, rakutenTotoRequestExecutor, jLeagueRepository, storage, alarm, settingStorage)
         val response = Response.success(
                 ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoPage.text))
         presenter.onResponseTotoTop(response)

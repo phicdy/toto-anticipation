@@ -33,6 +33,8 @@ dependencies {
     implementation project(':advertisement')
     implementation project(':advertisement_provider')
     implementation project(':legacy')
+    implementation project(':api')
+    implementation project(':repository')
     implementation project(':di_common')
 
     implementation "com.google.dagger:dagger:$daggerVer"
@@ -40,6 +42,8 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$daggerVer"
     kapt "com.google.dagger:dagger-compiler:$daggerVer"
     kapt "com.google.dagger:dagger-android-processor:$daggerVer"
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
 }
 
 apply plugin: 'com.google.gms.google-services'
