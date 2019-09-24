@@ -4,5 +4,6 @@ include ':app',
         ':advertisement_provider',
         ':api',
         ':domain',
+        ':di_common',
         ':legacy',
         ':repository'

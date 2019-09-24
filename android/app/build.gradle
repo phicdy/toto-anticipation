@@ -33,6 +33,7 @@ dependencies {
     implementation project(':advertisement')
     implementation project(':advertisement_provider')
     implementation project(':legacy')
+    implementation project(':di_common')
 
     implementation "com.google.dagger:dagger:$daggerVer"
     implementation "com.google.dagger:dagger-android:$daggerVer"
