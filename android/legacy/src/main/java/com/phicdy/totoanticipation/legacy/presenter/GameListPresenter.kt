@@ -4,12 +4,12 @@ import android.os.Handler
 import android.os.Looper
 import com.phicdy.totoanticipation.domain.Game
 import com.phicdy.totoanticipation.domain.Team
+import com.phicdy.totoanticipation.domain.Toto
 import com.phicdy.totoanticipation.legacy.model.AutoAnticipation
 import com.phicdy.totoanticipation.legacy.model.RakutenTotoInfoParser
 import com.phicdy.totoanticipation.legacy.model.RakutenTotoRequestExecutor
 import com.phicdy.totoanticipation.legacy.model.RakutenTotoTopParser
 import com.phicdy.totoanticipation.legacy.model.TeamInfoMapper
-import com.phicdy.totoanticipation.legacy.model.Toto
 import com.phicdy.totoanticipation.legacy.model.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.legacy.model.storage.GameListStorage
 import com.phicdy.totoanticipation.legacy.model.storage.SettingStorage
