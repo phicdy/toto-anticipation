@@ -24,9 +24,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.phicdy.totoanticipation.advertisement.AdProvider
 import com.phicdy.totoanticipation.advertisement.AdViewHolder
 import com.phicdy.totoanticipation.di_common.ActivityScope
+import com.phicdy.totoanticipation.domain.Game
 import com.phicdy.totoanticipation.legacy.BuildConfig
 import com.phicdy.totoanticipation.legacy.R
-import com.phicdy.totoanticipation.legacy.model.Game
 import com.phicdy.totoanticipation.legacy.model.RakutenTotoRequestExecutor
 import com.phicdy.totoanticipation.legacy.model.RakutenTotoService
 import com.phicdy.totoanticipation.legacy.model.scheduler.DeadlineAlarm

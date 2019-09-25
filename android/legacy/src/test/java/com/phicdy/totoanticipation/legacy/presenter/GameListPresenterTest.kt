@@ -1,12 +1,12 @@
 package com.phicdy.totoanticipation.legacy.presenter
 
-import com.phicdy.totoanticipation.legacy.model.Game
 import com.phicdy.totoanticipation.legacy.model.Game.Anticipation
 import com.phicdy.totoanticipation.legacy.model.RakutenTotoRequestExecutor
 import com.phicdy.totoanticipation.legacy.model.RakutenTotoService
 import com.phicdy.totoanticipation.legacy.model.TestRakutenTotoInfoPage
 import com.phicdy.totoanticipation.legacy.model.TestRakutenTotoPage
 import com.phicdy.totoanticipation.legacy.model.Toto
+import com.phicdy.totoanticipation.domain.Game
 import com.phicdy.totoanticipation.legacy.model.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.legacy.model.storage.GameListStorage
 import com.phicdy.totoanticipation.legacy.model.storage.SettingStorage

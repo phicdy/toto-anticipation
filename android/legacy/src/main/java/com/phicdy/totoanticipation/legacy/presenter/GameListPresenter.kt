@@ -2,9 +2,9 @@ package com.phicdy.totoanticipation.legacy.presenter
 
 import android.os.Handler
 import android.os.Looper
+import com.phicdy.totoanticipation.domain.Game
 import com.phicdy.totoanticipation.domain.Team
 import com.phicdy.totoanticipation.legacy.model.AutoAnticipation
-import com.phicdy.totoanticipation.legacy.model.Game
 import com.phicdy.totoanticipation.legacy.model.RakutenTotoInfoParser
 import com.phicdy.totoanticipation.legacy.model.RakutenTotoRequestExecutor
 import com.phicdy.totoanticipation.legacy.model.RakutenTotoTopParser

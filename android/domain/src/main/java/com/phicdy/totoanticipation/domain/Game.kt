@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.legacy.model
+package com.phicdy.totoanticipation.domain
 
 class Game(val homeTeam: String, val awayTeam: String) {
     constructor(homeRanking: Int, awayRanking: Int) : this("", "") {
