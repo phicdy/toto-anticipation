@@ -1,6 +1,9 @@
-package com.phicdy.totoanticipation.legacy.model
+package com.phicdy.totoanticipation.api
 
+import com.phicdy.totoanticipation.domain.Deadline
+import com.phicdy.totoanticipation.domain.Game
 import org.hamcrest.CoreMatchers.`is`
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertThat
 import org.junit.Test
 
@@ -47,19 +50,19 @@ class RakutenTotoInfoParserTest {
     fun endTimeReturns() {
         val parser = RakutenTotoInfoParser()
         val deadlineTime = parser.deadlineTime(TestRakutenTotoInfoPage.text)
-        assertThat(deadlineTime, `is`("13:50"))
+        assertThat(deadlineTime, `is`(Deadline("13:50")))
     }
 
     @Test
     fun emptyTimeReturnsWhenEmptyHtml() {
         val parser = RakutenTotoInfoParser()
-        assertThat(parser.deadlineTime(""), `is`(""))
+        assertNull(parser.deadlineTime(""))
     }
 
     @Test
     fun emptyTimeReturnsWhenInvalidHtml() {
         val parser = RakutenTotoInfoParser()
-        assertThat(parser.deadlineTime("<html><body>hoge</body></html>"), `is`(""))
+        assertNull(parser.deadlineTime("<html><body>hoge</body></html>"))
     }
 
 }

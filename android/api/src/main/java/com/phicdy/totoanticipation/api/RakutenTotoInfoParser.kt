@@ -1,11 +1,14 @@
-package com.phicdy.totoanticipation.legacy.model
+package com.phicdy.totoanticipation.api
 
 import android.text.TextUtils
+import com.phicdy.totoanticipation.domain.Deadline
+import com.phicdy.totoanticipation.domain.Game
 import org.jsoup.Jsoup
 import java.util.ArrayList
 import java.util.regex.Pattern
+import javax.inject.Inject
 
-class RakutenTotoInfoParser {
+class RakutenTotoInfoParser @Inject constructor() {
 
     /**
      *
@@ -81,21 +84,21 @@ class RakutenTotoInfoParser {
     </table> *
      *
      * @param body HTML string of rakuten toto info page
-     * @return Deadline time string like "13:50" or empty string
+     * @return Deadline like "13:50" or null
      */
-    fun deadlineTime(body: String): String {
-        if (body.isEmpty()) return ""
+    fun deadlineTime(body: String): Deadline? {
+        if (body.isEmpty()) return null
         val bodyDoc = Jsoup.parse(body)
-        val gameTable = bodyDoc.getElementsByClass("tbl-result-day").first() ?: return ""
+        val gameTable = bodyDoc.getElementsByClass("tbl-result-day").first() ?: return null
         val trs = gameTable.getElementsByTag("tr")
-        if (trs.size != 2) return ""
+        if (trs.size != 2) return null
         val dayElement = trs[1]
         val tds = dayElement.getElementsByTag("td")
-        if (tds.size != 3) return ""
+        if (tds.size != 3) return null
         val deadlineDayElement = tds[1]
         val deadlineDayStr = deadlineDayElement.text()
         val pattern = Pattern.compile("[0-9]+:[0-9]+")
         val matcher = pattern.matcher(deadlineDayStr)
-        return if (matcher.find()) matcher.group() else ""
+        return if (matcher.find()) Deadline(matcher.group()) else null
     }
 }

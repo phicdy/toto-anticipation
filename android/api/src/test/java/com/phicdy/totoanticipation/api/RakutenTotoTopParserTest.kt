@@ -1,5 +1,6 @@
-package com.phicdy.totoanticipation.legacy.model
+package com.phicdy.totoanticipation.api
 
+import com.phicdy.totoanticipation.domain.Toto
 import org.hamcrest.core.Is.`is`
 import org.junit.Assert.assertThat
 import org.junit.Test

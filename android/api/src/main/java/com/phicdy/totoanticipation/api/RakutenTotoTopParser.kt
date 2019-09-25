@@ -1,12 +1,14 @@
-package com.phicdy.totoanticipation.legacy.model
+package com.phicdy.totoanticipation.api
 
+import com.phicdy.totoanticipation.domain.Toto
 import org.jsoup.Jsoup
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import javax.inject.Inject
 
-class RakutenTotoTopParser {
+class RakutenTotoTopParser @Inject constructor() {
 
     /**
      *

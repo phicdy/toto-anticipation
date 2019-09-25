@@ -5,19 +5,15 @@ import android.os.Looper
 import com.phicdy.totoanticipation.domain.Game
 import com.phicdy.totoanticipation.domain.Team
 import com.phicdy.totoanticipation.domain.Toto
+import com.phicdy.totoanticipation.domain.TotoNumber
 import com.phicdy.totoanticipation.legacy.model.AutoAnticipation
-import com.phicdy.totoanticipation.legacy.model.RakutenTotoInfoParser
-import com.phicdy.totoanticipation.legacy.model.RakutenTotoRequestExecutor
-import com.phicdy.totoanticipation.legacy.model.RakutenTotoTopParser
 import com.phicdy.totoanticipation.legacy.model.TeamInfoMapper
 import com.phicdy.totoanticipation.legacy.model.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.legacy.model.storage.GameListStorage
 import com.phicdy.totoanticipation.legacy.model.storage.SettingStorage
 import com.phicdy.totoanticipation.legacy.view.GameListView
 import com.phicdy.totoanticipation.repository.JLeagueRepository
-import okhttp3.ResponseBody
-import retrofit2.Response
-import java.io.IOException
+import com.phicdy.totoanticipation.repository.RakutenTotoRepository
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -26,12 +22,12 @@ import javax.inject.Inject
 
 class GameListPresenter @Inject constructor(
         private val view: GameListView,
-        private val rakutenTotoRequestExecutor: RakutenTotoRequestExecutor,
         private val jLeagueRepository: JLeagueRepository,
+        private val rakutenTotoRepository: RakutenTotoRepository,
         private val storage: GameListStorage,
         private val alarm: DeadlineAlarm,
         private val settingStorage: SettingStorage
-) : Presenter, RakutenTotoRequestExecutor.RakutenTotoRequestCallback {
+) : Presenter {
     private var toto: Toto = Toto(Toto.DEFAULT_NUMBER, Date())
     private var games: List<Game> = listOf()
     private var j1ranking: List<Team> = emptyList()
@@ -40,92 +36,62 @@ class GameListPresenter @Inject constructor(
 
     override fun onCreate() {
         view.startProgress()
-        rakutenTotoRequestExecutor.fetchRakutenTotoTopPage(this)
-        if (!settingStorage.isPrivacyPolicyAccepted) view.showPrivacyPolicyDialog()
-    }
+        val t = rakutenTotoRepository.fetchLatestToto()
+        t?.let {
+            toto = it
+            if (toto.number == Toto.DEFAULT_NUMBER) {
+                view.stopProgress()
+                view.hideList()
+                view.hideFab()
+                view.hideAnticipationMenu()
+                view.showEmptyView()
+                return
+            }
+            if (settingStorage.isDeadlineNotify) alarm.setAtNoonOf(toto.deadline)
+            games = storage.list(toto.number)
+            if (games.isEmpty()) {
+                j1ranking = jLeagueRepository.fetchJ1Ranking()
+                j2ranking = jLeagueRepository.fetchJ2Ranking()
+                j3ranking = jLeagueRepository.fetchJ3Ranking()
 
-    override fun onResponseTotoTop(response: Response<ResponseBody>) {
-        try {
-            val body = response.body()?.string()
-            body?.let {
-                toto = RakutenTotoTopParser().latestToto(body)
-                if (toto.number == Toto.DEFAULT_NUMBER) {
-                    view.stopProgress()
-                    view.hideList()
-                    view.hideFab()
-                    view.hideAnticipationMenu()
-                    view.showEmptyView()
-                    return
-                }
-                if (settingStorage.isDeadlineNotify) alarm.setAtNoonOf(toto.deadline)
-                games = storage.list(toto.number)
-                if (games.isEmpty()) {
-                    j1ranking = jLeagueRepository.fetchJ1Ranking()
-                    j2ranking = jLeagueRepository.fetchJ2Ranking()
-                    j3ranking = jLeagueRepository.fetchJ3Ranking()
-                    rakutenTotoRequestExecutor.fetchRakutenTotoInfoPage(toto.number, this)
-                } else {
-                    view.stopProgress()
+                val totoInfo = rakutenTotoRepository.fetchTotoInfo(TotoNumber(toto.number))
+                totoInfo?.let {
+                    // Set title
+                    if (toto.number != Toto.DEFAULT_NUMBER) {
+                        val format = SimpleDateFormat("MM/dd ", Locale.JAPAN)
+                        view.setTitleFrom(toto.number, format.format(toto.deadline) + totoInfo.deadline)
+                    }
+
+                    games = totoInfo.games
+                    for (game in games) {
+                        val homeFullName = TeamInfoMapper().fullNameForJLeagueRanking(game.homeTeam)
+                        val awayFullName = TeamInfoMapper().fullNameForJLeagueRanking(game.awayTeam)
+                        var homeRank = j1ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
+                        var awayRank = j1ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
+                        if (homeRank == null || awayRank == null) {
+                            homeRank = j2ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
+                            awayRank = j2ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
+                            if (homeRank == null || awayRank == null) {
+                                homeRank = j3ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
+                                awayRank = j3ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
+                            }
+                        }
+                        if (homeRank == null || awayRank == null) {
+                            continue
+                        }
+                        game.homeRanking = homeRank
+                        game.awayRanking = awayRank
+                    }
                     view.initList()
                     storage.store(toto, games)
                 }
-            } ?: view.stopProgress()
-        } catch (e: IOException) {
-            e.printStackTrace()
-            view.stopProgress()
-        }
-    }
-
-    override fun onFailureTotoTop(throwable: Throwable) {
-        view.stopProgress()
-    }
-
-    override fun onResponseTotoInfo(response: Response<ResponseBody>) {
-        view.stopProgress()
-        try {
-            response.body()?.let {
-                val body = it.string()
-                val parser = RakutenTotoInfoParser()
-
-                // Set title
-                if (toto.number != Toto.DEFAULT_NUMBER) {
-                    val format = SimpleDateFormat("MM/dd ", Locale.JAPAN)
-                    view.setTitleFrom(toto.number, format.format(toto.deadline) + parser.deadlineTime(body))
-                }
-
-                // Parse games
-                games = parser.games(body)
-                for (game in games) {
-                    val homeFullName = TeamInfoMapper().fullNameForJLeagueRanking(game.homeTeam)
-                    val awayFullName = TeamInfoMapper().fullNameForJLeagueRanking(game.awayTeam)
-                    var homeRank = j1ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
-                    var awayRank = j1ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
-                    if (homeRank == null || awayRank == null) {
-                        homeRank = j2ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
-                        awayRank = j2ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
-                        if (homeRank == null || awayRank == null) {
-                            homeRank = j3ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
-                            awayRank = j3ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
-                        }
-                    }
-                    if (homeRank == null || awayRank == null) {
-                        continue
-                    }
-                    game.homeRanking = homeRank
-                    game.awayRanking = awayRank
-                }
+            } else {
+                view.stopProgress()
                 view.initList()
                 storage.store(toto, games)
-
             }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-
-    }
-
-    override fun onFailureTotoInfo(throwable: Throwable) {
-        view.stopProgress()
+        } ?: view.stopProgress()
+        if (!settingStorage.isPrivacyPolicyAccepted) view.showPrivacyPolicyDialog()
     }
 
     override fun onResume() {

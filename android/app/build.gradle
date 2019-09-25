@@ -34,6 +34,7 @@ dependencies {
     implementation project(':advertisement_provider')
     implementation project(':legacy')
     implementation project(':api')
+    implementation project(':domain')
     implementation project(':repository')
     implementation project(':di_common')
 

@@ -27,8 +27,6 @@ import com.phicdy.totoanticipation.di_common.ActivityScope
 import com.phicdy.totoanticipation.domain.Game
 import com.phicdy.totoanticipation.legacy.BuildConfig
 import com.phicdy.totoanticipation.legacy.R
-import com.phicdy.totoanticipation.legacy.model.RakutenTotoRequestExecutor
-import com.phicdy.totoanticipation.legacy.model.RakutenTotoService
 import com.phicdy.totoanticipation.legacy.model.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.legacy.model.storage.GameListStorage
 import com.phicdy.totoanticipation.legacy.model.storage.GameListStorageImpl
@@ -283,10 +281,6 @@ class GameListActivity : DaggerAppCompatActivity(), GameListView {
         @Provides
         @ActivityScope
         fun provideGameListView(activity: GameListActivity): GameListView = activity
-
-        @Provides
-        @ActivityScope
-        fun provideRakutenTotoRequestExecutor(): RakutenTotoRequestExecutor = RakutenTotoRequestExecutor(RakutenTotoService.Factory.create())
 
         @Provides
         @ActivityScope

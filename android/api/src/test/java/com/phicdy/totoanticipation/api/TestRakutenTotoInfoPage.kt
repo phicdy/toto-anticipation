@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.legacy.model
+package com.phicdy.totoanticipation.api
 
 object TestRakutenTotoInfoPage {
     const val text = """
