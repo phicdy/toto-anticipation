@@ -12,26 +12,17 @@ class JLeagueRankingApi @Inject constructor(
         private val parser: JLeagueRankingParser
 ) : JLeagueRepository {
     override suspend fun fetchJ1Ranking(): List<Team> = withContext(Dispatchers.IO) {
-        val call = api.j1ranking()
-        val response = call.execute()
-        response.body()?.string()?.let {
-            return@withContext parser.ranking(it, League.J1)
-        } ?: return@withContext emptyList<Team>()
+        val response = api.j1ranking()
+        return@withContext parser.ranking(response.string(), League.J1)
     }
 
     override suspend fun fetchJ2Ranking(): List<Team> = withContext(Dispatchers.IO) {
-        val call = api.j2ranking()
-        val response = call.execute()
-        response.body()?.string()?.let {
-            return@withContext parser.ranking(it, League.J2)
-        } ?: return@withContext emptyList<Team>()
+        val response = api.j2ranking()
+        return@withContext parser.ranking(response.string(), League.J2)
     }
 
     override suspend fun fetchJ3Ranking(): List<Team> = withContext(Dispatchers.IO) {
-        val call = api.j3ranking()
-        val response = call.execute()
-        response.body()?.string()?.let {
-            return@withContext parser.ranking(it, League.J3)
-        } ?: return@withContext emptyList<Team>()
+        val response = api.j3ranking()
+        return@withContext parser.ranking(response.string(), League.J3)
     }
 }

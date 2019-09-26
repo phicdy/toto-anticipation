@@ -14,20 +14,16 @@ class RakutenTotoApi @Inject constructor(
         private val rakutenTotoInfoParser: RakutenTotoInfoParser
 ) : RakutenTotoRepository {
     override suspend fun fetchLatestToto(): Toto? = withContext(Dispatchers.IO) {
-        val schedule = service.schedule().execute()
-        schedule.body()?.string()?.let {
-            return@withContext rakutenTotoTopParser.latestToto(it)
-        } ?: return@withContext null
+        val schedule = service.schedule()
+        return@withContext rakutenTotoTopParser.latestToto(schedule.string())
     }
 
     override suspend fun fetchTotoInfo(number: TotoNumber): TotoInfo? = withContext(Dispatchers.IO) {
-        val totoInfo = service.totoInfo(number.toString()).execute()
-        totoInfo.body()?.string()?.let {
-            val games = rakutenTotoInfoParser.games(it)
-            val deadline = rakutenTotoInfoParser.deadlineTime(it)
-            deadline?.let {
-                return@withContext TotoInfo(games, deadline)
-            }
+        val totoInfo = service.totoInfo(number.toString()).string()
+        val games = rakutenTotoInfoParser.games(totoInfo)
+        val deadline = rakutenTotoInfoParser.deadlineTime(totoInfo)
+        deadline?.let {
+            return@withContext TotoInfo(games, deadline)
         }
         return@withContext null
     }
