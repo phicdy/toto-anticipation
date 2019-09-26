@@ -14,6 +14,8 @@ import com.phicdy.totoanticipation.legacy.model.storage.SettingStorage
 import com.phicdy.totoanticipation.legacy.view.GameListView
 import com.phicdy.totoanticipation.repository.JLeagueRepository
 import com.phicdy.totoanticipation.repository.RakutenTotoRepository
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -50,9 +52,9 @@ class GameListPresenter @Inject constructor(
             if (settingStorage.isDeadlineNotify) alarm.setAtNoonOf(toto.deadline)
             games = storage.list(toto.number)
             if (games.isEmpty()) {
-                j1ranking = jLeagueRepository.fetchJ1Ranking()
-                j2ranking = jLeagueRepository.fetchJ2Ranking()
-                j3ranking = jLeagueRepository.fetchJ3Ranking()
+                val j1rankingDeferred = coroutineScope { async { jLeagueRepository.fetchJ1Ranking() } }
+                val j2rankingDeferred = coroutineScope { async { jLeagueRepository.fetchJ2Ranking() } }
+                val j3rankingDeferred = coroutineScope { async { jLeagueRepository.fetchJ3Ranking() } }
 
                 val totoInfo = rakutenTotoRepository.fetchTotoInfo(TotoNumber(toto.number))
                 totoInfo?.let {
@@ -62,6 +64,10 @@ class GameListPresenter @Inject constructor(
                         view.setTitleFrom(toto.number, format.format(toto.deadline) + totoInfo.deadline)
                     }
 
+                    j1ranking = j1rankingDeferred.await()
+                    j2ranking = j2rankingDeferred.await()
+                    j3ranking = j3rankingDeferred.await()
+                   
                     games = totoInfo.games
                     for (game in games) {
                         val homeFullName = TeamInfoMapper().fullNameForJLeagueRanking(game.homeTeam)
