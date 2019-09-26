@@ -25,6 +25,7 @@ toto anticipation is helper app to anticipate toto
 
 ## Credits
 
+* [Kotlin Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
 * [Retrofit](https://github.com/square/retrofit)
 * [Jsoup](https://github.com/jhy/jsoup/)
 * [SmoothProgressBar](https://github.com/castorflex/SmoothProgressBar)
