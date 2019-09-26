@@ -5,6 +5,6 @@ import com.phicdy.totoanticipation.domain.TotoInfo
 import com.phicdy.totoanticipation.domain.TotoNumber
 
 interface RakutenTotoRepository {
-    fun fetchLatestToto(): Toto?
-    fun fetchTotoInfo(number: TotoNumber): TotoInfo?
+    suspend fun fetchLatestToto(): Toto?
+    suspend fun fetchTotoInfo(number: TotoNumber): TotoInfo?
 }

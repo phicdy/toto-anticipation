@@ -4,6 +4,8 @@ import com.phicdy.totoanticipation.domain.Toto
 import com.phicdy.totoanticipation.domain.TotoInfo
 import com.phicdy.totoanticipation.domain.TotoNumber
 import com.phicdy.totoanticipation.repository.RakutenTotoRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class RakutenTotoApi @Inject constructor(
@@ -11,22 +13,22 @@ class RakutenTotoApi @Inject constructor(
         private val rakutenTotoTopParser: RakutenTotoTopParser,
         private val rakutenTotoInfoParser: RakutenTotoInfoParser
 ) : RakutenTotoRepository {
-    override fun fetchLatestToto(): Toto? {
+    override suspend fun fetchLatestToto(): Toto? = withContext(Dispatchers.IO) {
         val schedule = service.schedule().execute()
         schedule.body()?.string()?.let {
-            return rakutenTotoTopParser.latestToto(it)
-        } ?: return null
+            return@withContext rakutenTotoTopParser.latestToto(it)
+        } ?: return@withContext null
     }
 
-    override fun fetchTotoInfo(number: TotoNumber): TotoInfo? {
+    override suspend fun fetchTotoInfo(number: TotoNumber): TotoInfo? = withContext(Dispatchers.IO) {
         val totoInfo = service.totoInfo(number.toString()).execute()
         totoInfo.body()?.string()?.let {
             val games = rakutenTotoInfoParser.games(it)
             val deadline = rakutenTotoInfoParser.deadlineTime(it)
             deadline?.let {
-                return TotoInfo(games, deadline)
+                return@withContext TotoInfo(games, deadline)
             }
         }
-        return null
+        return@withContext null
     }
 }

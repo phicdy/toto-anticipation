@@ -39,14 +39,23 @@ import dagger.Module
 import dagger.Provides
 import dagger.android.support.DaggerAppCompatActivity
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
-class GameListActivity : DaggerAppCompatActivity(), GameListView {
+class GameListActivity : DaggerAppCompatActivity(), GameListView, CoroutineScope {
     private var mTwoPane: Boolean = false
     private val recyclerView by lazy { findViewById<RecyclerView>(R.id.game_list) }
     private val adapter by lazy { SimpleItemRecyclerViewAdapter() }
     private val progressBar by lazy { findViewById<SmoothProgressBar>(R.id.progress) }
     private val fab by lazy { findViewById<FloatingActionButton>(R.id.fab) }
+
+    private val job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
 
     @Inject
     lateinit var presenter: GameListPresenter
@@ -74,7 +83,14 @@ class GameListActivity : DaggerAppCompatActivity(), GameListView {
             mTwoPane = true
         }
 
-        presenter.onCreate()
+        launch {
+            presenter.onCreate()
+        }
+    }
+
+    override fun onDestroy() {
+        job.cancel()
+        super.onDestroy()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {

@@ -27,14 +27,14 @@ class GameListPresenter @Inject constructor(
         private val storage: GameListStorage,
         private val alarm: DeadlineAlarm,
         private val settingStorage: SettingStorage
-) : Presenter {
+) {
     private var toto: Toto = Toto(Toto.DEFAULT_NUMBER, Date())
     private var games: List<Game> = listOf()
     private var j1ranking: List<Team> = emptyList()
     private var j2ranking: List<Team> = emptyList()
     private var j3ranking: List<Team> = emptyList()
 
-    override fun onCreate() {
+    suspend fun onCreate() {
         view.startProgress()
         val t = rakutenTotoRepository.fetchLatestToto()
         t?.let {
@@ -92,14 +92,6 @@ class GameListPresenter @Inject constructor(
             }
         } ?: view.stopProgress()
         if (!settingStorage.isPrivacyPolicyAccepted) view.showPrivacyPolicyDialog()
-    }
-
-    override fun onResume() {
-
-    }
-
-    override fun onPause() {
-
     }
 
     fun onHomeRadioButtonClicked(position: Int, isChecked: Boolean) {
