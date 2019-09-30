@@ -91,7 +91,7 @@ class GameListPresenter @Inject constructor(
                     view.initList()
                     storage.store(toto, games)
                     view.stopProgress()
-                }
+                } ?: stopAndShowEmptyView()
             } else {
                 view.stopProgress()
                 view.initList()
@@ -99,6 +99,11 @@ class GameListPresenter @Inject constructor(
             }
         } ?: view.stopProgress()
         if (!settingStorage.isPrivacyPolicyAccepted) view.showPrivacyPolicyDialog()
+    }
+
+    private fun stopAndShowEmptyView() {
+        view.showEmptyView()
+        view.stopProgress()
     }
 
     fun onHomeRadioButtonClicked(position: Int, isChecked: Boolean) {
