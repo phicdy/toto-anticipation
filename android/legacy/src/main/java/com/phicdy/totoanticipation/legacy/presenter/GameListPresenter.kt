@@ -67,7 +67,7 @@ class GameListPresenter @Inject constructor(
                     j1ranking = j1rankingDeferred.await()
                     j2ranking = j2rankingDeferred.await()
                     j3ranking = j3rankingDeferred.await()
-                   
+
                     games = totoInfo.games
                     for (game in games) {
                         val homeFullName = TeamInfoMapper().fullNameForJLeagueRanking(game.homeTeam)
@@ -90,6 +90,7 @@ class GameListPresenter @Inject constructor(
                     }
                     view.initList()
                     storage.store(toto, games)
+                    view.stopProgress()
                 }
             } else {
                 view.stopProgress()
