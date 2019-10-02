@@ -61,7 +61,7 @@ class GameListPresenter @Inject constructor(
                     // Set title
                     if (toto.number != Toto.DEFAULT_NUMBER) {
                         val format = SimpleDateFormat("MM/dd ", Locale.JAPAN)
-                        view.setTitleFrom(toto.number, format.format(toto.deadline) + totoInfo.deadline)
+                        view.setTitleFrom(toto.number, format.format(toto.deadline) + totoInfo.deadline.toString())
                     }
 
                     j1ranking = j1rankingDeferred.await()
