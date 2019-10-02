@@ -95,7 +95,6 @@ class GameListPresenter @Inject constructor(
             } else {
                 view.stopProgress()
                 view.initList()
-                storage.store(toto, games)
             }
         } ?: view.stopProgress()
         if (!settingStorage.isPrivacyPolicyAccepted) view.showPrivacyPolicyDialog()
