@@ -59,10 +59,8 @@ class GameListPresenter @Inject constructor(
                 val totoInfo = rakutenTotoRepository.fetchTotoInfo(TotoNumber(toto.number))
                 totoInfo?.let {
                     // Set title
-                    if (toto.number != Toto.DEFAULT_NUMBER) {
-                        val format = SimpleDateFormat("MM/dd ", Locale.JAPAN)
-                        view.setTitleFrom(toto.number, format.format(toto.deadline) + totoInfo.deadline.toString())
-                    }
+                    val format = SimpleDateFormat("MM/dd ", Locale.JAPAN)
+                    view.setTitleFrom(toto.number, format.format(toto.deadline) + totoInfo.deadline.toString())
 
                     j1ranking = j1rankingDeferred.await()
                     j2ranking = j2rankingDeferred.await()
