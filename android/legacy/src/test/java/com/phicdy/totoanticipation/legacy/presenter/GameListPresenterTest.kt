@@ -1,334 +1,273 @@
 package com.phicdy.totoanticipation.legacy.presenter
 
-import com.phicdy.totoanticipation.legacy.model.Game.Anticipation
-import com.phicdy.totoanticipation.legacy.model.RakutenTotoRequestExecutor
-import com.phicdy.totoanticipation.legacy.model.RakutenTotoService
-import com.phicdy.totoanticipation.legacy.model.TestRakutenTotoInfoPage
-import com.phicdy.totoanticipation.legacy.model.TestRakutenTotoPage
+import com.phicdy.totoanticipation.domain.Deadline
 import com.phicdy.totoanticipation.domain.Game
+import com.phicdy.totoanticipation.domain.League
+import com.phicdy.totoanticipation.domain.Team
 import com.phicdy.totoanticipation.domain.Toto
+import com.phicdy.totoanticipation.domain.TotoInfo
+import com.phicdy.totoanticipation.domain.TotoNumber
 import com.phicdy.totoanticipation.legacy.model.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.legacy.model.storage.GameListStorage
 import com.phicdy.totoanticipation.legacy.model.storage.SettingStorage
 import com.phicdy.totoanticipation.legacy.view.GameListView
 import com.phicdy.totoanticipation.repository.JLeagueRepository
-import okhttp3.MediaType
-import okhttp3.ResponseBody
-import org.hamcrest.CoreMatchers.`is`
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertThat
-import org.junit.Assert.assertTrue
+import com.phicdy.totoanticipation.repository.RakutenTotoRepository
+import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.verify
+import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito
-import retrofit2.Response
-import java.util.ArrayList
+import java.util.Calendar
 import java.util.Date
 
 class GameListPresenterTest {
 
     private lateinit var presenter: GameListPresenter
-    private lateinit var rakutenTotoRequestExecutor: RakutenTotoRequestExecutor
-    private lateinit var view: MockView
+    private lateinit var view: GameListView
     private lateinit var storage: GameListStorage
     private lateinit var settingStorage: SettingStorage
     private lateinit var alarm: DeadlineAlarm
     private lateinit var jLeagueRepository: JLeagueRepository
+    private lateinit var rakutenTotoRepository: RakutenTotoRepository
 
     @Before
     fun setup() {
-        val service = RakutenTotoService.Factory.create()
-        rakutenTotoRequestExecutor = RakutenTotoRequestExecutor(service)
-        storage = MockStorage()
-        settingStorage = MockSettingStorage()
-        alarm = Mockito.mock(DeadlineAlarm::class.java)
-        view = MockView()
-        jLeagueRepository = Mockito.mock(JLeagueRepository::class.java)
-        presenter = GameListPresenter(view, rakutenTotoRequestExecutor, jLeagueRepository, storage, alarm, settingStorage)
+        storage = mockk()
+        settingStorage = mockk()
+        alarm = mockk()
+        view = mockk(relaxed = true)
+        jLeagueRepository = mockk()
+        rakutenTotoRepository = mockk()
+        presenter = GameListPresenter(view, jLeagueRepository, rakutenTotoRepository, storage, alarm, settingStorage)
     }
 
     @Test
-    fun progressBarStartsAfterOnCreate() {
+    fun `when fetch result is null then stop progress`() = runBlocking {
+        coEvery { rakutenTotoRepository.fetchLatestToto() } returns null
+        every { settingStorage.isPrivacyPolicyAccepted } returns true
         presenter.onCreate()
-        assertTrue(view.isProgressing)
-    }
-
-    @Test
-    fun testOnResume() {
-        // For coverage
-        presenter.onResume()
-    }
-
-    @Test
-    fun testOnPause() {
-        // For coverage
-        presenter.onPause()
-    }
-
-    @Test
-    fun progressBarStopsWhenOnFailureTotoTop() {
-        presenter.onFailureTotoTop(Throwable())
-        assertFalse(view.isProgressing)
-    }
-
-    @Test
-    fun progressBarStopsWhenOnFailureTotoInfo() {
-        presenter.onFailureTotoInfo(Throwable())
-        assertFalse(view.isProgressing)
-    }
-
-    @Test
-    fun titleBecomesLatestTotoAfterReceivingTotoInfoResponse() {
-        val response = Response.success(
-                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoPage.text))
-        val infoResponse = Response.success(
-                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text))
-        presenter.onResponseTotoTop(response)
-        presenter.onResponseTotoInfo(infoResponse)
-        assertThat(view.title, `is`("第0923回(~04/22 13:50)"))
-    }
-
-    @Test
-    fun listIsSetWhenStoredListExists() {
-        val testList = ArrayList<Game>()
-        testList.add(Game("home", "away"))
-        storage.store(Toto("0923", Date()), testList)
-        val view = MockView()
-        presenter = GameListPresenter(view, rakutenTotoRequestExecutor, jLeagueRepository, storage, alarm, settingStorage)
-        val response = Response.success(
-                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoPage.text))
-        presenter.onResponseTotoTop(response)
-        assertThat(presenter.gameAt(0).homeTeam, `is`("home"))
-    }
-
-    @Test
-    fun progressBarStopsWhenStoredListExists() {
-        val testList = ArrayList<Game>()
-        testList.add(Game("home", "away"))
-        storage.store(Toto("0923", Date()), testList)
-        val view = MockView()
-        presenter = GameListPresenter(view, rakutenTotoRequestExecutor, jLeagueRepository, storage, alarm, settingStorage)
-        val response = Response.success(
-                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoPage.text))
-        presenter.onResponseTotoTop(response)
-        assertFalse(view.isProgressing)
-    }
-
-    @Test
-    fun titleDoesNotChangeAfterReceivingInvalidTotoTopResponse() {
-        val response = Response.success(
-                ResponseBody.create(MediaType.parse("application/text"), "<html><body>hoge</body></html>"))
-        presenter.onResponseTotoTop(response)
-        assertThat(view.title, `is`("toto予想"))
-    }
-
-    @Test
-    fun gamesAreSetAfterReceivingTotoInfoResponse() {
-        val response = Response.success(
-                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text))
-        presenter.onResponseTotoInfo(response)
-        val expectedGames = ArrayList<Game>()
-        expectedGames.add(Game("浦和", "札幌"))
-        expectedGames.add(Game("甲府", "Ｃ大阪"))
-        expectedGames.add(Game("広島", "仙台"))
-        expectedGames.add(Game("鹿島", "磐田"))
-        expectedGames.add(Game("柏", "横浜Ｍ"))
-        expectedGames.add(Game("新潟", "Ｆ東京"))
-        expectedGames.add(Game("鳥栖", "神戸"))
-        expectedGames.add(Game("名古屋", "山口"))
-        expectedGames.add(Game("横浜Ｃ", "千葉"))
-        expectedGames.add(Game("京都", "松本"))
-        expectedGames.add(Game("愛媛", "長崎"))
-        expectedGames.add(Game("東京Ｖ", "群馬"))
-        expectedGames.add(Game("町田", "徳島"))
-        for (i in 0 until presenter.gameSize()) {
-            assertThat(presenter.gameAt(i).homeTeam, `is`(expectedGames[i].homeTeam))
-            assertThat(presenter.gameAt(i).awayTeam, `is`(expectedGames[i].awayTeam))
+        coVerify {
+            view.stopProgress()
         }
     }
 
     @Test
-    fun gamesAreEmptyAfterReceivingInvalidTotoInfoResponse() {
-        val response = Response.success(
-                ResponseBody.create(MediaType.parse("application/text"), "<html><body>hoge</body></html>"))
-        presenter.onResponseTotoInfo(response)
-        assertThat(presenter.gameSize(), `is`(0))
-    }
-
-    @Test
-    fun anticipationBecomesHomeWhenHomeRadioButtonIsClicked() {
-        val response = Response.success(
-                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text))
-        presenter.onResponseTotoInfo(response)
-        presenter.onHomeRadioButtonClicked(0, true)
-        assertThat<Anticipation>(presenter.gameAt(0).anticipation, `is`<Anticipation>(Anticipation.HOME))
-    }
-
-    @Test
-    fun anticipationBecomesAwayWhenAwayRadioButtonIsClicked() {
-        val response = Response.success(
-                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text))
-        presenter.onResponseTotoInfo(response)
-        presenter.onAwayRadioButtonClicked(0, true)
-        assertThat<Anticipation>(presenter.gameAt(0).anticipation, `is`<Anticipation>(Anticipation.AWAY))
-    }
-
-    @Test
-    fun anticipationBecomesDrawWhenDrawRadioButtonIsClicked() {
-        val response = Response.success(
-                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text))
-        presenter.onResponseTotoInfo(response)
-        presenter.onDrawRadioButtonClicked(0, true)
-        assertThat<Anticipation>(presenter.gameAt(0).anticipation, `is`<Anticipation>(Anticipation.DRAW))
-    }
-
-    @Test
-    fun clickMinusPositionOfRadioButtonHasNoAffect() {
-        val response = Response.success(
-                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text))
-        presenter.onResponseTotoInfo(response)
-        presenter.onAwayRadioButtonClicked(-1, true)
-        // All of the anticipations are default, HOME
-        for (i in 0 until presenter.gameSize()) {
-            assertThat<Anticipation>(presenter.gameAt(i).anticipation, `is`<Anticipation>(Anticipation.HOME))
+    fun `when privacy policy is not accepted then stop the dialog`() = runBlocking {
+        coEvery { rakutenTotoRepository.fetchLatestToto() } returns null
+        every { settingStorage.isPrivacyPolicyAccepted } returns false
+        presenter.onCreate()
+        coVerify {
+            view.showPrivacyPolicyDialog()
         }
     }
 
     @Test
-    fun clickBiggerPositionThanGameSizeOfRadioButtonHasNoAffect() {
-        val response = Response.success(
-                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text))
-        presenter.onResponseTotoInfo(response)
-        presenter.onAwayRadioButtonClicked(presenter.gameSize() + 1, true)
-        // All of the anticipations are default, HOME
-        for (i in 0 until presenter.gameSize()) {
-            assertThat<Anticipation>(presenter.gameAt(i).anticipation, `is`<Anticipation>(Anticipation.HOME))
+    fun `when fetch result is default toto then show empty`() = runBlocking {
+        coEvery { rakutenTotoRepository.fetchLatestToto() } returns Toto(Toto.DEFAULT_NUMBER, Date())
+        presenter.onCreate()
+        coVerify {
+            view.stopProgress()
+            view.hideList()
+            view.hideFab()
+            view.hideAnticipationMenu()
+            view.showEmptyView()
         }
     }
 
     @Test
-    fun WhenFabIsClickedTotoAnticipationActivityStarts() {
-        var response = Response.success(
-                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoPage.text))
-        presenter.onResponseTotoTop(response)
-        response = Response.success(
-                ResponseBody.create(MediaType.parse("application/text"), TestRakutenTotoInfoPage.text))
-        presenter.onResponseTotoInfo(response)
-        presenter.onFabClicked()
-        assertTrue(view.isTotoAnticipationActivityStarted)
+    fun `when notify setting is enabled then set alarm`() = runBlocking {
+        val now = Date()
+        val toto = Toto("1", now)
+        val games = listOf(Game("home", "away"))
+        coEvery { rakutenTotoRepository.fetchLatestToto() } returns toto
+        every { alarm.setAtNoonOf(now) } just Runs
+        every { storage.list("1") } returns games
+        every { storage.store(toto, games) } just Runs
+        every { settingStorage.isPrivacyPolicyAccepted } returns true
+
+        every { settingStorage.isDeadlineNotify } returns true
+
+        presenter.onCreate()
+        verify {
+            alarm.setAtNoonOf(now)
+        }
     }
 
     @Test
-    fun startProgressBarWhenAutoAnticipationMenuIsClicked() {
-        presenter.onOptionsAutoAnticipationSelected()
-        assertTrue(view.isProgressing)
+    fun `when games are stored then stop and init`() = runBlocking {
+        val now = Date()
+        val toto = Toto("1", now)
+        val games = listOf(Game("home", "away"))
+        coEvery { rakutenTotoRepository.fetchLatestToto() } returns toto
+        every { settingStorage.isDeadlineNotify } returns false
+        every { storage.store(toto, games) } just Runs
+        every { settingStorage.isPrivacyPolicyAccepted } returns true
+
+        every { storage.list("1") } returns games
+
+        presenter.onCreate()
+        verify {
+            view.stopProgress()
+            view.initList()
+        }
     }
 
     @Test
-    fun showStartSnakeBarWhenAutoAnticipationMenuIsClicked() {
-        presenter.onOptionsAutoAnticipationSelected()
-        assertTrue(view.showStartSnakeBar)
+    fun `when games are not stored and fetch result is null then show empty`() = runBlocking {
+        val now = Date()
+        val toto = Toto("1", now)
+        coEvery { rakutenTotoRepository.fetchLatestToto() } returns toto
+        every { settingStorage.isDeadlineNotify } returns false
+        every { settingStorage.isPrivacyPolicyAccepted } returns true
+        every { storage.list("1") } returns emptyList()
+        coEvery { jLeagueRepository.fetchJ1Ranking() } returns emptyList()
+        coEvery { jLeagueRepository.fetchJ2Ranking() } returns emptyList()
+        coEvery { jLeagueRepository.fetchJ3Ranking() } returns emptyList()
+
+        coEvery { rakutenTotoRepository.fetchTotoInfo(TotoNumber("1")) } returns null
+
+        presenter.onCreate()
+        verify {
+            view.stopProgress()
+            view.showEmptyView()
+        }
     }
 
     @Test
-    fun progressBarStopsWhenAutoAnticipationIsFinished() {
-        presenter.finishAnticipation()
-        assertFalse(view.isProgressing)
+    fun `when games are not stored and toto number is not default then set the title`() = runBlocking {
+        val now = Calendar.getInstance().apply {
+            set(2019, 0, 1, 12, 34)
+        }.time
+        val toto = Toto("1", now)
+        val games = listOf(Game("home", "away"))
+        coEvery { rakutenTotoRepository.fetchLatestToto() } returns toto
+        every { settingStorage.isDeadlineNotify } returns false
+        every { storage.store(toto, games) } just Runs
+        every { settingStorage.isPrivacyPolicyAccepted } returns true
+        every { storage.list("1") } returns emptyList()
+        coEvery { jLeagueRepository.fetchJ1Ranking() } returns emptyList()
+        coEvery { jLeagueRepository.fetchJ2Ranking() } returns emptyList()
+        coEvery { jLeagueRepository.fetchJ3Ranking() } returns emptyList()
+
+        coEvery { rakutenTotoRepository.fetchTotoInfo(TotoNumber("1")) } returns TotoInfo(games, Deadline("12:34"))
+
+        presenter.onCreate()
+        verify {
+            view.setTitleFrom(toto.number, "01/01 12:34")
+        }
     }
 
     @Test
-    fun showFinishSnakeBarWhenAutoAnticipationIsFinished() {
-        presenter.finishAnticipation()
-        assertTrue(view.showFinishSnakeBar)
+    fun `when games are not stored and fetch succeeds then store the games`() = runBlocking {
+        val now = Calendar.getInstance().apply {
+            set(2019, 0, 1, 12, 34)
+        }.time
+        val toto = Toto("1", now)
+        val games = listOf(Game("home", "away"))
+        coEvery { rakutenTotoRepository.fetchLatestToto() } returns toto
+        every { settingStorage.isDeadlineNotify } returns false
+        every { storage.store(toto, games) } just Runs
+        every { settingStorage.isPrivacyPolicyAccepted } returns true
+        every { storage.list("1") } returns emptyList()
+        coEvery { jLeagueRepository.fetchJ1Ranking() } returns emptyList()
+        coEvery { jLeagueRepository.fetchJ2Ranking() } returns emptyList()
+        coEvery { jLeagueRepository.fetchJ3Ranking() } returns emptyList()
+
+        coEvery { rakutenTotoRepository.fetchTotoInfo(TotoNumber("1")) } returns TotoInfo(games, Deadline("12:34"))
+
+        presenter.onCreate()
+        verify {
+            view.initList()
+            storage.store(toto, games)
+            view.stopProgress()
+        }
     }
 
     @Test
-    fun dataIsStoredWhenAutoAnticipationIsFinished() {
-        presenter.finishAnticipation()
-        assertNotNull(storage.totoNum())
+    fun `when games are J1 then ranking are set`() = runBlocking {
+        val now = Calendar.getInstance().apply {
+            set(2019, 0, 1, 12, 34)
+        }.time
+        val toto = Toto("1", now)
+        val games = listOf(Game("Ｆ東京", "横浜Ｍ"))
+        coEvery { rakutenTotoRepository.fetchLatestToto() } returns toto
+        every { settingStorage.isDeadlineNotify } returns false
+        every { storage.store(toto, games) } just Runs
+        every { settingStorage.isPrivacyPolicyAccepted } returns true
+        every { storage.list("1") } returns emptyList()
+        coEvery { jLeagueRepository.fetchJ2Ranking() } returns emptyList()
+        coEvery { jLeagueRepository.fetchJ3Ranking() } returns emptyList()
+        coEvery { rakutenTotoRepository.fetchTotoInfo(TotoNumber("1")) } returns TotoInfo(games, Deadline("12:34"))
+
+        val j1ranking = listOf(
+                Team("ＦＣ東京", League.J1, 1),
+                Team("横浜Ｆ・マリノス", League.J1, 2)
+        )
+        coEvery { jLeagueRepository.fetchJ1Ranking() } returns j1ranking
+
+        presenter.onCreate()
+        assertEquals(1, games[0].homeRanking)
+        assertEquals(2, games[0].awayRanking)
     }
 
-    private inner class MockView : GameListView {
-        var title = "toto予想"
-        var isProgressing = false
-        var showStartSnakeBar = false
-        var showFinishSnakeBar = false
-        var isTotoAnticipationActivityStarted = false
+    @Test
+    fun `when games are J2 then ranking are set`() = runBlocking {
+        val now = Calendar.getInstance().apply {
+            set(2019, 0, 1, 12, 34)
+        }.time
+        val toto = Toto("1", now)
+        val games = listOf(Game("Ｆ東京", "横浜Ｍ"))
+        coEvery { rakutenTotoRepository.fetchLatestToto() } returns toto
+        every { settingStorage.isDeadlineNotify } returns false
+        every { storage.store(toto, games) } just Runs
+        every { settingStorage.isPrivacyPolicyAccepted } returns true
+        every { storage.list("1") } returns emptyList()
+        coEvery { jLeagueRepository.fetchJ1Ranking() } returns emptyList()
+        coEvery { jLeagueRepository.fetchJ3Ranking() } returns emptyList()
+        coEvery { rakutenTotoRepository.fetchTotoInfo(TotoNumber("1")) } returns TotoInfo(games, Deadline("12:34"))
 
-        override fun initList() {}
+        val j2ranking = listOf(
+                Team("ＦＣ東京", League.J1, 1),
+                Team("横浜Ｆ・マリノス", League.J1, 2)
+        )
+        coEvery { jLeagueRepository.fetchJ2Ranking() } returns j2ranking
 
-        override fun setTitleFrom(xxTh: String, deadline: String) {
-            title = "第" + xxTh + "回(~" + deadline + ")"
-        }
-
-        override fun startProgress() {
-            isProgressing = true
-        }
-
-        override fun stopProgress() {
-            isProgressing = false
-        }
-
-        override fun startTotoAnticipationActivity(totoNum: String) {
-            isTotoAnticipationActivityStarted = true
-        }
-
-        override fun goToSetting() {}
-
-        override fun showAnticipationStart() {
-            showStartSnakeBar = true
-        }
-
-        override fun showAnticipationFinish() {
-            showFinishSnakeBar = true
-        }
-
-        override fun notifyDataSetChanged() {}
-
-        override fun showAnticipationNotSupport() {}
-
-        override fun showPrivacyPolicyDialog() {}
-
-        override fun hideList() {
-        }
-
-        override fun hideFab() {
-        }
-
-        override fun hideAnticipationMenu() {
-        }
-
-        override fun showEmptyView() {
-        }
+        presenter.onCreate()
+        assertEquals(1, games[0].homeRanking)
+        assertEquals(2, games[0].awayRanking)
     }
 
-    private inner class MockStorage : GameListStorage {
+    @Test
+    fun `when games are J3 then ranking are set`() = runBlocking {
+        val now = Calendar.getInstance().apply {
+            set(2019, 0, 1, 12, 34)
+        }.time
+        val toto = Toto("1", now)
+        val games = listOf(Game("Ｆ東京", "横浜Ｍ"))
+        coEvery { rakutenTotoRepository.fetchLatestToto() } returns toto
+        every { settingStorage.isDeadlineNotify } returns false
+        every { storage.store(toto, games) } just Runs
+        every { settingStorage.isPrivacyPolicyAccepted } returns true
+        every { storage.list("1") } returns emptyList()
+        coEvery { jLeagueRepository.fetchJ1Ranking() } returns emptyList()
+        coEvery { jLeagueRepository.fetchJ2Ranking() } returns emptyList()
+        coEvery { rakutenTotoRepository.fetchTotoInfo(TotoNumber("1")) } returns TotoInfo(games, Deadline("12:34"))
 
-        private lateinit var totoNum: String
-        private var games: List<Game> = ArrayList()
+        val j3ranking = listOf(
+                Team("ＦＣ東京", League.J1, 1),
+                Team("横浜Ｆ・マリノス", League.J1, 2)
+        )
+        coEvery { jLeagueRepository.fetchJ3Ranking() } returns j3ranking
 
-        override fun totoNum(): String {
-            return totoNum
-        }
-
-        override fun totoDeadline(): Date {
-            return Date()
-        }
-
-        override fun list(totoNum: String): List<Game> {
-            return games
-        }
-
-        override fun store(toto: Toto, list: List<Game>) {
-            this.totoNum = toto.number
-            games = list
-        }
-    }
-
-    private inner class MockSettingStorage : SettingStorage {
-
-        override var isDeadlineNotify = false
-        override var isPrivacyPolicyAccepted = false
+        presenter.onCreate()
+        assertEquals(1, games[0].homeRanking)
+        assertEquals(2, games[0].awayRanking)
     }
 }
