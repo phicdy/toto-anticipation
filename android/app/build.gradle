@@ -33,12 +33,21 @@ dependencies {
     implementation project(':advertisement')
     implementation project(':advertisement_provider')
     implementation project(':legacy')
+    implementation project(':api')
+    implementation project(':domain')
+    implementation project(':repository')
+    implementation project(':di_common')
 
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
+    
     implementation "com.google.dagger:dagger:$daggerVer"
     implementation "com.google.dagger:dagger-android:$daggerVer"
     implementation "com.google.dagger:dagger-android-support:$daggerVer"
     kapt "com.google.dagger:dagger-compiler:$daggerVer"
     kapt "com.google.dagger:dagger-android-processor:$daggerVer"
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
 }
 
 apply plugin: 'com.google.gms.google-services'

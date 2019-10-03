@@ -2,4 +2,8 @@ include ':app',
         ':admob',
         ':advertisement',
         ':advertisement_provider',
-        ':legacy'
+        ':api',
+        ':domain',
+        ':di_common',
+        ':legacy',
+        ':repository'

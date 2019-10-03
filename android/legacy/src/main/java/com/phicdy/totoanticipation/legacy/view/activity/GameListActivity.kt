@@ -23,31 +23,42 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.phicdy.totoanticipation.advertisement.AdProvider
 import com.phicdy.totoanticipation.advertisement.AdViewHolder
+import com.phicdy.totoanticipation.di_common.ActivityScope
+import com.phicdy.totoanticipation.domain.Game
 import com.phicdy.totoanticipation.legacy.BuildConfig
 import com.phicdy.totoanticipation.legacy.R
-import com.phicdy.totoanticipation.legacy.model.Game
-import com.phicdy.totoanticipation.legacy.model.JLeagueRequestExecutor
-import com.phicdy.totoanticipation.legacy.model.JLeagueService
-import com.phicdy.totoanticipation.legacy.model.RakutenTotoRequestExecutor
-import com.phicdy.totoanticipation.legacy.model.RakutenTotoService
 import com.phicdy.totoanticipation.legacy.model.scheduler.DeadlineAlarm
+import com.phicdy.totoanticipation.legacy.model.storage.GameListStorage
 import com.phicdy.totoanticipation.legacy.model.storage.GameListStorageImpl
 import com.phicdy.totoanticipation.legacy.model.storage.SettingStorage
 import com.phicdy.totoanticipation.legacy.model.storage.SettingStorageImpl
 import com.phicdy.totoanticipation.legacy.presenter.GameListPresenter
 import com.phicdy.totoanticipation.legacy.view.GameListView
 import com.phicdy.totoanticipation.legacy.view.fragment.TeamInfoFragment
+import dagger.Module
+import dagger.Provides
 import dagger.android.support.DaggerAppCompatActivity
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
-class GameListActivity : DaggerAppCompatActivity(), GameListView {
+class GameListActivity : DaggerAppCompatActivity(), GameListView, CoroutineScope {
     private var mTwoPane: Boolean = false
-    private lateinit var presenter: GameListPresenter
     private val recyclerView by lazy { findViewById<RecyclerView>(R.id.game_list) }
     private val adapter by lazy { SimpleItemRecyclerViewAdapter() }
     private val progressBar by lazy { findViewById<SmoothProgressBar>(R.id.progress) }
     private val fab by lazy { findViewById<FloatingActionButton>(R.id.fab) }
+
+    private val job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
+
+    @Inject
+    lateinit var presenter: GameListPresenter
 
     @Inject
     lateinit var adProvider: AdProvider
@@ -72,15 +83,14 @@ class GameListActivity : DaggerAppCompatActivity(), GameListView {
             mTwoPane = true
         }
 
-        val rakutenTotoService = RakutenTotoService.Factory.create()
-        val rakutenTotoRequestExecutor = RakutenTotoRequestExecutor(rakutenTotoService)
-        val jLeagueService = JLeagueService.Factory.create()
-        val jLeagueRequestExecutor = JLeagueRequestExecutor(jLeagueService)
-        val storage = GameListStorageImpl(this)
-        val settingStorage = SettingStorageImpl(this) as SettingStorage
-        presenter = GameListPresenter(this, rakutenTotoRequestExecutor, jLeagueRequestExecutor, storage,
-                DeadlineAlarm(this), settingStorage)
-        presenter.onCreate()
+        launch {
+            presenter.onCreate()
+        }
+    }
+
+    override fun onDestroy() {
+        job.cancel()
+        super.onDestroy()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
@@ -280,5 +290,24 @@ class GameListActivity : DaggerAppCompatActivity(), GameListView {
         override fun toString(): String {
             return super.toString() + " '" + tvAway.text + "'"
         }
+    }
+
+    @Module
+    class GameListActivityModule {
+        @Provides
+        @ActivityScope
+        fun provideGameListView(activity: GameListActivity): GameListView = activity
+
+        @Provides
+        @ActivityScope
+        fun provideGameListStorage(activity: GameListActivity): GameListStorage = GameListStorageImpl(activity)
+
+        @Provides
+        @ActivityScope
+        fun provideDeadlineAlarm(activity: GameListActivity): DeadlineAlarm = DeadlineAlarm(activity)
+
+        @Provides
+        @ActivityScope
+        fun provideSettingStorage(activity: GameListActivity): SettingStorage = SettingStorageImpl(activity)
     }
 }

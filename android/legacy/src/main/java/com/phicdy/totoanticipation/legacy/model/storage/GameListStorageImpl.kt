@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.phicdy.totoanticipation.legacy.model.Game
-import com.phicdy.totoanticipation.legacy.model.Toto
+import com.phicdy.totoanticipation.domain.Game
+import com.phicdy.totoanticipation.domain.Toto
 import java.util.Date
 
 class GameListStorageImpl(context: Context) : GameListStorage {

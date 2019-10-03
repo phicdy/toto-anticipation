@@ -6,8 +6,6 @@ jobs:
       - image: circleci/android:api-28
         environment:
           TZ: Asia/Tokyo
-    environment:
-      JVM_OPTS: -Xmx3200m
     steps:
       - checkout
       - restore_cache:
@@ -26,7 +24,7 @@ jobs:
           command: cd android && ./gradlew androidDependencies
       - run:
           name: Run Tests
-          command: cd android && ./gradlew test
+          command: cd android && ./gradlew testGooglePlayDebugUnitTest
       - run:
           name: Create jacoco report
           command: cd android && ./gradlew jacocoTestReport 
@@ -48,8 +46,6 @@ jobs:
       - image: circleci/android:api-28
         environment:
           TZ: Asia/Tokyo
-    environment:
-      JVM_OPTS: -Xmx1024m
     steps:
       - checkout
       - restore_cache:
@@ -71,7 +67,7 @@ jobs:
           command: cd android && ./gradlew lintGooglePlayDebug
       - run:
           name: Run lint for non Google Play
-          command: cd android && ./gradlew clean && ./gradlew lintNonGooglePlayDebug
+          command: cd android && ./gradlew --stop && ./gradlew lintNonGooglePlayDebug
       - store_artifacts:
           path: android/app/build/reports
           destination: reports

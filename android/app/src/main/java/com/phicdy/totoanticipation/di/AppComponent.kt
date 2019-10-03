@@ -13,7 +13,8 @@ import javax.inject.Singleton
             AndroidInjectionModule::class,
             AppModule::class,
             ActivityModule::class,
-            AdComponentModule::class
+            AdComponentModule::class,
+            ApiComponentModule::class
         ]
 )
 interface AppComponent : AndroidInjector<TotoAnticipationApplication> {

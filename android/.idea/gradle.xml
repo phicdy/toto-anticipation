@@ -11,8 +11,12 @@
             <option value="$PROJECT_DIR$/admob" />
             <option value="$PROJECT_DIR$/advertisement" />
             <option value="$PROJECT_DIR$/advertisement_provider" />
+            <option value="$PROJECT_DIR$/api" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/di_common" />
+            <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/legacy" />
+            <option value="$PROJECT_DIR$/repository" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
