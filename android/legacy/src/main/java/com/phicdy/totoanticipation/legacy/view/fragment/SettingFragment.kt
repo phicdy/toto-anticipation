@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
@@ -16,7 +17,6 @@ import com.phicdy.totoanticipation.legacy.model.storage.GameListStorageImpl
 import com.phicdy.totoanticipation.legacy.model.storage.SettingStorageImpl
 import com.phicdy.totoanticipation.legacy.presenter.SettingPresenter
 import com.phicdy.totoanticipation.legacy.view.SettingView
-import com.phicdy.totoanticipation.legacy.view.activity.LicenseActivity
 
 
 class SettingFragment : PreferenceFragmentCompat(), SettingView {
@@ -77,7 +77,7 @@ class SettingFragment : PreferenceFragmentCompat(), SettingView {
     }
 
     override fun goToLicenseActivity() {
-        startActivity(Intent(activity, LicenseActivity::class.java))
+        findNavController().navigate(R.id.action_settingFragment_to_licenseFragment)
     }
 
     override fun openPrivacyPolicy() {

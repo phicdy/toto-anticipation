@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -36,7 +37,6 @@ import com.phicdy.totoanticipation.legacy.model.storage.SettingStorage
 import com.phicdy.totoanticipation.legacy.model.storage.SettingStorageImpl
 import com.phicdy.totoanticipation.legacy.presenter.GameListPresenter
 import com.phicdy.totoanticipation.legacy.view.GameListView
-import com.phicdy.totoanticipation.legacy.view.activity.SettingActivity
 import com.phicdy.totoanticipation.legacy.view.activity.TeamInfoActivity
 import com.phicdy.totoanticipation.legacy.view.activity.TotoAnticipationActivity
 import dagger.Provides
@@ -100,6 +100,7 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
         launch {
             presenter.onCreate()
         }
+        setHasOptionsMenu(true)
     }
 
     override fun onDestroy() {
@@ -158,7 +159,7 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
     }
 
     override fun goToSetting() {
-        startActivity(Intent(activity, SettingActivity::class.java))
+        findNavController().navigate(R.id.action_gameListFragment_to_settingFragment)
     }
 
     override fun showAnticipationStart() {
