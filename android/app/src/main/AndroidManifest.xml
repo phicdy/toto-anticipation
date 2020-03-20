@@ -34,7 +34,6 @@
         <activity
             android:name=".legacy.view.activity.TotoAnticipationActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".legacy.view.activity.SettingActivity" />
 
         <receiver
             android:name=".legacy.model.scheduler.DeadlineAlarmReceiver"
