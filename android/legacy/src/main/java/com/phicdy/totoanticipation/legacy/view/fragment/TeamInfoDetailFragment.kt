@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import com.phicdy.totoanticipation.legacy.R
 import com.phicdy.totoanticipation.legacy.model.TeamInfoMapper
 
-class TeamInfoFragment : Fragment() {
+class TeamInfoDetailFragment : Fragment() {
 
     private lateinit var webView: WebView
     private lateinit var team: String

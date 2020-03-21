@@ -37,7 +37,6 @@ import com.phicdy.totoanticipation.legacy.model.storage.SettingStorage
 import com.phicdy.totoanticipation.legacy.model.storage.SettingStorageImpl
 import com.phicdy.totoanticipation.legacy.presenter.GameListPresenter
 import com.phicdy.totoanticipation.legacy.view.GameListView
-import com.phicdy.totoanticipation.legacy.view.activity.TeamInfoActivity
 import com.phicdy.totoanticipation.legacy.view.activity.TotoAnticipationActivity
 import dagger.Provides
 import dagger.android.support.DaggerFragment
@@ -257,7 +256,7 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
                                 putString(TeamInfoActivity.ARG_HOME_TEAM, game.homeTeam)
                                 putString(TeamInfoActivity.ARG_AWAY_TEAM, game.awayTeam)
                             }
-                            val fragment = TeamInfoFragment()
+                            val fragment = TeamInfoDetailFragment()
                             fragment.arguments = arguments
                             activity?.supportFragmentManager?.beginTransaction()
                                     ?.replace(R.id.item_detail_container, fragment)

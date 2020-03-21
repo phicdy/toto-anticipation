@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.legacy.view.activity
+package com.phicdy.totoanticipation.legacy.view.fragment
 
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
@@ -6,8 +6,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.phicdy.totoanticipation.advertisement.AdProvider
 import com.phicdy.totoanticipation.legacy.R
 import com.phicdy.totoanticipation.legacy.model.TeamInfoMapper
-import com.phicdy.totoanticipation.legacy.view.fragment.GameHistoryFragment
-import com.phicdy.totoanticipation.legacy.view.fragment.TeamInfoFragment
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -60,8 +58,8 @@ class TeamInfoActivity : DaggerAppCompatActivity() {
                         .commit()
             }
             R.id.navigation_home -> {
-                val homeFragment = TeamInfoFragment()
-                arguments.putString(TeamInfoFragment.ARG_TEAM,
+                val homeFragment = TeamInfoDetailFragment()
+                arguments.putString(TeamInfoDetailFragment.ARG_TEAM,
                         intent.getStringExtra(ARG_HOME_TEAM))
                 homeFragment.arguments = arguments
                 supportFragmentManager.beginTransaction()
@@ -69,8 +67,8 @@ class TeamInfoActivity : DaggerAppCompatActivity() {
                         .commit()
             }
             R.id.navigation_away -> {
-                val awayFragment = TeamInfoFragment()
-                arguments.putString(TeamInfoFragment.ARG_TEAM,
+                val awayFragment = TeamInfoDetailFragment()
+                arguments.putString(TeamInfoDetailFragment.ARG_TEAM,
                         intent.getStringExtra(ARG_AWAY_TEAM))
                 awayFragment.arguments = arguments
                 supportFragmentManager.beginTransaction()
