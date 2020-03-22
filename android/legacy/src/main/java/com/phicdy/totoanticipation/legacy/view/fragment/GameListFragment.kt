@@ -253,8 +253,8 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
                         }
                         if (mTwoPane) {
                             val arguments = Bundle().apply {
-                                putString(TeamInfoActivity.ARG_HOME_TEAM, game.homeTeam)
-                                putString(TeamInfoActivity.ARG_AWAY_TEAM, game.awayTeam)
+                                putString(TeamInfoFragment.ARG_HOME_TEAM, game.homeTeam)
+                                putString(TeamInfoFragment.ARG_AWAY_TEAM, game.awayTeam)
                             }
                             val fragment = TeamInfoDetailFragment()
                             fragment.arguments = arguments
@@ -263,9 +263,9 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
                                     ?.commit()
                         } else {
                             val context = v.context
-                            val intent = Intent(context, TeamInfoActivity::class.java).apply {
-                                putExtra(TeamInfoActivity.ARG_HOME_TEAM, game.homeTeam)
-                                putExtra(TeamInfoActivity.ARG_AWAY_TEAM, game.awayTeam)
+                            val intent = Intent(context, TeamInfoFragment::class.java).apply {
+                                putExtra(TeamInfoFragment.ARG_HOME_TEAM, game.homeTeam)
+                                putExtra(TeamInfoFragment.ARG_AWAY_TEAM, game.awayTeam)
                             }
 
                             context.startActivity(intent)

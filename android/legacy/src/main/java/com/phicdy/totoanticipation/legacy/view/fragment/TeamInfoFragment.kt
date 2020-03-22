@@ -9,7 +9,7 @@ import com.phicdy.totoanticipation.legacy.model.TeamInfoMapper
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
-class TeamInfoActivity : DaggerAppCompatActivity() {
+class TeamInfoFragment : DaggerAppCompatActivity() {
 
     @Inject
     lateinit var provider: AdProvider
