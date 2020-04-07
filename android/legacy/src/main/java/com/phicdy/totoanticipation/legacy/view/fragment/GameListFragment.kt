@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -246,31 +247,15 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
                         else -> getString(R.string.team_label, game.awayRanking.toString(), game.awayTeam)
                     }
 
-                    holder.mView.setOnClickListener(View.OnClickListener { v ->
+                    holder.mView.setOnClickListener { view ->
                         if (game.homeRanking == Game.defaultRank || game.awayRanking == Game.defaultRank) {
                             showSnackbar(R.string.not_support_foreign_league, Snackbar.LENGTH_SHORT)
-                            return@OnClickListener
+                            return@setOnClickListener
                         }
-                        if (mTwoPane) {
-                            val arguments = Bundle().apply {
-                                putString(TeamInfoFragment.ARG_HOME_TEAM, game.homeTeam)
-                                putString(TeamInfoFragment.ARG_AWAY_TEAM, game.awayTeam)
-                            }
-                            val fragment = TeamInfoDetailFragment()
-                            fragment.arguments = arguments
-                            activity?.supportFragmentManager?.beginTransaction()
-                                    ?.replace(R.id.item_detail_container, fragment)
-                                    ?.commit()
-                        } else {
-                            val context = v.context
-                            val intent = Intent(context, TeamInfoFragment::class.java).apply {
-                                putExtra(TeamInfoFragment.ARG_HOME_TEAM, game.homeTeam)
-                                putExtra(TeamInfoFragment.ARG_AWAY_TEAM, game.awayTeam)
-                            }
-
-                            context.startActivity(intent)
-                        }
-                    })
+                        view.findNavController().navigate(
+                                GameListFragmentDirections.actionGameListFragmentToTeamInfoFragment(game.homeTeam, game.awayTeam)
+                        )
+                    }
 
                     when (game.anticipation) {
                         Game.Anticipation.HOME -> holder.rbHome.isChecked = true

@@ -13,6 +13,20 @@
         <action
             android:id="@+id/action_gameListFragment_to_settingFragment"
             app:destination="@id/settingFragment" />
+        <action
+            android:id="@+id/action_gameListFragment_to_teamInfoFragment"
+            app:destination="@id/teamInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/teamInfoFragment"
+        android:name="com.phicdy.totoanticipation.legacy.view.fragment.TeamInfoFragment"
+        android:label="teamInfo">
+        <argument
+            android:name="homeTeam"
+            app:argType="string" />
+        <argument
+            android:name="awayTeam"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"

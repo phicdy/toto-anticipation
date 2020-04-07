@@ -1,44 +1,50 @@
 package com.phicdy.totoanticipation.legacy.view.fragment
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.phicdy.totoanticipation.advertisement.AdProvider
 import com.phicdy.totoanticipation.legacy.R
 import com.phicdy.totoanticipation.legacy.model.TeamInfoMapper
-import dagger.android.support.DaggerAppCompatActivity
+import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class TeamInfoFragment : DaggerAppCompatActivity() {
+class TeamInfoFragment : DaggerFragment() {
 
     @Inject
     lateinit var provider: AdProvider
+
+    private val args: TeamInfoFragmentArgs by navArgs()
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         replaceFragmentWith(item.itemId)
         true
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_team_info)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        toolbar.title = title
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.activity_team_info, container, false)
+    }
 
-        val navigation = findViewById<BottomNavigationView>(R.id.navigation)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        toolbar.title = "${args.homeTeam} vs ${args.awayTeam}"
+
+        val navigation = view.findViewById<BottomNavigationView>(R.id.navigation)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         if (savedInstanceState == null) {
             replaceFragmentWith(navigation.selectedItemId)
-            supportFragmentManager.beginTransaction()
+            parentFragmentManager.beginTransaction()
                     .add(R.id.adContainer, provider.newFragmentInstance())
                     .commit()
         }
-        val title = intent.getStringExtra(ARG_HOME_TEAM) + " vs " +
-                intent.getStringExtra(ARG_AWAY_TEAM)
-        setTitle(title)
-
     }
 
     private fun replaceFragmentWith(menuId: Int) {
@@ -48,30 +54,28 @@ class TeamInfoFragment : DaggerAppCompatActivity() {
                 val fragment = GameHistoryFragment()
                 arguments.apply {
                     putString(GameHistoryFragment.ARG_HOME_TEAM,
-                            TeamInfoMapper().fullNameForFootbellGeist(intent.getStringExtra(ARG_HOME_TEAM)))
+                            TeamInfoMapper().fullNameForFootbellGeist(args.homeTeam))
                     putString(GameHistoryFragment.ARG_AWAY_TEAM,
-                            TeamInfoMapper().fullNameForFootbellGeist(intent.getStringExtra(ARG_AWAY_TEAM)))
+                            TeamInfoMapper().fullNameForFootbellGeist(args.awayTeam))
                 }
                 fragment.arguments = arguments
-                supportFragmentManager.beginTransaction()
+                parentFragmentManager.beginTransaction()
                         .add(R.id.fr_content, fragment)
                         .commit()
             }
             R.id.navigation_home -> {
                 val homeFragment = TeamInfoDetailFragment()
-                arguments.putString(TeamInfoDetailFragment.ARG_TEAM,
-                        intent.getStringExtra(ARG_HOME_TEAM))
+                arguments.putString(TeamInfoDetailFragment.ARG_TEAM, args.homeTeam)
                 homeFragment.arguments = arguments
-                supportFragmentManager.beginTransaction()
+                parentFragmentManager.beginTransaction()
                         .add(R.id.fr_content, homeFragment)
                         .commit()
             }
             R.id.navigation_away -> {
                 val awayFragment = TeamInfoDetailFragment()
-                arguments.putString(TeamInfoDetailFragment.ARG_TEAM,
-                        intent.getStringExtra(ARG_AWAY_TEAM))
+                arguments.putString(TeamInfoDetailFragment.ARG_TEAM, args.awayTeam)
                 awayFragment.arguments = arguments
-                supportFragmentManager.beginTransaction()
+                parentFragmentManager.beginTransaction()
                         .add(R.id.fr_content, awayFragment)
                         .commit()
             }
