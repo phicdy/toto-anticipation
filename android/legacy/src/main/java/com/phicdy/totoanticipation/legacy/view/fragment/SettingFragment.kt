@@ -5,10 +5,11 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.preference.Preference
-import android.preference.PreferenceFragment
-import android.preference.SwitchPreference
 import android.view.View
+import androidx.navigation.fragment.findNavController
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreference
 import com.google.android.material.snackbar.Snackbar
 import com.phicdy.totoanticipation.legacy.R
 import com.phicdy.totoanticipation.legacy.model.scheduler.DeadlineAlarm
@@ -16,30 +17,26 @@ import com.phicdy.totoanticipation.legacy.model.storage.GameListStorageImpl
 import com.phicdy.totoanticipation.legacy.model.storage.SettingStorageImpl
 import com.phicdy.totoanticipation.legacy.presenter.SettingPresenter
 import com.phicdy.totoanticipation.legacy.view.SettingView
-import com.phicdy.totoanticipation.legacy.view.activity.LicenseActivity
 
 
-class SettingFragment : PreferenceFragment(), SettingView {
+class SettingFragment : PreferenceFragmentCompat(), SettingView {
     private lateinit var presenter: SettingPresenter
     private lateinit var prefDeadlineNotification: SwitchPreference
     private lateinit var prefLicense: Preference
     private lateinit var prefPrivacyPolicy: Preference
     private lateinit var listener: SharedPreferences.OnSharedPreferenceChangeListener
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        addPreferencesFromResource(R.xml.setting_fragment)
-        val storage = GameListStorageImpl(activity)
-        val settingStorage = SettingStorageImpl(activity)
-        presenter = SettingPresenter(DeadlineAlarm(activity),
-                storage.totoDeadline(), settingStorage)
-        presenter.setView(this)
-    }
 
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        presenter.activityCreate()
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(R.xml.setting_fragment, rootKey)
+        context?.let {
+            val storage = GameListStorageImpl(it)
+            val settingStorage = SettingStorageImpl(it)
+            presenter = SettingPresenter(DeadlineAlarm(it),
+                    storage.totoDeadline(), settingStorage)
+            presenter.setView(this)
+            presenter.activityCreate()
+        }
     }
 
     override fun onResume() {
@@ -53,10 +50,13 @@ class SettingFragment : PreferenceFragment(), SettingView {
     }
 
     override fun initView(isDeadlineNotify: Boolean) {
-        prefDeadlineNotification = findPreference(getString(R.string.key_deadline_notification)) as SwitchPreference
+        prefDeadlineNotification = findPreference(getString(R.string.key_deadline_notification))
+                ?: throw IllegalStateException("")
         prefDeadlineNotification.isChecked = isDeadlineNotify
         prefLicense = findPreference(getString(R.string.key_license))
+                ?: throw IllegalStateException("")
         prefPrivacyPolicy = findPreference(getString(R.string.key_privacy_policy))
+                ?: throw IllegalStateException("")
     }
 
     override fun initListener() {
@@ -77,7 +77,7 @@ class SettingFragment : PreferenceFragment(), SettingView {
     }
 
     override fun goToLicenseActivity() {
-        startActivity(Intent(activity, LicenseActivity::class.java))
+        findNavController().navigate(R.id.action_settingFragment_to_licenseFragment)
     }
 
     override fun openPrivacyPolicy() {

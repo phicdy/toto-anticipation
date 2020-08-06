@@ -7,37 +7,11 @@
     android:fitsSystemWindows="true"
     tools:context="com.phicdy.totoanticipation.legacy.view.activity.GameListActivity">
 
-    <include layout="@layout/toolbar" />
-
-    <FrameLayout
-        android:id="@+id/frameLayout"
+    <fragment
+        android:id="@+id/gameListFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
-            android:id="@+id/progress"
-            style="@style/ProgressBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="gone" />
-
-        <include layout="@layout/item_list" />
-
-        <include
-            android:id="@+id/empty"
-            layout="@layout/item_empty"
-            android:visibility="gone" />
-    </FrameLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/ic_open_in_browser_white_24dp" />
-
-
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph_legacy" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

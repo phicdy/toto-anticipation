@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".legacy.view.activity.TeamInfoActivity"
+            android:name=".legacy.view.fragment.TeamInfoFragment"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -33,10 +33,6 @@
         </activity>
         <activity
             android:name=".legacy.view.activity.TotoAnticipationActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".legacy.view.activity.SettingActivity" />
-        <activity
-            android:name=".legacy.view.activity.LicenseActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver
