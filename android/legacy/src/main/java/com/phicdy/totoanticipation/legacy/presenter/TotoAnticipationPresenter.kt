@@ -6,7 +6,7 @@ import com.phicdy.totoanticipation.legacy.view.TotoAnticipationView
 
 class TotoAnticipationPresenter(private val totoNum: String) : Presenter {
     lateinit var view: TotoAnticipationView
-    val totoTopUrl = "http://sp.toto-dream.com/dci/sp/I/IMA/IMA01.do?op=inittotoSP&holdCntId="
+    val totoTopUrl = "https://sp.toto-dream.com/dcs/subos/screen/si01/ssin026/PGSSIN02601InittotoSP.form?holdCntId="
     val TAG = "TotoAnticipate"
 
     override fun onCreate() {
