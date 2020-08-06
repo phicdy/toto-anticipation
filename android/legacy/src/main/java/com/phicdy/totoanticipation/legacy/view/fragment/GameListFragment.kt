@@ -149,7 +149,7 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
         val intent: Intent
         if (BuildConfig.FLAVOR == "googlePlay") {
             // Google Play forbids to upload gambling app for Japan, open external browser
-            val totoTopUrl = "http://sp.toto-dream.com/dci/sp/I/IMA/IMA01.do?op=inittotoSP&holdCntId=$totoNum"
+            val totoTopUrl = "https://sp.toto-dream.com/dcs/subos/screen/si01/ssin026/PGSSIN02601InittotoSP.form?holdCntId=$totoNum"
             intent = Intent(Intent.ACTION_VIEW, Uri.parse(totoTopUrl))
         } else {
             intent = Intent(activity, TotoAnticipationActivity::class.java)
