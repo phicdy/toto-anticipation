@@ -6,19 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.phicdy.totoanticipation.advertisement.AdProvider
 import com.phicdy.totoanticipation.legacy.R
 import com.phicdy.totoanticipation.legacy.model.TeamInfoMapper
 import dagger.android.support.DaggerFragment
-import javax.inject.Inject
 
 class TeamInfoFragment : DaggerFragment() {
-
-    @Inject
-    lateinit var provider: AdProvider
 
     private val args: TeamInfoFragmentArgs by navArgs()
 
@@ -41,9 +35,6 @@ class TeamInfoFragment : DaggerFragment() {
 
         if (savedInstanceState == null) {
             replaceFragmentWith(navigation.selectedItemId)
-            parentFragmentManager.beginTransaction()
-                    .add(R.id.adContainer, provider.newFragmentInstance())
-                    .commit()
         }
     }
 
