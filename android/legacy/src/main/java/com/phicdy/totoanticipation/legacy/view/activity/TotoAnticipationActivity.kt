@@ -24,7 +24,7 @@ class TotoAnticipationActivity : AppCompatActivity(), TotoAnticipationView {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         toolbar.title = title
-        totoNum = intent.getStringExtra(KEY_TOTO_NUM)
+        totoNum = intent.getStringExtra(KEY_TOTO_NUM) ?: throw IllegalArgumentException("toto number is null")
         presenter = TotoAnticipationPresenter(totoNum)
         presenter.view = this
         presenter.onCreate()
