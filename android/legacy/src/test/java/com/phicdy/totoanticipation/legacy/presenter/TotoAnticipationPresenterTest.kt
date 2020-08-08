@@ -25,7 +25,7 @@ class TotoAnticipationPresenterTest {
         presenter.onCreate()
         presenter.onResume()
         Mockito.verify(presenter.view, Mockito.times(1))
-                .loadUrl("http://sp.toto-dream.com/dci/sp/I/IMA/IMA01.do?op=inittotoSP&holdCntId=0973")
+                .loadUrl("https://sp.toto-dream.com/dcs/subos/screen/si01/ssin026/PGSSIN02601InittotoSP.form?holdCntId=0973")
     }
 
     @Test
@@ -41,7 +41,7 @@ class TotoAnticipationPresenterTest {
         presenter.onCreate()
         presenter.onResume()
         val games = mutableListOf<Game>()
-        presenter.onPageFinished("http://sp.toto-dream.com/dci/sp/I/IMA/IMA01.do?op=inittotoSP&holdCntId=0973", games)
+        presenter.onPageFinished("https://sp.toto-dream.com/dcs/subos/screen/si01/ssin026/PGSSIN02601InittotoSP.form?holdCntId=0973", games)
         Mockito.verify(presenter.view, Mockito.times(1))
                 .exec(script)
     }
