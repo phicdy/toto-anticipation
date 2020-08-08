@@ -60,7 +60,7 @@ class SettingFragment : PreferenceFragmentCompat(), SettingView {
     }
 
     override fun initListener() {
-        listener = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
+        listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
             if (key == getString(R.string.key_deadline_notification)) {
                 presenter.onDeadlineNotificationSettingClicked(prefDeadlineNotification.isChecked)
             }
