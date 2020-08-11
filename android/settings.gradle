@@ -1,9 +1,10 @@
-include ':app',
-        ':admob',
-        ':advertisement',
-        ':advertisement_provider',
-        ':api',
-        ':domain',
-        ':di_common',
-        ':legacy',
-        ':repository'
+include ':app'
+include':admob'
+include ':advertisement'
+include ':advertisement_provider'
+include ':api'
+include ':domain'
+include ':di_common'
+include ':feature_setting'
+include ':legacy'
+include ':repository'

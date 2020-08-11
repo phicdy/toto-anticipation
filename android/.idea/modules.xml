@@ -6,12 +6,23 @@
       <module fileurl="file://$PROJECT_DIR$/advertisement/advertisement.iml" filepath="$PROJECT_DIR$/advertisement/advertisement.iml" />
       <module fileurl="file://$PROJECT_DIR$/advertisement_provider/advertisement_provider.iml" filepath="$PROJECT_DIR$/advertisement_provider/advertisement_provider.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/android.iml" filepath="$PROJECT_DIR$/.idea/android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/admob/android-admob.iml" filepath="$PROJECT_DIR$/admob/android-admob.iml" group="android/admob" />
+      <module fileurl="file://$PROJECT_DIR$/advertisement/android-advertisement.iml" filepath="$PROJECT_DIR$/advertisement/android-advertisement.iml" group="android/advertisement" />
+      <module fileurl="file://$PROJECT_DIR$/advertisement_provider/android-advertisement_provider.iml" filepath="$PROJECT_DIR$/advertisement_provider/android-advertisement_provider.iml" group="android/advertisement_provider" />
+      <module fileurl="file://$PROJECT_DIR$/api/android-api.iml" filepath="$PROJECT_DIR$/api/android-api.iml" group="android/api" />
+      <module fileurl="file://$PROJECT_DIR$/app/android-app.iml" filepath="$PROJECT_DIR$/app/android-app.iml" group="android/app" />
+      <module fileurl="file://$PROJECT_DIR$/di_common/android-di_common.iml" filepath="$PROJECT_DIR$/di_common/android-di_common.iml" group="android/di_common" />
+      <module fileurl="file://$PROJECT_DIR$/domain/android-domain.iml" filepath="$PROJECT_DIR$/domain/android-domain.iml" group="android/domain" />
+      <module fileurl="file://$PROJECT_DIR$/legacy/android-legacy.iml" filepath="$PROJECT_DIR$/legacy/android-legacy.iml" group="android/legacy" />
+      <module fileurl="file://$PROJECT_DIR$/repository/android-repository.iml" filepath="$PROJECT_DIR$/repository/android-repository.iml" group="android/repository" />
       <module fileurl="file://$PROJECT_DIR$/api/api.iml" filepath="$PROJECT_DIR$/api/api.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/di_common/di_common.iml" filepath="$PROJECT_DIR$/di_common/di_common.iml" />
       <module fileurl="file://$PROJECT_DIR$/domain/domain.iml" filepath="$PROJECT_DIR$/domain/domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/feature_setting/feature_setting.iml" filepath="$PROJECT_DIR$/.idea/modules/feature_setting/feature_setting.iml" group="android/feature_setting" />
       <module fileurl="file://$PROJECT_DIR$/legacy/legacy.iml" filepath="$PROJECT_DIR$/legacy/legacy.iml" />
       <module fileurl="file://$PROJECT_DIR$/repository/repository.iml" filepath="$PROJECT_DIR$/repository/repository.iml" />
+      <module fileurl="file://$PROJECT_DIR$/toto-anticipation-android.iml" filepath="$PROJECT_DIR$/toto-anticipation-android.iml" group="android" />
     </modules>
   </component>
 </project>
