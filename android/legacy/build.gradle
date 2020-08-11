@@ -12,8 +12,9 @@ android {
 dependencies {
     implementation project(':advertisement')
     implementation project(':domain')
-    implementation project(':repository')
     implementation project(':di_common')
+    implementation project(':repository')
+    implementation project(':resource')
 
     implementation "androidx.appcompat:appcompat:$appcompat_veriosn"
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
