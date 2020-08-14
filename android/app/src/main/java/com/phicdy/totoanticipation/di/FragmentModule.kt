@@ -2,6 +2,7 @@ package com.phicdy.totoanticipation.di
 
 import com.phicdy.totoanticipation.di_common.FragmentScope
 import com.phicdy.totoanticipation.legacy.view.fragment.GameListFragment
+import com.phicdy.totoanticipation.legacy.view.fragment.SettingFragment
 import com.phicdy.totoanticipation.legacy.view.fragment.TeamInfoFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -15,4 +16,8 @@ interface FragmentModule {
     @ContributesAndroidInjector
     @FragmentScope
     fun contributeTeamInfoFragment(): TeamInfoFragment
+
+    @ContributesAndroidInjector
+    @FragmentScope
+    fun contributeSettingFragment(): SettingFragment
 }

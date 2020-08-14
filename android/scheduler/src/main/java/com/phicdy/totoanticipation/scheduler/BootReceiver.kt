@@ -1,19 +1,22 @@
-package com.phicdy.totoanticipation.legacy.model.scheduler
+package com.phicdy.totoanticipation.scheduler
 
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.phicdy.totoanticipation.legacy.model.storage.GameListStorageImpl
-import com.phicdy.totoanticipation.scheduler.DeadlineAlarm
+import com.phicdy.totoanticipation.storage.GameListStorage
+import dagger.android.DaggerBroadcastReceiver
+import javax.inject.Inject
 
-class BootReceiver : BroadcastReceiver() {
+class BootReceiver : DaggerBroadcastReceiver() {
+
+    @Inject
+    lateinit var storage: GameListStorage
 
     override fun onReceive(context: Context?, intent: Intent?) {
+        super.onReceive(context, intent)
         Log.d("Boot", "receive boot")
         if (context == null || intent == null || intent.action == null) return
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
-            val storage = GameListStorageImpl(context)
             val deadline = storage.totoDeadline()
             Log.d("Boot", "deadline: $deadline")
             val now = System.currentTimeMillis()

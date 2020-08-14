@@ -40,7 +40,7 @@
             android:enabled="true"
             android:exported="false" />
         <receiver
-            android:name=".legacy.model.scheduler.BootReceiver"
+            android:name=".scheduler.BootReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

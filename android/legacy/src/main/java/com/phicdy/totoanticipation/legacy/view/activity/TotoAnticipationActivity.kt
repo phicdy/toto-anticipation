@@ -4,19 +4,23 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.phicdy.totoanticipation.legacy.BuildConfig
 import com.phicdy.totoanticipation.legacy.R
-import com.phicdy.totoanticipation.legacy.model.storage.GameListStorageImpl
 import com.phicdy.totoanticipation.legacy.presenter.TotoAnticipationPresenter
 import com.phicdy.totoanticipation.legacy.view.TotoAnticipationView
+import com.phicdy.totoanticipation.storage.GameListStorage
+import dagger.android.support.DaggerAppCompatActivity
+import javax.inject.Inject
 
-class TotoAnticipationActivity : AppCompatActivity(), TotoAnticipationView {
+class TotoAnticipationActivity : DaggerAppCompatActivity(), TotoAnticipationView {
 
     private lateinit var webView: WebView
     private lateinit var totoNum: String
     private lateinit var presenter: TotoAnticipationPresenter
+
+    @Inject
+    lateinit var storage: GameListStorage
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +28,8 @@ class TotoAnticipationActivity : AppCompatActivity(), TotoAnticipationView {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         toolbar.title = title
-        totoNum = intent.getStringExtra(KEY_TOTO_NUM) ?: throw IllegalArgumentException("toto number is null")
+        totoNum = intent.getStringExtra(KEY_TOTO_NUM)
+                ?: throw IllegalArgumentException("toto number is null")
         presenter = TotoAnticipationPresenter(totoNum)
         presenter.view = this
         presenter.onCreate()
@@ -56,7 +61,6 @@ class TotoAnticipationActivity : AppCompatActivity(), TotoAnticipationView {
         webView.webViewClient = object : WebViewClient() {
 
             override fun onPageFinished(view: WebView, url: String) {
-                val storage = GameListStorageImpl(this@TotoAnticipationActivity)
                 presenter.onPageFinished(url, storage.list(totoNum))
             }
         }

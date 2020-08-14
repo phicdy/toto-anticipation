@@ -1,6 +1,7 @@
 package com.phicdy.totoanticipation.legacy.view.fragment
 
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -12,11 +13,13 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.google.android.material.snackbar.Snackbar
 import com.phicdy.totoanticipation.legacy.R
-import com.phicdy.totoanticipation.legacy.model.storage.GameListStorageImpl
 import com.phicdy.totoanticipation.legacy.model.storage.SettingStorageImpl
 import com.phicdy.totoanticipation.legacy.presenter.SettingPresenter
 import com.phicdy.totoanticipation.legacy.view.SettingView
 import com.phicdy.totoanticipation.scheduler.DeadlineAlarm
+import com.phicdy.totoanticipation.storage.GameListStorage
+import dagger.android.support.AndroidSupportInjection
+import javax.inject.Inject
 
 
 class SettingFragment : PreferenceFragmentCompat(), SettingView {
@@ -26,17 +29,23 @@ class SettingFragment : PreferenceFragmentCompat(), SettingView {
     private lateinit var prefPrivacyPolicy: Preference
     private lateinit var listener: SharedPreferences.OnSharedPreferenceChangeListener
 
+    @Inject
+    lateinit var storage: GameListStorage
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.setting_fragment, rootKey)
         context?.let {
-            val storage = GameListStorageImpl(it)
             val settingStorage = SettingStorageImpl(it)
             presenter = SettingPresenter(DeadlineAlarm(it),
                     storage.totoDeadline(), settingStorage)
             presenter.setView(this)
             presenter.activityCreate()
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        AndroidSupportInjection.inject(this)
     }
 
     override fun onResume() {
