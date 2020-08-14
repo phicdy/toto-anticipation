@@ -12,11 +12,11 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.google.android.material.snackbar.Snackbar
 import com.phicdy.totoanticipation.legacy.R
-import com.phicdy.totoanticipation.legacy.model.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.legacy.model.storage.GameListStorageImpl
 import com.phicdy.totoanticipation.legacy.model.storage.SettingStorageImpl
 import com.phicdy.totoanticipation.legacy.presenter.SettingPresenter
 import com.phicdy.totoanticipation.legacy.view.SettingView
+import com.phicdy.totoanticipation.scheduler.DeadlineAlarm
 
 
 class SettingFragment : PreferenceFragmentCompat(), SettingView {

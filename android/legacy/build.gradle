@@ -13,9 +13,10 @@ dependencies {
     implementation project(':advertisement')
     implementation project(':domain')
     implementation project(':di_common')
-    implementation project(':intent_provider')
+    implementation project(':feature_setting')
     implementation project(':repository')
     implementation project(':resource')
+    implementation project(':scheduler')
 
     implementation "androidx.appcompat:appcompat:$appcompat_veriosn"
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

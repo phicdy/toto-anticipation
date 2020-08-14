@@ -36,7 +36,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver
-            android:name=".legacy.model.scheduler.DeadlineAlarmReceiver"
+            android:name=".scheduler.DeadlineAlarmReceiver"
             android:enabled="true"
             android:exported="false" />
         <receiver

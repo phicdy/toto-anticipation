@@ -37,6 +37,7 @@ dependencies {
     implementation project(':domain')
     implementation project(':intent_provider')
     implementation project(':repository')
+    implementation project(':scheduler')
     implementation project(':di_common')
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"

@@ -1,10 +1,9 @@
-package com.phicdy.totoanticipation.legacy.model.notification
+package com.phicdy.totoanticipation.scheduler
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
-import com.phicdy.totoanticipation.legacy.R
 
 class NotificationChannelFactory {
 

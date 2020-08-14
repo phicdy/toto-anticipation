@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.legacy.model.scheduler
+package com.phicdy.totoanticipation.scheduler
 
 import android.app.AlarmManager
 import android.app.PendingIntent

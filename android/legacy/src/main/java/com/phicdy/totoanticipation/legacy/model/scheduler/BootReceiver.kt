@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.phicdy.totoanticipation.legacy.model.storage.GameListStorageImpl
+import com.phicdy.totoanticipation.scheduler.DeadlineAlarm
 
 class BootReceiver : BroadcastReceiver() {
 

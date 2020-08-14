@@ -7,12 +7,12 @@ import com.phicdy.totoanticipation.domain.Team
 import com.phicdy.totoanticipation.domain.Toto
 import com.phicdy.totoanticipation.domain.TotoInfo
 import com.phicdy.totoanticipation.domain.TotoNumber
-import com.phicdy.totoanticipation.legacy.model.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.legacy.model.storage.GameListStorage
 import com.phicdy.totoanticipation.legacy.model.storage.SettingStorage
 import com.phicdy.totoanticipation.legacy.view.GameListView
 import com.phicdy.totoanticipation.repository.JLeagueRepository
 import com.phicdy.totoanticipation.repository.RakutenTotoRepository
+import com.phicdy.totoanticipation.scheduler.DeadlineAlarm
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -40,7 +40,7 @@ class GameListPresenterTest {
     private lateinit var view: GameListView
     private lateinit var storage: GameListStorage
     private lateinit var settingStorage: SettingStorage
-    private lateinit var alarm: DeadlineAlarm
+    private lateinit var alarm: com.phicdy.totoanticipation.scheduler.DeadlineAlarm
     private lateinit var jLeagueRepository: JLeagueRepository
     private lateinit var rakutenTotoRepository: RakutenTotoRepository
 

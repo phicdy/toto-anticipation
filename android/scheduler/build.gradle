@@ -8,5 +8,11 @@ android {
 }
 
 dependencies {
+    implementation project(':resource')
     implementation project(':intent_provider')
+
+    implementation "androidx.appcompat:appcompat:$appcompat_veriosn"
+
+    implementation "com.google.dagger:dagger:$daggerVer"
+    kapt "com.google.dagger:dagger-compiler:$daggerVer"
 }
