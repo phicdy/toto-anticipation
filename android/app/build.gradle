@@ -35,6 +35,7 @@ dependencies {
     implementation project(':legacy')
     implementation project(':api')
     implementation project(':domain')
+    implementation project(':intent_provider')
     implementation project(':repository')
     implementation project(':di_common')
 
