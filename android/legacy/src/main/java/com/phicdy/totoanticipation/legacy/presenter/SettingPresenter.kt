@@ -1,8 +1,8 @@
 package com.phicdy.totoanticipation.legacy.presenter
 
-import com.phicdy.totoanticipation.legacy.model.storage.SettingStorage
 import com.phicdy.totoanticipation.legacy.view.SettingView
 import com.phicdy.totoanticipation.scheduler.DeadlineAlarm
+import com.phicdy.totoanticipation.storage.SettingStorage
 import java.util.Date
 
 

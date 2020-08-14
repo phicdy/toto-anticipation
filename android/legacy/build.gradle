@@ -17,6 +17,7 @@ dependencies {
     implementation project(':repository')
     implementation project(':resource')
     implementation project(':scheduler')
+    implementation project(':storage')
 
     implementation "androidx.appcompat:appcompat:$appcompat_veriosn"
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

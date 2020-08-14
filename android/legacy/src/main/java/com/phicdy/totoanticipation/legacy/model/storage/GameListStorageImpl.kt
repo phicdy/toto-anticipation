@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.phicdy.totoanticipation.domain.Game
 import com.phicdy.totoanticipation.domain.Toto
+import com.phicdy.totoanticipation.storage.GameListStorage
 import java.util.Date
 
 class GameListStorageImpl(context: Context) : GameListStorage {

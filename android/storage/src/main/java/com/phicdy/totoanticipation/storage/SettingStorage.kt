@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.legacy.model.storage
+package com.phicdy.totoanticipation.storage
 
 interface SettingStorage {
     var isDeadlineNotify: Boolean

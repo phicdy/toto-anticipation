@@ -31,14 +31,14 @@ import com.phicdy.totoanticipation.di_common.FragmentScope
 import com.phicdy.totoanticipation.domain.Game
 import com.phicdy.totoanticipation.legacy.BuildConfig
 import com.phicdy.totoanticipation.legacy.R
-import com.phicdy.totoanticipation.legacy.model.storage.GameListStorage
 import com.phicdy.totoanticipation.legacy.model.storage.GameListStorageImpl
-import com.phicdy.totoanticipation.legacy.model.storage.SettingStorage
 import com.phicdy.totoanticipation.legacy.model.storage.SettingStorageImpl
 import com.phicdy.totoanticipation.legacy.presenter.GameListPresenter
 import com.phicdy.totoanticipation.legacy.view.GameListView
 import com.phicdy.totoanticipation.legacy.view.activity.TotoAnticipationActivity
 import com.phicdy.totoanticipation.scheduler.DeadlineAlarm
+import com.phicdy.totoanticipation.storage.GameListStorage
+import com.phicdy.totoanticipation.storage.SettingStorage
 import dagger.Provides
 import dagger.android.support.DaggerFragment
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar

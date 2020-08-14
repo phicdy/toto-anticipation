@@ -7,12 +7,11 @@ import com.phicdy.totoanticipation.domain.Team
 import com.phicdy.totoanticipation.domain.Toto
 import com.phicdy.totoanticipation.domain.TotoInfo
 import com.phicdy.totoanticipation.domain.TotoNumber
-import com.phicdy.totoanticipation.legacy.model.storage.GameListStorage
-import com.phicdy.totoanticipation.legacy.model.storage.SettingStorage
 import com.phicdy.totoanticipation.legacy.view.GameListView
 import com.phicdy.totoanticipation.repository.JLeagueRepository
 import com.phicdy.totoanticipation.repository.RakutenTotoRepository
-import com.phicdy.totoanticipation.scheduler.DeadlineAlarm
+import com.phicdy.totoanticipation.storage.GameListStorage
+import com.phicdy.totoanticipation.storage.SettingStorage
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify

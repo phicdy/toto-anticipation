@@ -1,6 +1,7 @@
 package com.phicdy.totoanticipation.legacy.model.storage
 
 import android.content.Context
+import com.phicdy.totoanticipation.storage.SettingStorage
 
 class SettingStorageImpl(context: Context) : SettingStorage {
 
