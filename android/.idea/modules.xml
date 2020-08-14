@@ -20,10 +20,12 @@
       <module fileurl="file://$PROJECT_DIR$/di_common/di_common.iml" filepath="$PROJECT_DIR$/di_common/di_common.iml" />
       <module fileurl="file://$PROJECT_DIR$/domain/domain.iml" filepath="$PROJECT_DIR$/domain/domain.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/feature_setting/feature_setting.iml" filepath="$PROJECT_DIR$/.idea/modules/feature_setting/feature_setting.iml" group="android/feature_setting" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/intent_provider/intent_provider.iml" filepath="$PROJECT_DIR$/.idea/modules/intent_provider/intent_provider.iml" group="android/intent_provider" />
       <module fileurl="file://$PROJECT_DIR$/legacy/legacy.iml" filepath="$PROJECT_DIR$/legacy/legacy.iml" />
       <module fileurl="file://$PROJECT_DIR$/repository/repository.iml" filepath="$PROJECT_DIR$/repository/repository.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/resource/resource.iml" filepath="$PROJECT_DIR$/.idea/modules/resource/resource.iml" group="android/resource" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/scheduler/scheduler.iml" filepath="$PROJECT_DIR$/.idea/modules/scheduler/scheduler.iml" group="android/scheduler" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/storage/storage.iml" filepath="$PROJECT_DIR$/.idea/modules/storage/storage.iml" group="android/storage" />
       <module fileurl="file://$PROJECT_DIR$/toto-anticipation-android.iml" filepath="$PROJECT_DIR$/toto-anticipation-android.iml" group="android" />
     </modules>
   </component>
