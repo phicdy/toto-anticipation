@@ -8,4 +8,9 @@ android {
 }
 
 dependencies {
+    implementation project(':domain')
+    implementation project(':storage')
+
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation "androidx.preference:preference-ktx:$preference_version"
 }

@@ -8,6 +8,8 @@ import com.phicdy.totoanticipation.intentprovider.IntentProvider
 import com.phicdy.totoanticipation.legacy.model.storage.GameListStorageImpl
 import com.phicdy.totoanticipation.legacy.view.activity.GameListActivity
 import com.phicdy.totoanticipation.storage.GameListStorage
+import com.phicdy.totoanticipation.storage.SettingStorage
+import com.phicdy.totoanticipation.storage.impl.SettingStorageImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -30,4 +32,9 @@ object AppModule {
     @Provides
     @Singleton
     fun provideGameListStorage(application: TotoAnticipationApplication): GameListStorage = GameListStorageImpl(application)
+
+    @JvmStatic
+    @Provides
+    @Singleton
+    fun provideSettingStorage(application: TotoAnticipationApplication): SettingStorage = SettingStorageImpl(application)
 }

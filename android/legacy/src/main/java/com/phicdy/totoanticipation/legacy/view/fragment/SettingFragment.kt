@@ -13,11 +13,11 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.google.android.material.snackbar.Snackbar
 import com.phicdy.totoanticipation.legacy.R
-import com.phicdy.totoanticipation.legacy.model.storage.SettingStorageImpl
 import com.phicdy.totoanticipation.legacy.presenter.SettingPresenter
 import com.phicdy.totoanticipation.legacy.view.SettingView
 import com.phicdy.totoanticipation.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.storage.GameListStorage
+import com.phicdy.totoanticipation.storage.SettingStorage
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -32,10 +32,12 @@ class SettingFragment : PreferenceFragmentCompat(), SettingView {
     @Inject
     lateinit var storage: GameListStorage
 
+    @Inject
+    lateinit var settingStorage: SettingStorage
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.setting_fragment, rootKey)
         context?.let {
-            val settingStorage = SettingStorageImpl(it)
             presenter = SettingPresenter(DeadlineAlarm(it),
                     storage.totoDeadline(), settingStorage)
             presenter.setView(this)
