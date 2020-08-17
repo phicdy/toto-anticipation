@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.legacy.view
+package com.phicdy.totoanticipation.feature.totoanticipation
 
 interface TotoAnticipationView {
     fun initListener()

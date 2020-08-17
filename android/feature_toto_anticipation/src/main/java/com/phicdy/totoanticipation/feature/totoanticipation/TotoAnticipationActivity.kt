@@ -1,14 +1,10 @@
-package com.phicdy.totoanticipation.legacy.view.activity
+package com.phicdy.totoanticipation.feature.totoanticipation
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.widget.Toolbar
-import com.phicdy.totoanticipation.legacy.BuildConfig
-import com.phicdy.totoanticipation.legacy.R
-import com.phicdy.totoanticipation.legacy.presenter.TotoAnticipationPresenter
-import com.phicdy.totoanticipation.legacy.view.TotoAnticipationView
 import com.phicdy.totoanticipation.storage.GameListStorage
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject

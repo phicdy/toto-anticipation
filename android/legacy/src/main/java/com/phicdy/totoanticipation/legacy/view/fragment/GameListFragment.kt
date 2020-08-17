@@ -29,11 +29,11 @@ import com.phicdy.totoanticipation.advertisement.AdProvider
 import com.phicdy.totoanticipation.advertisement.AdViewHolder
 import com.phicdy.totoanticipation.di_common.FragmentScope
 import com.phicdy.totoanticipation.domain.Game
+import com.phicdy.totoanticipation.feature.totoanticipation.TotoAnticipationActivity
 import com.phicdy.totoanticipation.legacy.BuildConfig
 import com.phicdy.totoanticipation.legacy.R
 import com.phicdy.totoanticipation.legacy.presenter.GameListPresenter
 import com.phicdy.totoanticipation.legacy.view.GameListView
-import com.phicdy.totoanticipation.legacy.view.activity.TotoAnticipationActivity
 import com.phicdy.totoanticipation.scheduler.DeadlineAlarm
 import dagger.Provides
 import dagger.android.support.DaggerFragment

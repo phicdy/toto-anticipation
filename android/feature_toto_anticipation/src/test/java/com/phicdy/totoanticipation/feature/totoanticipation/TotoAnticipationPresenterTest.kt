@@ -1,7 +1,6 @@
-package com.phicdy.totoanticipation.legacy.presenter
+package com.phicdy.totoanticipation.feature.totoanticipation
 
 import com.phicdy.totoanticipation.domain.Game
-import com.phicdy.totoanticipation.legacy.view.TotoAnticipationView
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
@@ -11,7 +10,7 @@ class TotoAnticipationPresenterTest {
 
     @Before
     fun setup() {
-        presenter.view = Mockito.mock(TotoAnticipationView::class.java)
+        presenter.view = Mockito.mock(com.phicdy.totoanticipation.feature.totoanticipation.TotoAnticipationView::class.java)
     }
 
     @Test

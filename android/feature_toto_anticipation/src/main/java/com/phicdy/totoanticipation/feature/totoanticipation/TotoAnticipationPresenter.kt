@@ -1,24 +1,19 @@
-package com.phicdy.totoanticipation.legacy.presenter
+package com.phicdy.totoanticipation.feature.totoanticipation
 
 import android.util.Log
 import com.phicdy.totoanticipation.domain.Game
-import com.phicdy.totoanticipation.legacy.view.TotoAnticipationView
 
-class TotoAnticipationPresenter(private val totoNum: String) : Presenter {
-    lateinit var view: TotoAnticipationView
+class TotoAnticipationPresenter(private val totoNum: String) {
+    lateinit var view: com.phicdy.totoanticipation.feature.totoanticipation.TotoAnticipationView
     val totoTopUrl = "https://sp.toto-dream.com/dcs/subos/screen/si01/ssin026/PGSSIN02601InittotoSP.form?holdCntId="
     val TAG = "TotoAnticipate"
 
-    override fun onCreate() {
+    fun onCreate() {
         view.initListener()
     }
 
-    override fun onResume() {
+    fun onResume() {
         view.loadUrl(totoTopUrl + totoNum)
-    }
-
-    override fun onPause() {
-
     }
 
     fun onPageFinished(url: String, games: List<Game>) {

@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".legacy.view.activity.TotoAnticipationActivity"
+            android:name=".feature.totoanticipation.TotoAnticipationActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver
