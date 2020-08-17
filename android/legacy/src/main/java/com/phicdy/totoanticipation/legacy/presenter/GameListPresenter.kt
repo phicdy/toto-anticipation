@@ -2,11 +2,11 @@ package com.phicdy.totoanticipation.legacy.presenter
 
 import android.os.Handler
 import android.os.Looper
+import com.phicdy.totoanticipation.domain.AutoAnticipation
 import com.phicdy.totoanticipation.domain.Game
 import com.phicdy.totoanticipation.domain.Team
 import com.phicdy.totoanticipation.domain.Toto
 import com.phicdy.totoanticipation.domain.TotoNumber
-import com.phicdy.totoanticipation.legacy.model.AutoAnticipation
 import com.phicdy.totoanticipation.legacy.model.TeamInfoMapper
 import com.phicdy.totoanticipation.legacy.view.GameListView
 import com.phicdy.totoanticipation.repository.JLeagueRepository

@@ -1,6 +1,5 @@
-package com.phicdy.totoanticipation.legacy.model
+package com.phicdy.totoanticipation.domain
 
-import com.phicdy.totoanticipation.domain.Game
 import com.phicdy.totoanticipation.domain.Game.Anticipation.AWAY
 import com.phicdy.totoanticipation.domain.Game.Anticipation.DRAW
 import com.phicdy.totoanticipation.domain.Game.Anticipation.HOME
