@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.legacy.model
+package com.phicdy.totoanticipation.domain
 
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat

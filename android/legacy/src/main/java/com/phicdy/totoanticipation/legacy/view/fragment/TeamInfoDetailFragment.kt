@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
+import com.phicdy.totoanticipation.domain.TeamInfoMapper
 import com.phicdy.totoanticipation.legacy.R
-import com.phicdy.totoanticipation.legacy.model.TeamInfoMapper
 
 class TeamInfoDetailFragment : Fragment() {
 
