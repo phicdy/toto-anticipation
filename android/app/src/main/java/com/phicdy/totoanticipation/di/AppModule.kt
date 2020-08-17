@@ -5,10 +5,10 @@ import android.content.Context
 import android.content.Intent
 import com.phicdy.totoanticipation.TotoAnticipationApplication
 import com.phicdy.totoanticipation.intentprovider.IntentProvider
-import com.phicdy.totoanticipation.legacy.model.storage.GameListStorageImpl
 import com.phicdy.totoanticipation.legacy.view.activity.GameListActivity
 import com.phicdy.totoanticipation.storage.GameListStorage
 import com.phicdy.totoanticipation.storage.SettingStorage
+import com.phicdy.totoanticipation.storage.impl.GameListStorageImpl
 import com.phicdy.totoanticipation.storage.impl.SettingStorageImpl
 import dagger.Module
 import dagger.Provides

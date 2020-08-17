@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.legacy.model.storage
+package com.phicdy.totoanticipation.storage.impl
 
 import android.content.Context
 import android.content.SharedPreferences
