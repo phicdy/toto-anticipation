@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
+import com.phicdy.totoanticipation.domain.GameHistory
 import com.phicdy.totoanticipation.legacy.R
-import com.phicdy.totoanticipation.legacy.model.GameHistory
 
 class GameHistoryFragment : Fragment() {
 
