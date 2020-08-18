@@ -7,11 +7,11 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.google.android.material.snackbar.Snackbar
+import com.phicdy.totoanticipation.intentprovider.IntentProvider
 import com.phicdy.totoanticipation.legacy.R
 import com.phicdy.totoanticipation.legacy.presenter.SettingPresenter
 import com.phicdy.totoanticipation.legacy.view.SettingView
@@ -34,6 +34,9 @@ class SettingFragment : PreferenceFragmentCompat(), SettingView {
 
     @Inject
     lateinit var settingStorage: SettingStorage
+
+    @Inject
+    lateinit var intentProvider: IntentProvider
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.setting_fragment, rootKey)
@@ -88,7 +91,7 @@ class SettingFragment : PreferenceFragmentCompat(), SettingView {
     }
 
     override fun goToLicenseActivity() {
-        findNavController().navigate(R.id.action_settingFragment_to_licenseFragment)
+        intentProvider.license(this)
     }
 
     override fun openPrivacyPolicy() {
