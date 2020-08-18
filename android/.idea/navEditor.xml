@@ -19,7 +19,7 @@
                         <option name="myPosition">
                           <Point>
                             <option name="x" value="12" />
-                            <option name="y" value="12" />
+                            <option name="y" value="97" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -29,18 +29,23 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_gameListFragment_to_teamInfoFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="licenseFragment">
+                  <entry key="nav_graph_license">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="850" />
-                            <option name="y" value="10" />
+                            <option name="x" value="788" />
+                            <option name="y" value="842" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -52,7 +57,7 @@
                         <option name="myPosition">
                           <Point>
                             <option name="x" value="400" />
-                            <option name="y" value="12" />
+                            <option name="y" value="624" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -63,6 +68,40 @@
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="teamInfoFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="400" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </LayoutPositions>
+          </value>
+        </entry>
+        <entry key="nav_graph_license.xml">
+          <value>
+            <LayoutPositions>
+              <option name="myPositions">
+                <map>
+                  <entry key="licenseFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>

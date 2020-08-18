@@ -5,6 +5,8 @@
     android:id="@+id/nav_graph_legacy"
     app:startDestination="@id/gameListFragment">
 
+    <include app:graph="@navigation/nav_graph_license" />
+
     <fragment
         android:id="@+id/gameListFragment"
         android:name="com.phicdy.totoanticipation.legacy.view.fragment.GameListFragment"
@@ -34,11 +36,6 @@
         android:label="setting">
         <action
             android:id="@+id/action_settingFragment_to_licenseFragment"
-            app:destination="@id/licenseFragment" />
+            app:destination="@id/nav_graph_license" />
     </fragment>
-    <fragment
-        android:id="@+id/licenseFragment"
-        android:name="com.phicdy.totoanticipation.feature.license.LicenseFragment"
-        android:label="license"
-        tools:layout="@layout/activity_license" />
 </navigation>
