@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.phicdy.totoanticipation.legacy.view.fragment.SettingFragment"
+        android:name="com.phicdy.totoanticipation.setting.SettingFragment"
         android:label="setting">
         <action
             android:id="@+id/action_settingFragment_to_licenseFragment"

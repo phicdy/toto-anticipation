@@ -1,24 +1,17 @@
-package com.phicdy.totoanticipation.legacy.presenter
+package com.phicdy.totoanticipation.setting
 
-import com.phicdy.totoanticipation.legacy.view.SettingView
 import com.phicdy.totoanticipation.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.storage.SettingStorage
 import java.util.Date
 
 
 class SettingPresenter(private val alarm: DeadlineAlarm, private val deadline: Date,
-                       private val storage: SettingStorage) : Presenter {
+                       private val storage: SettingStorage) {
     private lateinit var view: SettingView
 
     fun setView(view: SettingView) {
         this.view = view
     }
-
-    override fun onCreate() {}
-
-    override fun onResume() {}
-
-    override fun onPause() {}
 
     fun activityCreate() {
         view.initView(storage.isDeadlineNotify)

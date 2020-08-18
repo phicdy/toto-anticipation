@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.legacy.view.fragment
+package com.phicdy.totoanticipation.setting
 
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -12,9 +12,6 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.google.android.material.snackbar.Snackbar
 import com.phicdy.totoanticipation.intentprovider.IntentProvider
-import com.phicdy.totoanticipation.legacy.R
-import com.phicdy.totoanticipation.legacy.presenter.SettingPresenter
-import com.phicdy.totoanticipation.legacy.view.SettingView
 import com.phicdy.totoanticipation.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.storage.GameListStorage
 import com.phicdy.totoanticipation.storage.SettingStorage

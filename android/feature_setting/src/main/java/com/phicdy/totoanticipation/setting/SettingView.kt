@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.legacy.view
+package com.phicdy.totoanticipation.setting
 
 interface SettingView {
     fun initView(isDeadlineNotify: Boolean)

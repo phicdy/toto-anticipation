@@ -1,6 +1,5 @@
-package com.phicdy.totoanticipation.legacy.presenter
+package com.phicdy.totoanticipation.setting
 
-import com.phicdy.totoanticipation.legacy.view.SettingView
 import com.phicdy.totoanticipation.scheduler.DeadlineAlarm
 import com.phicdy.totoanticipation.storage.SettingStorage
 import org.junit.Assert.assertFalse
@@ -30,24 +29,6 @@ class SettingPresenterTest {
         presenter = SettingPresenter(alarm, calendar.time, settingStorage)
         view = MockView()
         presenter.setView(view)
-    }
-
-    @Test
-    fun testOnCreate() {
-        // For coverage
-        presenter.onCreate()
-    }
-
-    @Test
-    fun testOnResume() {
-        // For coverage
-        presenter.onResume()
-    }
-
-    @Test
-    fun testOnPause() {
-        // For coverage
-        presenter.onPause()
     }
 
     @Test
