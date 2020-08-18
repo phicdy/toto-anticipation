@@ -13,6 +13,7 @@ dependencies {
     implementation project(':advertisement')
     implementation project(':domain')
     implementation project(':di_common')
+    implementation project(':feature_license')
     implementation project(':feature_setting')
     implementation project(':feature_toto_anticipation')
     implementation project(':repository')

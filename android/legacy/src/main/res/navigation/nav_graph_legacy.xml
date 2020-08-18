@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/licenseFragment"
-        android:name="com.phicdy.totoanticipation.legacy.view.fragment.LicenseFragment"
+        android:name="com.phicdy.totoanticipation.feature.license.LicenseFragment"
         android:label="license"
         tools:layout="@layout/activity_license" />
 </navigation>
