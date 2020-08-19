@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.phicdy.totoanticipation.domain.TeamInfoMapper
+import com.phicdy.totoanticipation.feature.teaminfo.GameHistoryFragment
 import com.phicdy.totoanticipation.legacy.R
 import dagger.android.support.DaggerFragment
 

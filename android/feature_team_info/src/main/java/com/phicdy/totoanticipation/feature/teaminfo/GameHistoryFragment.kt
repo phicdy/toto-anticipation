@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.legacy.view.fragment
+package com.phicdy.totoanticipation.feature.teaminfo
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -9,7 +9,6 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import com.phicdy.totoanticipation.domain.GameHistory
-import com.phicdy.totoanticipation.legacy.R
 
 class GameHistoryFragment : Fragment() {
 
