@@ -36,6 +36,7 @@ dependencies {
     implementation project(':api')
     implementation project(':domain')
     implementation project(':feature_setting')
+    implementation project(':feature_team_info')
     implementation project(':intent_provider')
     implementation project(':repository')
     implementation project(':scheduler')

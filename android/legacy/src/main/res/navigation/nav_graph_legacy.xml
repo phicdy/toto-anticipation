@@ -6,6 +6,7 @@
     app:startDestination="@id/gameListFragment">
 
     <include app:graph="@navigation/nav_graph_license" />
+    <include app:graph="@navigation/nav_graph_team_info" />
 
     <fragment
         android:id="@+id/gameListFragment"
@@ -17,18 +18,14 @@
             app:destination="@id/settingFragment" />
         <action
             android:id="@+id/action_gameListFragment_to_teamInfoFragment"
-            app:destination="@id/teamInfoFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/teamInfoFragment"
-        android:name="com.phicdy.totoanticipation.legacy.view.fragment.TeamInfoFragment"
-        android:label="teamInfo">
-        <argument
-            android:name="homeTeam"
-            app:argType="string" />
-        <argument
-            android:name="awayTeam"
-            app:argType="string" />
+            app:destination="@id/nav_graph_team_info">
+            <argument
+                android:name="homeTeam"
+                app:argType="string" />
+            <argument
+                android:name="awayTeam"
+                app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/settingFragment"

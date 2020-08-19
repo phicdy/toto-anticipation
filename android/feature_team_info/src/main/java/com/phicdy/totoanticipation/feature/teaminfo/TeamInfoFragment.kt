@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.legacy.view.fragment
+package com.phicdy.totoanticipation.feature.teaminfo
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,9 +9,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.phicdy.totoanticipation.domain.TeamInfoMapper
-import com.phicdy.totoanticipation.feature.teaminfo.GameHistoryFragment
-import com.phicdy.totoanticipation.feature.teaminfo.TeamInfoDetailFragment
-import com.phicdy.totoanticipation.legacy.R
 import dagger.android.support.DaggerFragment
 
 class TeamInfoFragment : DaggerFragment() {
