@@ -20,6 +20,7 @@
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/feature_license" />
             <option value="$PROJECT_DIR$/feature_setting" />
+            <option value="$PROJECT_DIR$/feature_team_info" />
             <option value="$PROJECT_DIR$/feature_toto_anticipation" />
             <option value="$PROJECT_DIR$/intent_provider" />
             <option value="$PROJECT_DIR$/legacy" />
