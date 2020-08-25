@@ -1,8 +1,7 @@
-package com.phicdy.totoanticipation.legacy.view.activity
+package com.phicdy.totoanticipation.feature.gamelist
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.phicdy.totoanticipation.legacy.R
 
 class GameListActivity : AppCompatActivity() {
 

@@ -13,5 +13,5 @@
     android:paddingBottom="84dp"
     android:visibility="gone"
     app:layoutManager="LinearLayoutManager"
-    tools:context="com.phicdy.totoanticipation.legacy.view.activity.GameListActivity"
+    tools:context="com.phicdy.totoanticipation.feature.gamelist.GameListActivity"
     tools:listitem="@layout/game_list_content" />

@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.legacy.presenter
+package com.phicdy.totoanticipation.feature.gamelist
 
 import com.phicdy.totoanticipation.domain.Deadline
 import com.phicdy.totoanticipation.domain.Game
@@ -7,7 +7,6 @@ import com.phicdy.totoanticipation.domain.Team
 import com.phicdy.totoanticipation.domain.Toto
 import com.phicdy.totoanticipation.domain.TotoInfo
 import com.phicdy.totoanticipation.domain.TotoNumber
-import com.phicdy.totoanticipation.legacy.view.GameListView
 import com.phicdy.totoanticipation.repository.JLeagueRepository
 import com.phicdy.totoanticipation.repository.RakutenTotoRepository
 import com.phicdy.totoanticipation.storage.GameListStorage

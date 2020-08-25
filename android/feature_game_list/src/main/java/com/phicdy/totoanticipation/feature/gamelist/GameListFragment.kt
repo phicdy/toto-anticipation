@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.legacy.view.fragment
+package com.phicdy.totoanticipation.feature.gamelist
 
 import android.content.Intent
 import android.net.Uri
@@ -30,10 +30,6 @@ import com.phicdy.totoanticipation.advertisement.AdViewHolder
 import com.phicdy.totoanticipation.di_common.FragmentScope
 import com.phicdy.totoanticipation.domain.Game
 import com.phicdy.totoanticipation.feature.totoanticipation.TotoAnticipationActivity
-import com.phicdy.totoanticipation.legacy.BuildConfig
-import com.phicdy.totoanticipation.legacy.R
-import com.phicdy.totoanticipation.legacy.presenter.GameListPresenter
-import com.phicdy.totoanticipation.legacy.view.GameListView
 import com.phicdy.totoanticipation.scheduler.DeadlineAlarm
 import dagger.Provides
 import dagger.android.support.DaggerFragment
@@ -174,7 +170,7 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
         showSnackbar(R.string.anticipation_not_support, Snackbar.LENGTH_SHORT)
     }
 
-    private fun showSnackbar(@StringRes res: Int, @GameListFragment.SnackbarLength length: Int) {
+    private fun showSnackbar(@StringRes res: Int, @SnackbarLength length: Int) {
         Snackbar.make(content, res, length).show()
     }
 

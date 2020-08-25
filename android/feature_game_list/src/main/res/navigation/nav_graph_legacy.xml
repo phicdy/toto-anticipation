@@ -10,7 +10,7 @@
 
     <fragment
         android:id="@+id/gameListFragment"
-        android:name="com.phicdy.totoanticipation.legacy.view.fragment.GameListFragment"
+        android:name="com.phicdy.totoanticipation.feature.gamelist.GameListFragment"
         android:label="gameList"
         tools:layout="@layout/fragment_game_list">
         <action
