@@ -15,7 +15,6 @@
       <module fileurl="file://$PROJECT_DIR$/domain/android-domain.iml" filepath="$PROJECT_DIR$/domain/android-domain.iml" group="android/domain" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/feature_license/android-feature_license.iml" filepath="$PROJECT_DIR$/.idea/modules/feature_license/android-feature_license.iml" group="android/feature_license" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/feature_toto_anticipation/android-feature_toto_anticipation.iml" filepath="$PROJECT_DIR$/.idea/modules/feature_toto_anticipation/android-feature_toto_anticipation.iml" group="android/feature_toto_anticipation" />
-      <module fileurl="file://$PROJECT_DIR$/legacy/android-legacy.iml" filepath="$PROJECT_DIR$/legacy/android-legacy.iml" group="android/legacy" />
       <module fileurl="file://$PROJECT_DIR$/repository/android-repository.iml" filepath="$PROJECT_DIR$/repository/android-repository.iml" group="android/repository" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/scheduler/android-scheduler.iml" filepath="$PROJECT_DIR$/.idea/modules/scheduler/android-scheduler.iml" group="android/scheduler" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/storage/android-storage.iml" filepath="$PROJECT_DIR$/.idea/modules/storage/android-storage.iml" group="android/storage" />

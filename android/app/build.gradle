@@ -32,7 +32,6 @@ android {
 dependencies {
     implementation project(':advertisement')
     implementation project(':advertisement_provider')
-    implementation project(':legacy')
     implementation project(':api')
     implementation project(':domain')
     implementation project(':feature_game_list')
