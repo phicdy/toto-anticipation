@@ -18,6 +18,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/di_common" />
             <option value="$PROJECT_DIR$/domain" />
+            <option value="$PROJECT_DIR$/feature_game_list" />
             <option value="$PROJECT_DIR$/feature_license" />
             <option value="$PROJECT_DIR$/feature_setting" />
             <option value="$PROJECT_DIR$/feature_team_info" />
