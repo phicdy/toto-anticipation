@@ -1,4 +1,4 @@
-package com.phicdy.totoanticipation.feature.gamelist
+package com.phicdy.totoanticipation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

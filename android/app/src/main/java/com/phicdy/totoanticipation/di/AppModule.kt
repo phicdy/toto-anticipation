@@ -5,9 +5,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.phicdy.totoanticipation.GameListActivity
 import com.phicdy.totoanticipation.R
 import com.phicdy.totoanticipation.TotoAnticipationApplication
-import com.phicdy.totoanticipation.feature.gamelist.GameListActivity
 import com.phicdy.totoanticipation.intentprovider.IntentProvider
 import com.phicdy.totoanticipation.storage.GameListStorage
 import com.phicdy.totoanticipation.storage.SettingStorage
