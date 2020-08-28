@@ -27,7 +27,6 @@ import com.phicdy.totoanticipation.advertisement.AdProvider
 import com.phicdy.totoanticipation.advertisement.AdViewHolder
 import com.phicdy.totoanticipation.di_common.FragmentScope
 import com.phicdy.totoanticipation.domain.Game
-import com.phicdy.totoanticipation.feature.totoanticipation.TotoAnticipationActivity
 import com.phicdy.totoanticipation.intentprovider.IntentProvider
 import com.phicdy.totoanticipation.scheduler.DeadlineAlarm
 import dagger.Provides
@@ -146,8 +145,7 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
             val totoTopUrl = "https://sp.toto-dream.com/dcs/subos/screen/si01/ssin026/PGSSIN02601InittotoSP.form?holdCntId=$totoNum"
             intent = Intent(Intent.ACTION_VIEW, Uri.parse(totoTopUrl))
         } else {
-            intent = Intent(activity, TotoAnticipationActivity::class.java)
-            intent.putExtra(TotoAnticipationActivity.KEY_TOTO_NUM, totoNum)
+            intent = intentProvider.totoAnticipation(requireContext(), totoNum)
         }
         startActivity(intent)
     }

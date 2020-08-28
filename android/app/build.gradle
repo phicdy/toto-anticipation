@@ -39,6 +39,7 @@ dependencies {
     implementation project(':feature_license')
     implementation project(':feature_setting')
     implementation project(':feature_team_info')
+    implementation project(':feature_toto_anticipation')
     implementation project(':intent_provider')
     implementation project(':repository')
     implementation project(':scheduler')

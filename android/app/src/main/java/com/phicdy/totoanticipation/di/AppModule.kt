@@ -10,6 +10,7 @@ import com.phicdy.totoanticipation.R
 import com.phicdy.totoanticipation.TotoAnticipationApplication
 import com.phicdy.totoanticipation.domain.Game
 import com.phicdy.totoanticipation.feature.gamelist.GameListFragmentDirections
+import com.phicdy.totoanticipation.feature.totoanticipation.TotoAnticipationActivity
 import com.phicdy.totoanticipation.intentprovider.IntentProvider
 import com.phicdy.totoanticipation.storage.GameListStorage
 import com.phicdy.totoanticipation.storage.SettingStorage
@@ -31,6 +32,10 @@ object AppModule {
     @Singleton
     fun provideIntentProvider(): IntentProvider = object : IntentProvider {
         override fun gameList(context: Context): Intent = Intent(context, GameListActivity::class.java)
+        override fun totoAnticipation(context: Context, totoNum: String): Intent = Intent(context, TotoAnticipationActivity::class.java).apply {
+            putExtra(TotoAnticipationActivity.KEY_TOTO_NUM, totoNum)
+        }
+
         override fun license(fragment: Fragment) {
             fragment.findNavController().navigate(R.id.action_settingFragment_to_licenseFragment)
         }

@@ -7,6 +7,7 @@ import com.phicdy.totoanticipation.domain.Game
 
 interface IntentProvider {
     fun gameList(context: Context): Intent
+    fun totoAnticipation(context: Context, totoNum: String): Intent
     fun license(fragment: Fragment)
     fun setting(fragment: Fragment)
     fun teamInfo(fragment: Fragment, game: Game)
