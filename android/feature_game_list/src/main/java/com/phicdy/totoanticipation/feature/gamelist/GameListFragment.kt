@@ -20,8 +20,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -30,6 +28,7 @@ import com.phicdy.totoanticipation.advertisement.AdViewHolder
 import com.phicdy.totoanticipation.di_common.FragmentScope
 import com.phicdy.totoanticipation.domain.Game
 import com.phicdy.totoanticipation.feature.totoanticipation.TotoAnticipationActivity
+import com.phicdy.totoanticipation.intentprovider.IntentProvider
 import com.phicdy.totoanticipation.scheduler.DeadlineAlarm
 import dagger.Provides
 import dagger.android.support.DaggerFragment
@@ -60,6 +59,9 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
 
     @Inject
     lateinit var adProvider: AdProvider
+
+    @Inject
+    lateinit var intentProvider: IntentProvider
 
     private var isAnticipationMenuVisible = true
 
@@ -151,7 +153,7 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
     }
 
     override fun goToSetting() {
-        findNavController().navigate(R.id.action_gameListFragment_to_settingFragment)
+        intentProvider.setting(this)
     }
 
     override fun showAnticipationStart() {
@@ -244,9 +246,7 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
                             showSnackbar(R.string.not_support_foreign_league, Snackbar.LENGTH_SHORT)
                             return@setOnClickListener
                         }
-                        view.findNavController().navigate(
-                                GameListFragmentDirections.actionGameListFragmentToTeamInfoFragment(game.homeTeam, game.awayTeam)
-                        )
+                        intentProvider.teamInfo(this@GameListFragment, game)
                     }
 
                     when (game.anticipation) {

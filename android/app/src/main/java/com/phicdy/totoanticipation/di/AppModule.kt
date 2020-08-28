@@ -8,6 +8,8 @@ import androidx.navigation.fragment.findNavController
 import com.phicdy.totoanticipation.GameListActivity
 import com.phicdy.totoanticipation.R
 import com.phicdy.totoanticipation.TotoAnticipationApplication
+import com.phicdy.totoanticipation.domain.Game
+import com.phicdy.totoanticipation.feature.gamelist.GameListFragmentDirections
 import com.phicdy.totoanticipation.intentprovider.IntentProvider
 import com.phicdy.totoanticipation.storage.GameListStorage
 import com.phicdy.totoanticipation.storage.SettingStorage
@@ -31,6 +33,16 @@ object AppModule {
         override fun gameList(context: Context): Intent = Intent(context, GameListActivity::class.java)
         override fun license(fragment: Fragment) {
             fragment.findNavController().navigate(R.id.action_settingFragment_to_licenseFragment)
+        }
+
+        override fun setting(fragment: Fragment) {
+            fragment.findNavController().navigate(R.id.action_gameListFragment_to_settingFragment)
+        }
+
+        override fun teamInfo(fragment: Fragment, game: Game) {
+            fragment.findNavController().navigate(
+                    GameListFragmentDirections.actionGameListFragmentToTeamInfoFragment(game.homeTeam, game.awayTeam)
+            )
         }
     }
 

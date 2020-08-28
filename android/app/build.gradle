@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'jacoco'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -35,6 +36,7 @@ dependencies {
     implementation project(':api')
     implementation project(':domain')
     implementation project(':feature_game_list')
+    implementation project(':feature_license')
     implementation project(':feature_setting')
     implementation project(':feature_team_info')
     implementation project(':intent_provider')
