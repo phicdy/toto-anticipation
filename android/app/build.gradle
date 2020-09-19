@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'jacoco'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -32,10 +33,18 @@ android {
 dependencies {
     implementation project(':advertisement')
     implementation project(':advertisement_provider')
-    implementation project(':legacy')
     implementation project(':api')
     implementation project(':domain')
+    implementation project(':feature_game_list')
+    implementation project(':feature_license')
+    implementation project(':feature_setting')
+    implementation project(':feature_team_info')
+    implementation project(':feature_toto_anticipation')
+    implementation project(':intent_provider')
     implementation project(':repository')
+    implementation project(':scheduler')
+    implementation project(':storage')
+    implementation project(':storage_impl')
     implementation project(':di_common')
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
@@ -43,6 +52,8 @@ dependencies {
 
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+
+    implementation "androidx.preference:preference-ktx:$preference_version"
 
     implementation "com.google.dagger:dagger:$daggerVer"
     implementation "com.google.dagger:dagger-android:$daggerVer"

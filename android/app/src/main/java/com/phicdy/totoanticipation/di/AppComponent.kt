@@ -14,7 +14,8 @@ import javax.inject.Singleton
             AppModule::class,
             FragmentModule::class,
             AdComponentModule::class,
-            ApiComponentModule::class
+            ApiComponentModule::class,
+            BroadCastReceiverModule::class
         ]
 )
 interface AppComponent : AndroidInjector<TotoAnticipationApplication> {

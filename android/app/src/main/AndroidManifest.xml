@@ -16,11 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".legacy.view.fragment.TeamInfoFragment"
+            android:name=".feature.teaminfo.TeamInfoFragment"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".legacy.view.activity.GameListActivity"
+            android:name=".GameListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,15 +32,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".legacy.view.activity.TotoAnticipationActivity"
+            android:name=".feature.totoanticipation.TotoAnticipationActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver
-            android:name=".legacy.model.scheduler.DeadlineAlarmReceiver"
+            android:name=".scheduler.DeadlineAlarmReceiver"
             android:enabled="true"
             android:exported="false" />
         <receiver
-            android:name=".legacy.model.scheduler.BootReceiver"
+            android:name=".scheduler.BootReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
