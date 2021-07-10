@@ -17,6 +17,8 @@ class DeadlineAlarm(private val context: Context) {
             set(Calendar.HOUR_OF_DAY, 12)
             set(Calendar.MINUTE, 0)
         }
+        val now = System.currentTimeMillis()
+        if (now >= calendar.timeInMillis) return
         val alm = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?
         Log.d("Toto alarm", "Set alarm : " + calendar.time.toString())
         alm?.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, generateIntent())
