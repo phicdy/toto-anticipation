@@ -175,7 +175,7 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
     }
 
     override fun showPrivacyPolicyDialog() {
-        val alert = AlertDialog.Builder(activity!!)
+        val alert = AlertDialog.Builder(requireActivity())
                 .setMessage(Html.fromHtml(getString(R.string.privacy_policy_message)))
                 .setCancelable(false)
                 .setPositiveButton(R.string.accept) { _, _ ->
