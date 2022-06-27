@@ -15,7 +15,7 @@ class DeadlineNotification @Inject constructor(
 
     fun show(context: Context) {
         val intent = intentProvider.gameList(context)
-        val pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         val notification = NotificationCompat.Builder(context, ChannelID.DEADLINE.name)
                 .setAutoCancel(true) // Delete notification when user taps
                 .setContentTitle(context.getString(R.string.app_name))
