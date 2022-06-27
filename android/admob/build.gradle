@@ -8,6 +8,9 @@ android {
         resValue "string", "ad_unit_id_main", "$ADMOB_UNIT_ID_TOTO_MAIN"
         resValue "string", "ad_unit_id_team_info", "$ADMOB_UNIT_ID_TOTO_TEAM_INFO"
     }
+    buildFeatures {
+        buildConfig = true
+    }
 
     buildTypes {
         release {
