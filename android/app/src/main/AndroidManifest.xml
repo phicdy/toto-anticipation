@@ -17,7 +17,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".GameListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +30,8 @@
         </activity>
         <activity
             android:name=".feature.totoanticipation.TotoAnticipationActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false"/>
 
         <receiver
             android:name=".scheduler.DeadlineAlarmReceiver"
