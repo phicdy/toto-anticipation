@@ -6,7 +6,7 @@ buildscript {
     ext.daggerVer = '2.42'
     ext.recyclerview_version = '1.1.0'
     ext.appcompat_veriosn = '1.1.0'
-    ext.navigation_version = '2.2.1'
+    ext.navigation_version = '2.3.5'
     ext.preference_version = '1.1.0'
     ext.retrofit_version = '2.7.1'
     ext.jacoco_version = "0.7.7.201606060606"
