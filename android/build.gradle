@@ -34,11 +34,11 @@ subprojects {
     apply from: "$rootDir/jacoco.gradle"
 
     android {
-        compileSdkVersion 29
+        compileSdkVersion 30
 
         defaultConfig {
             minSdkVersion 21
-            targetSdkVersion 29
+            targetSdkVersion 30
             versionName "0.8"
             versionCode 11
 
