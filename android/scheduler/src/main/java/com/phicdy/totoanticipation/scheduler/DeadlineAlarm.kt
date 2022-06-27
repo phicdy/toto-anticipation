@@ -33,7 +33,7 @@ class DeadlineAlarm(private val context: Context) {
         val i = Intent(context, DeadlineAlarmReceiver::class.java).apply {
             action = ACTION
         }
-        return PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT)
+        return PendingIntent.getBroadcast(context, 0, i, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
     }
 
     companion object {
