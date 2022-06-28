@@ -10,7 +10,7 @@ import com.phicdy.totoanticipation.advertisement.AdViewHolder
 class AdmobProvider : AdProvider {
 
     override fun init(context: Context) {
-        MobileAds.initialize(context, BuildConfig.AD_APP_ID)
+        MobileAds.initialize(context) {}
     }
 
     override fun newViewHolderInstance(parent: ViewGroup): AdViewHolder = AdmobViewHolder(parent)
