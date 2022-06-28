@@ -80,8 +80,8 @@ class JLeagueRankingParser @Inject constructor() {
             // Third <td> includes team name
             val spans = tds[2].getElementsByTag("span")
             if (spans == null || spans.size == 0) continue
-            val fullTeamName = spans.first().text()
-            result.add(Team(name = fullTeamName, league = league, ranking = ranking))
+            val fullTeamName = spans.first()?.text()
+            if (fullTeamName != null) result.add(Team(name = fullTeamName, league = league, ranking = ranking))
         }
         return result
     }
