@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:name=".TotoAnticipationApplication"
@@ -17,8 +18,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".GameListActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,8 +31,8 @@
         </activity>
         <activity
             android:name=".feature.totoanticipation.TotoAnticipationActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:exported="false"/>
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <receiver
             android:name=".scheduler.DeadlineAlarmReceiver"

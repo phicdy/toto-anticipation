@@ -58,7 +58,7 @@ class JLeagueRankingParser @Inject constructor() {
         for (i in trs.indices) {
             val tr = trs[i]
             val tds = tr.getElementsByTag("td")
-            if (tds == null || tds.size < 3) continue
+            if (tds.size < 3) continue
 
             // Second <td> is ranking
             // <td><i class="fa fa-minus"></i></td>
@@ -79,9 +79,15 @@ class JLeagueRankingParser @Inject constructor() {
 
             // Third <td> includes team name
             val spans = tds[2].getElementsByTag("span")
-            if (spans == null || spans.size == 0) continue
+            if (spans.size == 0) continue
             val fullTeamName = spans.first()?.text()
-            if (fullTeamName != null) result.add(Team(name = fullTeamName, league = league, ranking = ranking))
+            if (fullTeamName != null) result.add(
+                Team(
+                    name = fullTeamName,
+                    league = league,
+                    ranking = ranking
+                )
+            )
         }
         return result
     }
