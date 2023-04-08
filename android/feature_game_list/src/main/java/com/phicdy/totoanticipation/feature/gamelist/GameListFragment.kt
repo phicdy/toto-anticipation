@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
@@ -64,8 +65,10 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
 
     private var isAnticipationMenuVisible = true
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_game_list, container, false)
     }
 
@@ -134,7 +137,7 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
 
     override fun stopProgress() {
         progressBar.progressiveStop()
-        val handler = Handler()
+        val handler = Handler(Looper.getMainLooper())
         handler.postDelayed({ progressBar.visibility = View.GONE }, 3000)
     }
 
@@ -142,7 +145,8 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
         val intent: Intent
         if (BuildConfig.FLAVOR == "googlePlay") {
             // Google Play forbids to upload gambling app for Japan, open external browser
-            val totoTopUrl = "https://sp.toto-dream.com/dcs/subos/screen/si01/ssin026/PGSSIN02601InittotoSP.form?holdCntId=$totoNum"
+            val totoTopUrl =
+                "https://sp.toto-dream.com/dcs/subos/screen/si01/ssin026/PGSSIN02601InittotoSP.form?holdCntId=$totoNum"
             intent = Intent(Intent.ACTION_VIEW, Uri.parse(totoTopUrl))
         } else {
             intent = intentProvider.totoAnticipation(requireContext(), totoNum)
@@ -176,17 +180,18 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
 
     override fun showPrivacyPolicyDialog() {
         val alert = AlertDialog.Builder(requireActivity())
-                .setMessage(Html.fromHtml(getString(R.string.privacy_policy_message)))
-                .setCancelable(false)
-                .setPositiveButton(R.string.accept) { _, _ ->
-                    presenter.onPrivacyPolicyAccepted()
-                }
-                .setNegativeButton(R.string.not_accept) { _, _ ->
-                    activity?.finish()
-                }
-                .create()
+            .setMessage(Html.fromHtml(getString(R.string.privacy_policy_message)))
+            .setCancelable(false)
+            .setPositiveButton(R.string.accept) { _, _ ->
+                presenter.onPrivacyPolicyAccepted()
+            }
+            .setNegativeButton(R.string.not_accept) { _, _ ->
+                activity?.finish()
+            }
+            .create()
         alert.show()
-        alert.findViewById<TextView>(android.R.id.message)?.movementMethod = LinkMovementMethod.getInstance()
+        alert.findViewById<TextView>(android.R.id.message)?.movementMethod =
+            LinkMovementMethod.getInstance()
     }
 
     override fun hideList() {
@@ -209,7 +214,8 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
     @IntDef(Snackbar.LENGTH_SHORT, Snackbar.LENGTH_LONG)
     internal annotation class SnackbarLength
 
-    internal inner class SimpleItemRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    internal inner class SimpleItemRecyclerViewAdapter :
+        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         private val VIEW_TYPE_CONTENT = 1
         private val VIEW_TYPE_AD = 2
@@ -218,9 +224,10 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
             return when (viewType) {
                 VIEW_TYPE_CONTENT -> {
                     val view = LayoutInflater.from(parent.context)
-                            .inflate(R.layout.game_list_content, parent, false)
+                        .inflate(R.layout.game_list_content, parent, false)
                     ViewHolder(view)
                 }
+
                 VIEW_TYPE_AD -> adProvider.newViewHolderInstance(parent)
                 else -> throw IllegalStateException()
             }
@@ -232,14 +239,22 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
                     val game = presenter.gameAt(position)
                     holder.tvHome.text = when (game.homeRanking) {
                         Game.defaultRank -> getString(R.string.team_label, "- ", game.homeTeam)
-                        else -> getString(R.string.team_label, game.homeRanking.toString(), game.homeTeam)
+                        else -> getString(
+                            R.string.team_label,
+                            game.homeRanking.toString(),
+                            game.homeTeam
+                        )
                     }
                     holder.tvAway.text = when (game.awayRanking) {
                         Game.defaultRank -> getString(R.string.team_label, "- ", game.awayTeam)
-                        else -> getString(R.string.team_label, game.awayRanking.toString(), game.awayTeam)
+                        else -> getString(
+                            R.string.team_label,
+                            game.awayRanking.toString(),
+                            game.awayTeam
+                        )
                     }
 
-                    holder.mView.setOnClickListener { view ->
+                    holder.mView.setOnClickListener {
                         if (game.homeRanking == Game.defaultRank || game.awayRanking == Game.defaultRank) {
                             showSnackbar(R.string.not_support_foreign_league, Snackbar.LENGTH_SHORT)
                             return@setOnClickListener
@@ -252,10 +267,26 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
                         Game.Anticipation.AWAY -> holder.rbAway.isChecked = true
                         Game.Anticipation.DRAW -> holder.rbDraw.isChecked = true
                     }
-                    holder.rbHome.setOnCheckedChangeListener { _, isChecked -> presenter.onHomeRadioButtonClicked(holder.adapterPosition, isChecked) }
-                    holder.rbAway.setOnCheckedChangeListener { _, isChecked -> presenter.onAwayRadioButtonClicked(holder.adapterPosition, isChecked) }
-                    holder.rbDraw.setOnCheckedChangeListener { _, isChecked -> presenter.onDrawRadioButtonClicked(holder.adapterPosition, isChecked) }
+                    holder.rbHome.setOnCheckedChangeListener { _, isChecked ->
+                        presenter.onHomeRadioButtonClicked(
+                            holder.bindingAdapterPosition,
+                            isChecked
+                        )
+                    }
+                    holder.rbAway.setOnCheckedChangeListener { _, isChecked ->
+                        presenter.onAwayRadioButtonClicked(
+                            holder.bindingAdapterPosition,
+                            isChecked
+                        )
+                    }
+                    holder.rbDraw.setOnCheckedChangeListener { _, isChecked ->
+                        presenter.onDrawRadioButtonClicked(
+                            holder.bindingAdapterPosition,
+                            isChecked
+                        )
+                    }
                 }
+
                 is AdViewHolder -> holder.bind()
             }
         }
@@ -264,7 +295,8 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
             return presenter.gameSize() + 1 // 1 for Ad
         }
 
-        override fun getItemViewType(position: Int) = if (position == presenter.gameSize()) VIEW_TYPE_AD else VIEW_TYPE_CONTENT
+        override fun getItemViewType(position: Int) =
+            if (position == presenter.gameSize()) VIEW_TYPE_AD else VIEW_TYPE_CONTENT
     }
 
     internal inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
@@ -289,6 +321,7 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
         @Provides
         @JvmStatic
         @FragmentScope
-        fun provideDeadlineAlarm(fragment: GameListFragment): DeadlineAlarm = DeadlineAlarm(fragment.requireContext())
+        fun provideDeadlineAlarm(fragment: GameListFragment): DeadlineAlarm =
+            DeadlineAlarm(fragment.requireContext())
     }
 }
