@@ -25,5 +25,5 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$daggerVer"
     kapt "com.google.dagger:dagger-android-processor:$daggerVer"
 
-    testImplementation "org.mockito:mockito-core:5.2.0"
+    testImplementation "org.mockito:mockito-core:5.3.1"
 }
