@@ -20,8 +20,8 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testGooglePlayDebugUnitTe
         xml.required = true
         html.required = true
         csv.required = false
-        xml.destination new File("${buildDir}/reports/jacoco/jacocoTestReport.xml")
-        html.destination new File("${buildDir}/reports/jacoco/html")
+        xml.outputLocation = layout.buildDirectory.file("reports/jacoco/jacocoTestReport.xml")
+        html.outputLocation = layout.buildDirectory.dir("reports/jacoco/html")
         classDirectories.setFrom(
                 files(
                         fileTree(
@@ -40,7 +40,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testGooglePlayDebugUnitTe
 
     doLast {
         println "jacoco xml report has been generated to file://${buildDir}/reports/jacoco/jacocoTestReport.xml"
-        println "jacoco html report has been generated to file://${reports.html.destination}/index.html"
+        println "jacoco html report has been generated to file://${reports.html.outputLocation.toString()}/index.html"
     }
 }
 
