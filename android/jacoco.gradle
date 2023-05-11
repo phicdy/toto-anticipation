@@ -20,8 +20,6 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testGooglePlayDebugUnitTe
         xml.required = true
         html.required = true
         csv.required = false
-        xml.outputLocation = layout.buildDirectory.file("reports/jacoco/jacocoTestReport.xml")
-        html.outputLocation = layout.buildDirectory.dir("reports/jacoco/html")
         classDirectories.setFrom(
                 files(
                         fileTree(
