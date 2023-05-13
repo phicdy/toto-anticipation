@@ -3,7 +3,7 @@ package com.phicdy.totoanticipation.api
 import com.phicdy.totoanticipation.api.TestJLeaguePage.text
 import com.phicdy.totoanticipation.domain.League
 import org.hamcrest.CoreMatchers.`is`
-import org.junit.Assert.assertThat
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
 
 class JLeagueRankingParserTest {

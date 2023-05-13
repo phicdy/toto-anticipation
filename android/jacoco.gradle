@@ -17,11 +17,9 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testGooglePlayDebugUnitTe
     group = "Reporting"
     description = "Generate Jacoco coverage reports after running tests."
     reports {
-        xml.enabled true
-        html.enabled true
-        csv.enabled false
-        xml.destination new File("${buildDir}/reports/jacoco/jacocoTestReport.xml")
-        html.destination new File("${buildDir}/reports/jacoco/html")
+        xml.required = true
+        html.required = true
+        csv.required = false
         classDirectories.setFrom(
                 files(
                         fileTree(
@@ -40,7 +38,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testGooglePlayDebugUnitTe
 
     doLast {
         println "jacoco xml report has been generated to file://${buildDir}/reports/jacoco/jacocoTestReport.xml"
-        println "jacoco html report has been generated to file://${reports.html.destination}/index.html"
+        println "jacoco html report has been generated to file://${reports.html.outputLocation.toString()}/index.html"
     }
 }
 
