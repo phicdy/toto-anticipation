@@ -35,8 +35,6 @@ jobs:
       - name: Create jacoco report
         run: ./gradlew jacocoTestReport
       - uses: codecov/codecov-action@v3
-        with:
-          file: ./android/*/reports/jacoco/jacocoTestReport.xml
 
   lint:
     runs-on: ubuntu-latest
