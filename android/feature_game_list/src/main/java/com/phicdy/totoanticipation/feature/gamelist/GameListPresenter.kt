@@ -54,48 +54,50 @@ class GameListPresenter @Inject constructor(
             val j3rankingDeferred = coroutineScope { async { jLeagueRepository.fetchJ3Ranking() } }
 
             val totoInfo = rakutenTotoRepository.fetchTotoInfo(TotoNumber(toto.number))
-            totoInfo?.let {
-                // Set title
-                val format = SimpleDateFormat("MM/dd ", Locale.JAPAN)
-                view.setTitleFrom(
-                    toto.number,
-                    format.format(toto.deadline) + totoInfo.deadline.toString()
-                )
+            if (totoInfo == null) {
+                stopAndShowEmptyView()
+                return
+            }
+            // Set title
+            val format = SimpleDateFormat("MM/dd ", Locale.JAPAN)
+            view.setTitleFrom(
+                toto.number,
+                format.format(toto.deadline) + totoInfo.deadline.toString()
+            )
 
-                j1ranking = j1rankingDeferred.await()
-                j2ranking = j2rankingDeferred.await()
-                j3ranking = j3rankingDeferred.await()
+            j1ranking = j1rankingDeferred.await()
+            j2ranking = j2rankingDeferred.await()
+            j3ranking = j3rankingDeferred.await()
 
-                games = totoInfo.games
-                for (game in games) {
-                    val homeFullName = TeamInfoMapper().fullNameForJLeagueRanking(game.homeTeam)
-                    val awayFullName = TeamInfoMapper().fullNameForJLeagueRanking(game.awayTeam)
-                    var homeRank =
-                        j1ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
-                    var awayRank =
-                        j1ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
+            games = totoInfo.games
+            for (game in games) {
+                val homeFullName = TeamInfoMapper().fullNameForJLeagueRanking(game.homeTeam)
+                val awayFullName = TeamInfoMapper().fullNameForJLeagueRanking(game.awayTeam)
+                var homeRank =
+                    j1ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
+                var awayRank =
+                    j1ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
+                if (homeRank == null || awayRank == null) {
+                    homeRank =
+                        j2ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
+                    awayRank =
+                        j2ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
                     if (homeRank == null || awayRank == null) {
                         homeRank =
-                            j2ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
+                            j3ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
                         awayRank =
-                            j2ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
-                        if (homeRank == null || awayRank == null) {
-                            homeRank =
-                                j3ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
-                            awayRank =
-                                j3ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
-                        }
+                            j3ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
                     }
-                    if (homeRank == null || awayRank == null) {
-                        continue
-                    }
-                    game.homeRanking = homeRank
-                    game.awayRanking = awayRank
                 }
-                view.initList()
-                storage.store(toto, games)
-                view.stopProgress()
-            } ?: stopAndShowEmptyView()
+                if (homeRank == null || awayRank == null) {
+                    continue
+                }
+                game.homeRanking = homeRank
+                game.awayRanking = awayRank
+            }
+            view.initList()
+            storage.store(toto, games)
+            view.stopProgress()
         } else {
             view.stopProgress()
             view.initList()
