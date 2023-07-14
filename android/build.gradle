@@ -3,7 +3,7 @@
 buildscript {
     ext.kotlin_version = '1.8.21'
     ext.coroutine_version = '1.7.1'
-    ext.daggerVer = '2.46.1'
+    ext.daggerVer = '2.47'
     ext.recyclerview_version = '1.3.0'
     ext.appcompat_veriosn = '1.6.1'
     ext.navigation_version = '2.5.3'
