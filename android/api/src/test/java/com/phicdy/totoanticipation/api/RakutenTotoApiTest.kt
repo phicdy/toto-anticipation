@@ -1,5 +1,6 @@
 package com.phicdy.totoanticipation.api
 
+import com.phicdy.totoanticipation.domain.TeamInfoMapper
 import com.phicdy.totoanticipation.domain.Toto
 import com.phicdy.totoanticipation.domain.TotoNumber
 import kotlinx.coroutines.test.runTest
@@ -36,9 +37,14 @@ class RakutenTotoApiTest {
         val totoInfo = rakutenTotoApi.fetchTotoInfo(TotoNumber(latestToto.number))
         assertNotNull(totoInfo)
         assertThat(totoInfo!!.deadline.toString()).contains(":")
+        val mapper = TeamInfoMapper()
         for (game in totoInfo.games) {
-            assertThat(game.homeTeam).isNotBlank()
-            assertThat(game.awayTeam).isNotBlank()
+            assertThat(mapper.fullNameForJLeagueRanking(game.homeTeam))
+                .withFailMessage("Failed to map ${game.homeTeam}")
+                .isNotBlank()
+            assertThat(mapper.fullNameForJLeagueRanking(game.awayTeam))
+                .withFailMessage("Failed to map ${game.awayTeam}")
+                .isNotBlank()
             assertThat(game.homeRanking).isEqualTo(0)
             assertThat(game.awayRanking).isEqualTo(0)
         }
