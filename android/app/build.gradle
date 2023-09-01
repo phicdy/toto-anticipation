@@ -28,6 +28,11 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
+    lint {
+        disable "JvmStaticProvidesInObjectDetector", "FieldSiteTargetOnQualifierAnnotation", "ModuleCompanionObjects", "ModuleCompanionObjectsNotInModuleParent"
+    }
+
     namespace 'com.phicdy.totoanticipation'
 }
 
