@@ -159,6 +159,7 @@ class TeamInfoMapper {
         "鹿児島" -> "https://follow.yahoo.co.jp/themes/024476e4fd08963a6430"
         "岩手" -> "https://follow.yahoo.co.jp/themes/0279ed51de2c87282435"
         "八戸" -> "https://follow.yahoo.co.jp/themes/0eab583eab9c47080228"
+        "いわき" -> "https://follow.yahoo.co.jp/themes/0327cd615df21a9d3109"
         else -> ""
     }
 }

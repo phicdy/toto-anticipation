@@ -59,7 +59,8 @@ class TeamInfoMapperTest {
             Pair("八戸", "ヴァンラーレ八戸"),
             Pair("琉球", "FC琉球"),
             Pair("栃木", "栃木SC"),
-            Pair("鹿児島", "鹿児島ユナイテッドFC")
+            Pair("鹿児島", "鹿児島ユナイテッドFC"),
+            Pair("いわき", "")
         )
 
         @DataPoints
@@ -109,7 +110,8 @@ class TeamInfoMapperTest {
             "八戸",
             "琉球",
             "栃木",
-            "鹿児島"
+            "鹿児島",
+            "いわき"
         )
 
     }
