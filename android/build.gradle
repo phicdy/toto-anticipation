@@ -10,6 +10,7 @@ buildscript {
     ext.preference_version = '1.2.1'
     ext.retrofit_version = '2.9.0'
     ext.jacoco_version = "0.8.8"
+    ext.assertj_version = "3.24.2"
     repositories {
         jcenter()
         google()
