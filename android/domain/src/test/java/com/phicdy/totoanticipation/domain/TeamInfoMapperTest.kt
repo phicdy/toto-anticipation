@@ -1,7 +1,6 @@
 package com.phicdy.totoanticipation.domain
 
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.experimental.theories.DataPoints
 import org.junit.experimental.theories.Theories
 import org.junit.experimental.theories.Theory
@@ -62,11 +61,70 @@ class TeamInfoMapperTest {
             Pair("栃木", "栃木SC"),
             Pair("鹿児島", "鹿児島ユナイテッドFC")
         )
+
+        @DataPoints
+        @JvmField
+        var teams = listOf(
+            "鹿島",
+            "浦和",
+            "甲府",
+            "横浜FM",
+            "大宮",
+            "仙台",
+            "神戸",
+            "鳥栖",
+            "広島",
+            "Ｃ大阪",
+            "Ｇ大阪",
+            "柏",
+            "磐田",
+            "FC東京",
+            "川崎Ｆ",
+            "新潟",
+            "清水",
+            "札幌",
+            "山形",
+            "水戸",
+            "大分",
+            "松本",
+            "湘南",
+            "山口",
+            "徳島",
+            "福岡",
+            "讃岐",
+            "千葉",
+            "東京Ｖ",
+            "金沢",
+            "町田",
+            "熊本",
+            "群馬",
+            "横浜FC",
+            "名古屋",
+            "岐阜",
+            "京都",
+            "岡山",
+            "愛媛",
+            "長崎",
+            "岩手",
+            "八戸",
+            "琉球",
+            "栃木",
+            "鹿児島"
+        )
+
     }
 
     @Theory
     fun `when map team then return the team in FootballGeist`(mapping: Pair<String, String>) {
-        assertThat(TeamInfoMapper().fullNameForFootbellGeist(mapping.first), `is`(mapping.second))
+        assertThat(TeamInfoMapper().fullNameForFootbellGeist(mapping.first))
+            .withFailMessage("Failed to map ${mapping.first}")
+            .isEqualTo(mapping.second)
     }
 
+    @Theory
+    fun `when map team then return the yahoo news url`(team: String) {
+        assertThat(TeamInfoMapper().yahooNewsUrl(team))
+            .withFailMessage("Failed to map $team")
+            .isNotBlank()
+    }
 }
