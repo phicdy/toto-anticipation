@@ -21,4 +21,7 @@ dependencies {
 
     implementation "com.google.dagger:dagger:$daggerVer"
     kapt "com.google.dagger:dagger-compiler:$daggerVer"
+
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutine_version"
+    testImplementation "org.assertj:assertj-core:$assertj_version"
 }

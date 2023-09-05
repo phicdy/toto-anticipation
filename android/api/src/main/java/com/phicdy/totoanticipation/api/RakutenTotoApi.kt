@@ -9,22 +9,23 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class RakutenTotoApi @Inject constructor(
-        private val service: RakutenTotoService,
-        private val rakutenTotoTopParser: RakutenTotoTopParser,
-        private val rakutenTotoInfoParser: RakutenTotoInfoParser
+    private val service: RakutenTotoService,
+    private val rakutenTotoTopParser: RakutenTotoTopParser,
+    private val rakutenTotoInfoParser: RakutenTotoInfoParser
 ) : RakutenTotoRepository {
-    override suspend fun fetchLatestToto(): Toto? = withContext(Dispatchers.IO) {
+    override suspend fun fetchLatestToto(): Toto = withContext(Dispatchers.IO) {
         val schedule = service.schedule()
         return@withContext rakutenTotoTopParser.latestToto(schedule.string())
     }
 
-    override suspend fun fetchTotoInfo(number: TotoNumber): TotoInfo? = withContext(Dispatchers.IO) {
-        val totoInfo = service.totoInfo(number.toString()).string()
-        val games = rakutenTotoInfoParser.games(totoInfo)
-        val deadline = rakutenTotoInfoParser.deadlineTime(totoInfo)
-        deadline?.let {
-            return@withContext TotoInfo(games, deadline)
+    override suspend fun fetchTotoInfo(number: TotoNumber): TotoInfo? =
+        withContext(Dispatchers.IO) {
+            val totoInfo = service.totoInfo(number.toString()).string()
+            val games = rakutenTotoInfoParser.games(totoInfo)
+            val deadline = rakutenTotoInfoParser.deadlineTime(totoInfo)
+            deadline?.let {
+                return@withContext TotoInfo(games, deadline)
+            }
+            return@withContext null
         }
-        return@withContext null
-    }
 }

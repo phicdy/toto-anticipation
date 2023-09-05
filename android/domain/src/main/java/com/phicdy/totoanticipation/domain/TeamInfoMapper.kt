@@ -9,8 +9,8 @@ class TeamInfoMapper {
      * @return Full name of the team in J League ranking
      */
     fun fullNameForJLeagueRanking(shrunkName: String) = when (shrunkName) {
-        "Ｆ東京" -> "ＦＣ東京"
-        "横浜Ｍ" -> "横浜Ｆ・マリノス"
+        "FC東京" -> "ＦＣ東京"
+        "横浜FM" -> "横浜Ｆ・マリノス"
         "札幌" -> "北海道コンサドーレ札幌"
         "東京Ｖ" -> "東京ヴェルディ"
         "岐阜" -> "ＦＣ岐阜"
@@ -29,6 +29,7 @@ class TeamInfoMapper {
         "相模原" -> "ＳＣ相模原"
         "岩手" -> "いわてグルージャ盛岡"
         "鹿児島" -> "鹿児島ユナイテッドＦＣ"
+        "いわき" -> "いわきＦＣ"
         else -> fullNameForFootbellGeist(shrunkName)
     }
 
@@ -53,7 +54,7 @@ class TeamInfoMapper {
         "柏" -> "柏レイソル"
         "磐田" -> "ジュビロ磐田"
         "Ｆ東京" -> "FC東京"
-        "川崎" -> "川崎フロンターレ"
+        "川崎Ｆ" -> "川崎フロンターレ"
         "新潟" -> "アルビレックス新潟"
         "清水" -> "清水エスパルス"
         "札幌" -> "コンサドーレ札幌"
@@ -72,7 +73,7 @@ class TeamInfoMapper {
         "町田" -> "町田ゼルビア"
         "熊本" -> "ロアッソ熊本"
         "群馬" -> "ザスパクサツ群馬"
-        "横浜Ｃ" -> "横浜FC"
+        "横浜FC" -> "横浜ＦＣ"
         "名古屋" -> "名古屋グランパス"
         "岐阜" -> "FC岐阜"
         "京都" -> "京都サンガF.C."
@@ -106,7 +107,7 @@ class TeamInfoMapper {
         "鹿島" -> "https://follow.yahoo.co.jp/themes/010704251227ca5d1597"
         "浦和" -> "https://follow.yahoo.co.jp/themes/04316859141f07751597"
         "甲府" -> "https://follow.yahoo.co.jp/themes/01515540fe35ebc44478"
-        "横浜Ｍ" -> "https://follow.yahoo.co.jp/themes/06425d9b390b2a761597"
+        "横浜FM" -> "https://follow.yahoo.co.jp/themes/06425d9b390b2a761597"
         "大宮" -> "https://follow.yahoo.co.jp/themes/0e97b6f0c765b7b51626"
         "仙台" -> "https://follow.yahoo.co.jp/themes/0e497a9153552bb91626"
         "神戸" -> "https://follow.yahoo.co.jp/themes/0b4ca90ec766caed1627"
@@ -116,8 +117,8 @@ class TeamInfoMapper {
         "Ｇ大阪" -> "https://follow.yahoo.co.jp/themes/0a18482afd8c2a4f2911"
         "柏" -> "https://follow.yahoo.co.jp/themes/01fed3fdd8a465f81626"
         "磐田" -> "https://follow.yahoo.co.jp/themes/00adc1f4f92978161627"
-        "Ｆ東京" -> "https://follow.yahoo.co.jp/themes/0f190139089919e91597"
-        "川崎" -> "https://follow.yahoo.co.jp/themes/0e7f53af851d48bd1627"
+        "FC東京" -> "https://follow.yahoo.co.jp/themes/0f190139089919e91597"
+        "川崎Ｆ" -> "https://follow.yahoo.co.jp/themes/0e7f53af851d48bd1627"
         "新潟" -> "https://follow.yahoo.co.jp/themes/0eac18c5558f5f8f1627"
         "清水" -> "https://follow.yahoo.co.jp/themes/00ac7122776ad94b1618"
         "札幌" -> "https://follow.yahoo.co.jp/themes/0d1436d9f9361ae01589"
@@ -136,7 +137,7 @@ class TeamInfoMapper {
         "町田" -> "https://follow.yahoo.co.jp/themes/0c1a8a697a8cd53b3612"
         "熊本" -> "https://follow.yahoo.co.jp/themes/031dc9c6d60f1e554982"
         "群馬" -> "https://follow.yahoo.co.jp/themes/0e3c1cd4c068ca553533"
-        "横浜Ｃ" -> "https://follow.yahoo.co.jp/themes/005fe68860d0a7cf3923"
+        "横浜FC" -> "https://follow.yahoo.co.jp/themes/005fe68860d0a7cf3923"
         "名古屋" -> "https://follow.yahoo.co.jp/themes/010984813b836cc93328"
         "岐阜" -> "https://follow.yahoo.co.jp/themes/039aaf5b315723f54596"
         "京都" -> "https://follow.yahoo.co.jp/themes/052369d0cd6803123229"
@@ -158,6 +159,7 @@ class TeamInfoMapper {
         "鹿児島" -> "https://follow.yahoo.co.jp/themes/024476e4fd08963a6430"
         "岩手" -> "https://follow.yahoo.co.jp/themes/0279ed51de2c87282435"
         "八戸" -> "https://follow.yahoo.co.jp/themes/0eab583eab9c47080228"
+        "いわき" -> "https://follow.yahoo.co.jp/themes/0327cd615df21a9d3109"
         else -> ""
     }
 }

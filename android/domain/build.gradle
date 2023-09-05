@@ -9,4 +9,5 @@ android {
 }
 
 dependencies {
+    testImplementation "org.assertj:assertj-core:$assertj_version"
 }

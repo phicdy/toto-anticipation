@@ -56,12 +56,22 @@ class GameListPresenterTest {
         view = mockk(relaxed = true)
         jLeagueRepository = mockk()
         rakutenTotoRepository = mockk()
-        presenter = GameListPresenter(view, jLeagueRepository, rakutenTotoRepository, storage, alarm, settingStorage)
+        presenter = GameListPresenter(
+            view,
+            jLeagueRepository,
+            rakutenTotoRepository,
+            storage,
+            alarm,
+            settingStorage
+        )
     }
 
     @Test
     fun `when fetch result is null then stop progress`() = runBlocking {
-        coEvery { rakutenTotoRepository.fetchLatestToto() } returns null
+        coEvery { rakutenTotoRepository.fetchLatestToto() } returns Toto(
+            Toto.DEFAULT_NUMBER,
+            Date()
+        )
         every { settingStorage.isPrivacyPolicyAccepted } returns true
         presenter.onCreate()
         coVerify {
@@ -71,8 +81,10 @@ class GameListPresenterTest {
 
     @Test
     fun `when privacy policy is not accepted then stop the dialog`() = runBlocking {
-        coEvery { rakutenTotoRepository.fetchLatestToto() } returns null
+        coEvery { rakutenTotoRepository.fetchLatestToto() } returns Toto("1", Date())
         every { settingStorage.isPrivacyPolicyAccepted } returns false
+        every { settingStorage.isDeadlineNotify } returns false
+        every { storage.list("1") } returns listOf(Game(1, 2))
         presenter.onCreate()
         coVerify {
             view.showPrivacyPolicyDialog()
@@ -81,7 +93,10 @@ class GameListPresenterTest {
 
     @Test
     fun `when fetch result is default toto then show empty`() = runBlocking {
-        coEvery { rakutenTotoRepository.fetchLatestToto() } returns Toto(Toto.DEFAULT_NUMBER, Date())
+        coEvery { rakutenTotoRepository.fetchLatestToto() } returns Toto(
+            Toto.DEFAULT_NUMBER,
+            Date()
+        )
         presenter.onCreate()
         coVerify {
             view.stopProgress()
@@ -152,28 +167,32 @@ class GameListPresenterTest {
     }
 
     @Test
-    fun `when games are not stored and toto number is not default then set the title`() = runBlocking {
-        val now = Calendar.getInstance().apply {
-            set(2019, 0, 1, 12, 34)
-        }.time
-        val toto = Toto("1", now)
-        val games = listOf(Game("home", "away"))
-        coEvery { rakutenTotoRepository.fetchLatestToto() } returns toto
-        every { settingStorage.isDeadlineNotify } returns false
-        every { storage.store(toto, games) } just Runs
-        every { settingStorage.isPrivacyPolicyAccepted } returns true
-        every { storage.list("1") } returns emptyList()
-        coEvery { jLeagueRepository.fetchJ1Ranking() } returns emptyList()
-        coEvery { jLeagueRepository.fetchJ2Ranking() } returns emptyList()
-        coEvery { jLeagueRepository.fetchJ3Ranking() } returns emptyList()
+    fun `when games are not stored and toto number is not default then set the title`() =
+        runBlocking {
+            val now = Calendar.getInstance().apply {
+                set(2019, 0, 1, 12, 34)
+            }.time
+            val toto = Toto("1", now)
+            val games = listOf(Game("home", "away"))
+            coEvery { rakutenTotoRepository.fetchLatestToto() } returns toto
+            every { settingStorage.isDeadlineNotify } returns false
+            every { storage.store(toto, games) } just Runs
+            every { settingStorage.isPrivacyPolicyAccepted } returns true
+            every { storage.list("1") } returns emptyList()
+            coEvery { jLeagueRepository.fetchJ1Ranking() } returns emptyList()
+            coEvery { jLeagueRepository.fetchJ2Ranking() } returns emptyList()
+            coEvery { jLeagueRepository.fetchJ3Ranking() } returns emptyList()
 
-        coEvery { rakutenTotoRepository.fetchTotoInfo(TotoNumber("1")) } returns TotoInfo(games, Deadline("12:34"))
+            coEvery { rakutenTotoRepository.fetchTotoInfo(TotoNumber("1")) } returns TotoInfo(
+                games,
+                Deadline("12:34")
+            )
 
-        presenter.onCreate()
-        verify {
-            view.setTitleFrom(toto.number, "01/01 12:34")
+            presenter.onCreate()
+            verify {
+                view.setTitleFrom(toto.number, "01/01 12:34")
+            }
         }
-    }
 
     @Test
     fun `when games are not stored and fetch succeeds then store the games`() = runBlocking {
@@ -191,7 +210,10 @@ class GameListPresenterTest {
         coEvery { jLeagueRepository.fetchJ2Ranking() } returns emptyList()
         coEvery { jLeagueRepository.fetchJ3Ranking() } returns emptyList()
 
-        coEvery { rakutenTotoRepository.fetchTotoInfo(TotoNumber("1")) } returns TotoInfo(games, Deadline("12:34"))
+        coEvery { rakutenTotoRepository.fetchTotoInfo(TotoNumber("1")) } returns TotoInfo(
+            games,
+            Deadline("12:34")
+        )
 
         presenter.onCreate()
         verify {
@@ -207,7 +229,7 @@ class GameListPresenterTest {
             set(2019, 0, 1, 12, 34)
         }.time
         val toto = Toto("1", now)
-        val games = listOf(Game("Ｆ東京", "横浜Ｍ"))
+        val games = listOf(Game("FC東京", "横浜FM"))
         coEvery { rakutenTotoRepository.fetchLatestToto() } returns toto
         every { settingStorage.isDeadlineNotify } returns false
         every { storage.store(toto, games) } just Runs
@@ -215,11 +237,14 @@ class GameListPresenterTest {
         every { storage.list("1") } returns emptyList()
         coEvery { jLeagueRepository.fetchJ2Ranking() } returns emptyList()
         coEvery { jLeagueRepository.fetchJ3Ranking() } returns emptyList()
-        coEvery { rakutenTotoRepository.fetchTotoInfo(TotoNumber("1")) } returns TotoInfo(games, Deadline("12:34"))
+        coEvery { rakutenTotoRepository.fetchTotoInfo(TotoNumber("1")) } returns TotoInfo(
+            games,
+            Deadline("12:34")
+        )
 
         val j1ranking = listOf(
-                Team("ＦＣ東京", League.J1, 1),
-                Team("横浜Ｆ・マリノス", League.J1, 2)
+            Team("ＦＣ東京", League.J1, 1),
+            Team("横浜Ｆ・マリノス", League.J1, 2)
         )
         coEvery { jLeagueRepository.fetchJ1Ranking() } returns j1ranking
 
@@ -234,7 +259,7 @@ class GameListPresenterTest {
             set(2019, 0, 1, 12, 34)
         }.time
         val toto = Toto("1", now)
-        val games = listOf(Game("Ｆ東京", "横浜Ｍ"))
+        val games = listOf(Game("FC東京", "横浜FM"))
         coEvery { rakutenTotoRepository.fetchLatestToto() } returns toto
         every { settingStorage.isDeadlineNotify } returns false
         every { storage.store(toto, games) } just Runs
@@ -242,11 +267,14 @@ class GameListPresenterTest {
         every { storage.list("1") } returns emptyList()
         coEvery { jLeagueRepository.fetchJ1Ranking() } returns emptyList()
         coEvery { jLeagueRepository.fetchJ3Ranking() } returns emptyList()
-        coEvery { rakutenTotoRepository.fetchTotoInfo(TotoNumber("1")) } returns TotoInfo(games, Deadline("12:34"))
+        coEvery { rakutenTotoRepository.fetchTotoInfo(TotoNumber("1")) } returns TotoInfo(
+            games,
+            Deadline("12:34")
+        )
 
         val j2ranking = listOf(
-                Team("ＦＣ東京", League.J1, 1),
-                Team("横浜Ｆ・マリノス", League.J1, 2)
+            Team("ＦＣ東京", League.J1, 1),
+            Team("横浜Ｆ・マリノス", League.J1, 2)
         )
         coEvery { jLeagueRepository.fetchJ2Ranking() } returns j2ranking
 
@@ -261,7 +289,7 @@ class GameListPresenterTest {
             set(2019, 0, 1, 12, 34)
         }.time
         val toto = Toto("1", now)
-        val games = listOf(Game("Ｆ東京", "横浜Ｍ"))
+        val games = listOf(Game("FC東京", "横浜FM"))
         coEvery { rakutenTotoRepository.fetchLatestToto() } returns toto
         every { settingStorage.isDeadlineNotify } returns false
         every { storage.store(toto, games) } just Runs
@@ -269,11 +297,14 @@ class GameListPresenterTest {
         every { storage.list("1") } returns emptyList()
         coEvery { jLeagueRepository.fetchJ1Ranking() } returns emptyList()
         coEvery { jLeagueRepository.fetchJ2Ranking() } returns emptyList()
-        coEvery { rakutenTotoRepository.fetchTotoInfo(TotoNumber("1")) } returns TotoInfo(games, Deadline("12:34"))
+        coEvery { rakutenTotoRepository.fetchTotoInfo(TotoNumber("1")) } returns TotoInfo(
+            games,
+            Deadline("12:34")
+        )
 
         val j3ranking = listOf(
-                Team("ＦＣ東京", League.J1, 1),
-                Team("横浜Ｆ・マリノス", League.J1, 2)
+            Team("ＦＣ東京", League.J1, 1),
+            Team("横浜Ｆ・マリノス", League.J1, 2)
         )
         coEvery { jLeagueRepository.fetchJ3Ranking() } returns j3ranking
 
@@ -305,7 +336,7 @@ class GameListPresenterTest {
 
     @Theory
     fun `when out of index home radio button is clicked then do nothing`(
-            @FromDataPoints("outOfIndex") outOfIndex: Int
+        @FromDataPoints("outOfIndex") outOfIndex: Int
     ) = runBlocking {
         val now = Calendar.getInstance().apply {
             set(2019, 0, 1, 12, 34)
@@ -456,7 +487,10 @@ class GameListPresenterTest {
         coEvery { jLeagueRepository.fetchJ1Ranking() } returns emptyList()
         coEvery { jLeagueRepository.fetchJ2Ranking() } returns emptyList()
         coEvery { jLeagueRepository.fetchJ3Ranking() } returns emptyList()
-        coEvery { rakutenTotoRepository.fetchTotoInfo(TotoNumber("1")) } returns TotoInfo(games, Deadline("12:34"))
+        coEvery { rakutenTotoRepository.fetchTotoInfo(TotoNumber("1")) } returns TotoInfo(
+            games,
+            Deadline("12:34")
+        )
         presenter.onCreate()
     }
 }

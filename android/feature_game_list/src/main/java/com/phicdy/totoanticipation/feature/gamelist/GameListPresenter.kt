@@ -22,12 +22,12 @@ import java.util.concurrent.Executor
 import javax.inject.Inject
 
 class GameListPresenter @Inject constructor(
-        private val view: GameListView,
-        private val jLeagueRepository: JLeagueRepository,
-        private val rakutenTotoRepository: RakutenTotoRepository,
-        private val storage: GameListStorage,
-        private val alarm: DeadlineAlarm,
-        private val settingStorage: SettingStorage
+    private val view: GameListView,
+    private val jLeagueRepository: JLeagueRepository,
+    private val rakutenTotoRepository: RakutenTotoRepository,
+    private val storage: GameListStorage,
+    private val alarm: DeadlineAlarm,
+    private val settingStorage: SettingStorage
 ) {
     private var toto: Toto = Toto(Toto.DEFAULT_NUMBER, Date())
     private var games: List<Game> = listOf()
@@ -37,63 +37,71 @@ class GameListPresenter @Inject constructor(
 
     suspend fun onCreate() {
         view.startProgress()
-        val t = rakutenTotoRepository.fetchLatestToto()
-        t?.let {
-            toto = it
-            if (toto.number == Toto.DEFAULT_NUMBER) {
-                view.stopProgress()
-                view.hideList()
-                view.hideFab()
-                view.hideAnticipationMenu()
-                view.showEmptyView()
+        toto = rakutenTotoRepository.fetchLatestToto()
+        if (toto.number == Toto.DEFAULT_NUMBER) {
+            view.stopProgress()
+            view.hideList()
+            view.hideFab()
+            view.hideAnticipationMenu()
+            view.showEmptyView()
+            return
+        }
+        if (settingStorage.isDeadlineNotify) alarm.setAtNoonOf(toto.deadline)
+        games = storage.list(toto.number)
+        if (games.isEmpty()) {
+            val j1rankingDeferred = coroutineScope { async { jLeagueRepository.fetchJ1Ranking() } }
+            val j2rankingDeferred = coroutineScope { async { jLeagueRepository.fetchJ2Ranking() } }
+            val j3rankingDeferred = coroutineScope { async { jLeagueRepository.fetchJ3Ranking() } }
+
+            val totoInfo = rakutenTotoRepository.fetchTotoInfo(TotoNumber(toto.number))
+            if (totoInfo == null) {
+                stopAndShowEmptyView()
                 return
             }
-            if (settingStorage.isDeadlineNotify) alarm.setAtNoonOf(toto.deadline)
-            games = storage.list(toto.number)
-            if (games.isEmpty()) {
-                val j1rankingDeferred = coroutineScope { async { jLeagueRepository.fetchJ1Ranking() } }
-                val j2rankingDeferred = coroutineScope { async { jLeagueRepository.fetchJ2Ranking() } }
-                val j3rankingDeferred = coroutineScope { async { jLeagueRepository.fetchJ3Ranking() } }
+            // Set title
+            val format = SimpleDateFormat("MM/dd ", Locale.JAPAN)
+            view.setTitleFrom(
+                toto.number,
+                format.format(toto.deadline) + totoInfo.deadline.toString()
+            )
 
-                val totoInfo = rakutenTotoRepository.fetchTotoInfo(TotoNumber(toto.number))
-                totoInfo?.let {
-                    // Set title
-                    val format = SimpleDateFormat("MM/dd ", Locale.JAPAN)
-                    view.setTitleFrom(toto.number, format.format(toto.deadline) + totoInfo.deadline.toString())
+            j1ranking = j1rankingDeferred.await()
+            j2ranking = j2rankingDeferred.await()
+            j3ranking = j3rankingDeferred.await()
 
-                    j1ranking = j1rankingDeferred.await()
-                    j2ranking = j2rankingDeferred.await()
-                    j3ranking = j3rankingDeferred.await()
-
-                    games = totoInfo.games
-                    for (game in games) {
-                        val homeFullName = TeamInfoMapper().fullNameForJLeagueRanking(game.homeTeam)
-                        val awayFullName = TeamInfoMapper().fullNameForJLeagueRanking(game.awayTeam)
-                        var homeRank = j1ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
-                        var awayRank = j1ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
-                        if (homeRank == null || awayRank == null) {
-                            homeRank = j2ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
-                            awayRank = j2ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
-                            if (homeRank == null || awayRank == null) {
-                                homeRank = j3ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
-                                awayRank = j3ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
-                            }
-                        }
-                        if (homeRank == null || awayRank == null) {
-                            continue
-                        }
-                        game.homeRanking = homeRank
-                        game.awayRanking = awayRank
+            games = totoInfo.games
+            for (game in games) {
+                val homeFullName = TeamInfoMapper().fullNameForJLeagueRanking(game.homeTeam)
+                val awayFullName = TeamInfoMapper().fullNameForJLeagueRanking(game.awayTeam)
+                var homeRank =
+                    j1ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
+                var awayRank =
+                    j1ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
+                if (homeRank == null || awayRank == null) {
+                    homeRank =
+                        j2ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
+                    awayRank =
+                        j2ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
+                    if (homeRank == null || awayRank == null) {
+                        homeRank =
+                            j3ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
+                        awayRank =
+                            j3ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
                     }
-                    view.initList()
-                    storage.store(toto, games)
-                    view.stopProgress()
-                } ?: stopAndShowEmptyView()
-            } else {
-                view.stopProgress()
-                view.initList()
+                }
+                if (homeRank == null || awayRank == null) {
+                    continue
+                }
+                game.homeRanking = homeRank
+                game.awayRanking = awayRank
             }
-        } ?: view.stopProgress()
+            view.initList()
+            storage.store(toto, games)
+            view.stopProgress()
+        } else {
+            view.stopProgress()
+            view.initList()
+        }
         if (!settingStorage.isPrivacyPolicyAccepted) view.showPrivacyPolicyDialog()
     }
 
@@ -114,7 +122,11 @@ class GameListPresenter @Inject constructor(
         onRadioButtonClicked(position, isChecked, Game.Anticipation.DRAW)
     }
 
-    private fun onRadioButtonClicked(position: Int, isChecked: Boolean, anticipation: Game.Anticipation) {
+    private fun onRadioButtonClicked(
+        position: Int,
+        isChecked: Boolean,
+        anticipation: Game.Anticipation
+    ) {
         if (position >= games.size || position < 0) return
         if (isChecked) {
             games[position].anticipation = anticipation
@@ -123,8 +135,8 @@ class GameListPresenter @Inject constructor(
     }
 
     fun gameAt(position: Int): Game =
-            if (position >= games.size || position < 0) throw IndexOutOfBoundsException("Invalid game position: $position, game size: " + games.size)
-            else games[position]
+        if (position >= games.size || position < 0) throw IndexOutOfBoundsException("Invalid game position: $position, game size: " + games.size)
+        else games[position]
 
     fun gameSize(): Int = games.size
 
