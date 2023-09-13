@@ -24,7 +24,7 @@ android {
 dependencies {
     implementation project(':advertisement')
 
-    implementation 'com.google.firebase:firebase-ads:22.3.0'
+    implementation 'com.google.firebase:firebase-ads:22.4.0'
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
