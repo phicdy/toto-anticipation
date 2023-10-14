@@ -24,10 +24,10 @@ android {
 dependencies {
     implementation project(':advertisement')
 
-    implementation 'com.google.firebase:firebase-ads:22.4.0'
-    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation libs.firebase.ads
+    implementation libs.recyclerview
+    implementation libs.constraintlayout
 
-    implementation "com.google.dagger:dagger:$daggerVer"
-    kapt "com.google.dagger:dagger-compiler:$daggerVer"
+    implementation libs.dagger
+    kapt libs.dagger.compiler
 }

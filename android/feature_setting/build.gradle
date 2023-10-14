@@ -14,17 +14,17 @@ dependencies {
     implementation project(':scheduler')
     implementation project(':storage')
 
-    implementation "androidx.preference:preference-ktx:$preference_version"
-    implementation "androidx.appcompat:appcompat:$appcompat_veriosn"
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
-    implementation 'com.google.android.material:material:1.9.0'
+    implementation libs.preference
+    implementation libs.appcompat
+    implementation libs.navigation.fragment
+    implementation libs.navigation.ui
+    implementation libs.material
 
-    implementation "com.google.dagger:dagger:$daggerVer"
-    implementation "com.google.dagger:dagger-android:$daggerVer"
-    implementation "com.google.dagger:dagger-android-support:$daggerVer"
-    kapt "com.google.dagger:dagger-compiler:$daggerVer"
-    kapt "com.google.dagger:dagger-android-processor:$daggerVer"
+    implementation libs.dagger
+    implementation libs.dagger.android
+    implementation libs.dagger.android.support
+    kapt libs.dagger.compiler
+    kapt libs.dagger.android.processor
 
-    testImplementation "org.mockito:mockito-core:5.6.0"
+    testImplementation libs.mockito
 }

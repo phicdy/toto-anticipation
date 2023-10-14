@@ -9,6 +9,6 @@ android {
 }
 
 dependencies {
-    implementation "com.google.dagger:dagger:$daggerVer"
-    kapt "com.google.dagger:dagger-compiler:$daggerVer"
+    implementation libs.dagger
+    kapt libs.dagger.compiler
 }

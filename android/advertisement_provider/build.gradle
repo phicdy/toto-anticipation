@@ -12,6 +12,6 @@ dependencies {
     implementation project(':advertisement')
     implementation project(':admob')
 
-    implementation "com.google.dagger:dagger:$daggerVer"
-    kapt "com.google.dagger:dagger-compiler:$daggerVer"
+    implementation libs.dagger
+    kapt libs.dagger.compiler
 }

@@ -21,23 +21,22 @@ dependencies {
     implementation project(':scheduler')
     implementation project(':storage')
 
-    implementation "androidx.appcompat:appcompat:$appcompat_veriosn"
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
-    implementation 'com.google.android.material:material:1.9.0'
-    def lifecycle_version = '2.6.2'
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+    implementation libs.appcompat
+    implementation libs.constraintlayout
+    implementation libs.recyclerview
+    implementation libs.material
+    implementation libs.lifecycle.viewmodel
+    implementation libs.lifecycle.runtime
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
+    implementation libs.coroutines.core
 
-    implementation "com.google.dagger:dagger:$daggerVer"
-    implementation "com.google.dagger:dagger-android:$daggerVer"
-    implementation "com.google.dagger:dagger-android-support:$daggerVer"
-    kapt "com.google.dagger:dagger-compiler:$daggerVer"
-    kapt "com.google.dagger:dagger-android-processor:$daggerVer"
+    implementation libs.dagger
+    implementation libs.dagger.android
+    implementation libs.dagger.android.support
+    kapt libs.dagger.compiler
+    kapt libs.dagger.android.processor
 
-    implementation 'com.github.castorflex.smoothprogressbar:library:1.1.0'
+    implementation libs.smoothprogressbar
 
-    testImplementation "io.mockk:mockk:1.13.8"
+    testImplementation libs.mockk
 }
