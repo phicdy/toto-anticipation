@@ -1,4 +1,4 @@
-## toto anticipation  [![CircleCI](https://circleci.com/gh/phicdy/toto-anticipation.svg?style=svg)](https://circleci.com/gh/phicdy/toto-anticipation) [![codecov](https://codecov.io/gh/phicdy/toto-anticipation/branch/master/graph/badge.svg)](https://codecov.io/gh/phicdy/toto-anticipation)
+## toto anticipation ![Github Actions](https://github.com/phicdy/toto-anticipation/actions/workflows/android.yml/badge.svg) [![codecov](https://codecov.io/gh/phicdy/toto-anticipation/branch/master/graph/badge.svg)](https://codecov.io/gh/phicdy/toto-anticipation)
 
 <a href="https://play.google.com/store/apps/details?id=com.phicdy.totoanticipation&hl=ja"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" height="80px"/></a> 
 
