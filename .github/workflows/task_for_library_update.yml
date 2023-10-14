@@ -6,8 +6,8 @@ on:
     branches:
       - dev
     paths:
-      - 'gradle/libs.versions.toml'
-      - 'build.gradle'
+      - 'android/gradle/libs.versions.toml'
+      - 'android/build.gradle'
 
 jobs:
   upload_dependency_list:
