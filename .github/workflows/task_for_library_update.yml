@@ -1,0 +1,80 @@
+name: Task for library update
+
+on:
+  pull_request:
+    types: [ opened, synchronize, reopened, ready_for_review ]
+    branches:
+      - develop
+    paths:
+      - 'gradle/libs.versions.toml'
+      - 'build.gradle'
+
+jobs:
+  upload_dependency_list:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: android
+    steps:
+      - uses: actions/checkout@v4
+      - name: set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Decode google-services.json
+        env:
+          GOOGLE_SERVICE: ${{ secrets.GOOGLE_SERVICE}}
+        run: echo $GOOGLE_SERVICE | base64 --decode > ./app/google-services.json
+      - name: Create dependency list
+        env:
+          TZ: Asia/Tokyo
+        run: ./gradlew app:dependencies > depend.txt
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Dependency list
+          path: depend.txt
+
+  dependency_diff:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: android
+    steps:
+      - uses: actions/v4
+        with:
+          fetch-depth: 0
+      - name: set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - id: dependency-diff
+        name: Generate dependency diff
+        run: |
+          BRANCH_NAME="${GITHUB_HEAD_REF}"
+          DIFF=$(scripts/dependency_diff.sh $BASE_BRANCH $BRANCH_NAME app releaseRuntimeClasspath)
+          DIFF="${DIFF//'%'/'%25'}"
+          DIFF="${DIFF//$'\n'/'%0A'}"
+          DIFF="${DIFF//$'\r'/'%0D'}"
+          echo "::set-output name=text-diff::${DIFF}"
+        env:
+          BASE_BRANCH: ${{ github.base_ref }}
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      - uses: peter-evans/find-comment@8a12347c4e5c173637c2e7f683fe26bfed904637
+        id: find_comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body-includes: Dependency diff
+      - uses: peter-evans/create-or-update-comment@223779bc560943cb8f2aa0484a7c225c1585c597
+        if: ${{ steps.dependency-diff.outputs.text-diff != null || steps.find_comment.outputs.comment-id != null }}
+        with:
+          body: |
+            Dependency diff:
+              ```diff
+              ${{ steps.dependency-diff.outputs.text-diff }}
+              ```
+          edit-mode: replace
+          comment-id: ${{ steps.find_comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          token: ${{ secrets.GITHUB_TOKEN }}
