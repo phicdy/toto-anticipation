@@ -7,7 +7,7 @@ import retrofit2.http.Path
 
 interface RakutenTotoService {
 
-    @GET("toto/schedule")
+    @GET("toto/schedule//?l-id=header_pc_sub_toto_schedule")
     suspend fun schedule(): ResponseBody
 
     @GET("toto/schedule/{number}/")
