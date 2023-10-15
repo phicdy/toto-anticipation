@@ -50,6 +50,7 @@ jobs:
         name: Generate dependency diff
         run: |
           BRANCH_NAME="${GITHUB_HEAD_REF}"
+          chmod +x scripts/dependency_diff.sh
           DIFF=$(scripts/dependency_diff.sh $BASE_BRANCH $BRANCH_NAME app releaseRuntimeClasspath)
           DIFF="${DIFF//'%'/'%25'}"
           DIFF="${DIFF//$'\n'/'%0A'}"
