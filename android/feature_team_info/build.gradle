@@ -14,16 +14,16 @@ dependencies {
     implementation project(':domain')
     implementation project(':resource')
 
-    implementation "androidx.appcompat:appcompat:$appcompat_veriosn"
-    implementation 'com.google.android.material:material:1.9.0'
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.navigation.fragment
+    implementation libs.navigation.ui
 
-    implementation "com.google.dagger:dagger:$daggerVer"
-    implementation "com.google.dagger:dagger-android:$daggerVer"
-    implementation "com.google.dagger:dagger-android-support:$daggerVer"
-    kapt "com.google.dagger:dagger-compiler:$daggerVer"
-    kapt "com.google.dagger:dagger-android-processor:$daggerVer"
+    implementation libs.dagger
+    implementation libs.dagger.android
+    implementation libs.dagger.android.support
+    kapt libs.dagger.compiler
+    kapt libs.dagger.android.processor
 
-    implementation 'com.github.castorflex.smoothprogressbar:library:1.1.0'
+    implementation libs.smoothprogressbar
 }

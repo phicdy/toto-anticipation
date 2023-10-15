@@ -6,8 +6,8 @@ on:
     branches:
       - dev
     paths:
-      - 'gradle/libs.versions.toml'
-      - 'build.gradle'
+      - 'android/gradle/libs.versions.toml'
+      - 'android/build.gradle'
 
 jobs:
   upload_dependency_list:
@@ -37,11 +37,8 @@ jobs:
 
   dependency_diff:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: android
     steps:
-      - uses: actions/v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: set up JDK 17
@@ -53,6 +50,7 @@ jobs:
         name: Generate dependency diff
         run: |
           BRANCH_NAME="${GITHUB_HEAD_REF}"
+          chmod +x scripts/dependency_diff.sh
           DIFF=$(scripts/dependency_diff.sh $BASE_BRANCH $BRANCH_NAME app releaseRuntimeClasspath)
           DIFF="${DIFF//'%'/'%25'}"
           DIFF="${DIFF//$'\n'/'%0A'}"

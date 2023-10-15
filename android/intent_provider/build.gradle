@@ -11,5 +11,5 @@ android {
 dependencies {
     implementation project(':domain')
 
-    implementation "androidx.appcompat:appcompat:$appcompat_veriosn"
+    implementation libs.appcompat
 }

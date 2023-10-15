@@ -9,6 +9,6 @@ android {
 }
 
 dependencies {
-    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
-    implementation "androidx.appcompat:appcompat:$appcompat_veriosn"
+    implementation libs.recyclerview
+    implementation libs.appcompat
 }

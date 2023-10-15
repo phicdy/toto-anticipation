@@ -13,10 +13,10 @@ dependencies {
     implementation project(':resource')
     implementation project(':storage')
 
-    implementation "androidx.appcompat:appcompat:$appcompat_veriosn"
+    implementation libs.appcompat
 
-    implementation "com.google.dagger:dagger:$daggerVer"
-    implementation "com.google.dagger:dagger-android:$daggerVer"
-    kapt "com.google.dagger:dagger-compiler:$daggerVer"
-    kapt "com.google.dagger:dagger-android-processor:$daggerVer"
+    implementation libs.dagger
+    implementation libs.dagger.android
+    kapt libs.dagger.compiler
+    kapt libs.dagger.android.processor
 }

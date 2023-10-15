@@ -12,16 +12,16 @@ dependencies {
     implementation project(':domain')
     implementation project(':repository')
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
+    implementation libs.coroutines.core
+    implementation libs.coroutines.android
 
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation libs.retrofit
 
-    implementation 'org.jsoup:jsoup:1.16.1'
+    implementation libs.jsoup
 
-    implementation "com.google.dagger:dagger:$daggerVer"
-    kapt "com.google.dagger:dagger-compiler:$daggerVer"
+    implementation libs.dagger
+    kapt libs.dagger.compiler
 
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutine_version"
-    testImplementation "org.assertj:assertj-core:$assertj_version"
+    testImplementation libs.coroutines.test
+    testImplementation libs.assertj
 }
