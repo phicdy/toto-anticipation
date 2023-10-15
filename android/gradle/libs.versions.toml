@@ -11,7 +11,7 @@ material = "1.9.0"
 retrofit = "2.9.0"
 firebase_bom = "32.3.1"
 jacoco = "0.8.8"
-dagger = "2.48"
+dagger = "2.48.1"
 navigation = "2.5.3"
 
 [libraries]
