@@ -9,7 +9,6 @@ interface GameListView {
     fun startProgress()
     fun stopProgress()
     fun showEmptyView()
-    fun startTotoAnticipationActivity(totoNum: String)
     fun goToSetting()
     fun showAnticipationStart()
     fun showAnticipationFinish()

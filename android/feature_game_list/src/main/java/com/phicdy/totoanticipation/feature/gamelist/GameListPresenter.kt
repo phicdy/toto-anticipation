@@ -140,11 +140,6 @@ class GameListPresenter @Inject constructor(
 
     fun gameSize(): Int = games.size
 
-    fun onFabClicked() {
-        storage.store(toto, games)
-        view.startTotoAnticipationActivity(toto.number)
-    }
-
     fun onOptionsSettingSelected() {
         view.goToSetting()
     }

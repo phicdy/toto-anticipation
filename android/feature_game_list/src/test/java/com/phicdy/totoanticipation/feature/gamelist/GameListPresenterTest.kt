@@ -437,23 +437,6 @@ class GameListPresenterTest {
     }
 
     @Test
-    fun `when fab is clicked then store and go to anticipation activity`() = runBlocking {
-        val now = Calendar.getInstance().apply {
-            set(2019, 0, 1, 12, 34)
-        }.time
-        val toto = Toto("1", now)
-        val game = Game("home", "away")
-        val games = listOf(game)
-        mockTotoReturns(toto, games)
-
-        presenter.onFabClicked()
-        verify {
-            storage.store(toto, games)
-            view.startTotoAnticipationActivity("1")
-        }
-    }
-
-    @Test
     fun `when option setting is clicked then go to option`() {
         presenter.onOptionsSettingSelected()
         verify { view.goToSetting() }

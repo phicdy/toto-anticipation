@@ -1,7 +1,5 @@
 package com.phicdy.totoanticipation.feature.gamelist
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -82,8 +80,6 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
         progressBar = view.findViewById(R.id.progress)
         content = view.findViewById(R.id.content)
         empty = view.findViewById(R.id.empty)
-        fab = view.findViewById(R.id.fab)
-        fab.setOnClickListener { presenter.onFabClicked() }
 
         if (view.findViewById<View>(R.id.item_detail_container) != null) {
             // The detail container view will be present only in the
@@ -139,19 +135,6 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
         progressBar.progressiveStop()
         val handler = Handler(Looper.getMainLooper())
         handler.postDelayed({ progressBar.visibility = View.GONE }, 3000)
-    }
-
-    override fun startTotoAnticipationActivity(totoNum: String) {
-        val intent: Intent
-        if (BuildConfig.FLAVOR == "googlePlay") {
-            // Google Play forbids to upload gambling app for Japan, open external browser
-            val totoTopUrl =
-                "https://sp.toto-dream.com/dcs/subos/screen/si01/ssin026/PGSSIN02601InittotoSP.form?holdCntId=$totoNum"
-            intent = Intent(Intent.ACTION_VIEW, Uri.parse(totoTopUrl))
-        } else {
-            intent = intentProvider.totoAnticipation(requireContext(), totoNum)
-        }
-        startActivity(intent)
     }
 
     override fun goToSetting() {
