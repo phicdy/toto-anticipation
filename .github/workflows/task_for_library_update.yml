@@ -52,10 +52,10 @@ jobs:
           BRANCH_NAME="${GITHUB_HEAD_REF}"
           chmod +x scripts/dependency_diff.sh
           DIFF=$(scripts/dependency_diff.sh $BASE_BRANCH $BRANCH_NAME app nonGooglePlayReleaseRuntimeClasspath)
-          DIFF="${DIFF//'%'/'%25'}"
-          DIFF="${DIFF//$'\n'/'%0A'}"
-          DIFF="${DIFF//$'\r'/'%0D'}"
-          echo "::set-output name=text-diff::${DIFF}"
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "text-diff<<${EOF}" >> $GITHUB_OUTPUT
+          echo "${DIFF}" >> $GITHUB_OUTPUT
+          echo "${EOF}" >> $GITHUB_OUTPUT
         env:
           BASE_BRANCH: ${{ github.base_ref }}
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
@@ -68,10 +68,7 @@ jobs:
         if: ${{ steps.dependency-diff.outputs.text-diff != null || steps.find_comment.outputs.comment-id != null }}
         with:
           body: |
-            Dependency diff:
-              ```diff
-              ${{ steps.dependency-diff.outputs.text-diff }}
-              ```
+            Dependency diff: ${{ steps.dependency-diff.outputs.text-diff }}
           edit-mode: replace
           comment-id: ${{ steps.find_comment.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
