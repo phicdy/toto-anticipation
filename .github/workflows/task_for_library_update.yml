@@ -33,7 +33,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Dependency list
-          path: depend.txt
+          path: android/depend.txt
 
   dependency_diff:
     runs-on: ubuntu-latest
