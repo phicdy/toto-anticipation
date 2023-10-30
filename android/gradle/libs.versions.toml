@@ -22,7 +22,7 @@ lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", v
 lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
 
 firebase_bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase_bom" }
-firebase-ads = { module = "com.google.firebase:firebase-ads", version = "22.4.0" }
+firebase-ads = { module = "com.google.firebase:firebase-ads", version = "22.5.0" }
 
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
