@@ -1,5 +1,55 @@
 {
   "extends": [
-    "config:base"
+    "config:base",
+    ":timezone(Asia/Tokyo)"
+  ],
+  "labels": [
+    "library_update"
+  ],
+  "packageRules": [
+    {
+      "groupName": "androidx.activity",
+      "matchPackagePatterns": [
+        "^androidx\\.activity:"
+      ]
+    },
+    {
+      "groupName": "androidx.lifecycle",
+      "matchPackagePatterns": [
+        "^androidx\\.lifecycle:"
+      ]
+    },
+    {
+      "groupName": "androidx.test",
+      "matchPackagePatterns": [
+        "^androidx\\.test:",
+        "^androidx\\.test\\.ext:",
+        "^androidx\\.test\\.espresso:"
+      ],
+      "automerge": true,
+      "major": {
+        "automerge": false
+      }
+    },
+    {
+      "groupName": "github actions",
+      "matchPackagePatterns": [
+        "^peter-evans/create-or-update-comment",
+        "^peter-evans/find-comment"
+      ],
+      "automerge": true,
+      "major": {
+        "automerge": false
+      }
+    },
+    {
+      "groupName": "Jetpack Compose compiler and Kotlin",
+      "matchPackagePatterns": [
+        "^androidx\\.compose\\.compiler:",
+        "^androidx\\.compose:",
+        "org\\.jetbrains\\.kotlin:",
+        "^org\\.jetbrains\\.kotlinx:kotlinx-coroutines"
+      ]
+    }
   ]
 }
