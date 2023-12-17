@@ -41,7 +41,6 @@ class GameListPresenter @Inject constructor(
         if (toto.number == Toto.DEFAULT_NUMBER) {
             view.stopProgress()
             view.hideList()
-            view.hideFab()
             view.hideAnticipationMenu()
             view.showEmptyView()
             return

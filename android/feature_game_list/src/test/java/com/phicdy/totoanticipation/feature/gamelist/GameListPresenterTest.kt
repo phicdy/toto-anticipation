@@ -101,7 +101,6 @@ class GameListPresenterTest {
         coVerify {
             view.stopProgress()
             view.hideList()
-            view.hideFab()
             view.hideAnticipationMenu()
             view.showEmptyView()
         }
