@@ -20,7 +20,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.phicdy.totoanticipation.advertisement.AdProvider
 import com.phicdy.totoanticipation.advertisement.AdViewHolder
@@ -44,7 +43,6 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
     private lateinit var recyclerView: RecyclerView
     private val adapter by lazy { SimpleItemRecyclerViewAdapter() }
     private lateinit var progressBar: SmoothProgressBar
-    private lateinit var fab: FloatingActionButton
     private lateinit var content: View
     private lateinit var empty: ConstraintLayout
 
@@ -179,10 +177,6 @@ class GameListFragment : GameListView, DaggerFragment(), CoroutineScope {
 
     override fun hideList() {
         recyclerView.visibility = View.GONE
-    }
-
-    override fun hideFab() {
-        fab.hide()
     }
 
     override fun hideAnticipationMenu() {
