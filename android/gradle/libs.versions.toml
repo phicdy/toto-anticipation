@@ -46,7 +46,7 @@ dagger-android-support = { module = "com.google.dagger:dagger-android-support", 
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 dagger-android-processor = { module = "com.google.dagger:dagger-android-processor", version.ref = "dagger" }
 
-jsoup = { module = "org.jsoup:jsoup", version = "1.16.2" }
+jsoup = { module = "org.jsoup:jsoup", version = "1.17.2" }
 
 smoothprogressbar = { module = "com.github.castorflex.smoothprogressbar:library", version = "1.1.0" }
 
