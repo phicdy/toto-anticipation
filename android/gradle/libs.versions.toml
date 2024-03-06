@@ -54,4 +54,4 @@ gson = { module = "com.google.code.gson:gson", version = "2.10.1" }
 
 assertj = { module = "org.assertj:assertj-core", version = "3.25.1" }
 mockk = { module = "io.mockk:mockk", version = "1.13.10" }
-mockito = { module = "org.mockito:mockito-core", version = "5.7.0" }
+mockito = { module = "org.mockito:mockito-core", version = "5.11.0" }
