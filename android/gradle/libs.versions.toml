@@ -1,7 +1,7 @@
 [versions]
 gradle = "8.5.0"
-kotlin = "1.9.23"
-coroutine = "1.8.0"
+kotlin = "1.9.24"
+coroutine = "1.8.1"
 lifecycle = "2.6.2"
 appcompat = "1.6.1"
 preference = "1.2.1"
