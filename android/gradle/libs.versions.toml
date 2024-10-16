@@ -12,7 +12,7 @@ retrofit = "2.11.0"
 firebase_bom = "33.1.2"
 jacoco = "0.8.8"
 dagger = "2.51.1"
-navigation = "2.7.7"
+navigation = "2.8.3"
 
 [libraries]
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
