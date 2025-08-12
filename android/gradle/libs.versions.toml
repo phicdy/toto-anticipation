@@ -50,7 +50,7 @@ jsoup = { module = "org.jsoup:jsoup", version = "1.21.1" }
 
 smoothprogressbar = { module = "com.github.castorflex.smoothprogressbar:library", version = "1.1.0" }
 
-gson = { module = "com.google.code.gson:gson", version = "2.11.0" }
+gson = { module = "com.google.code.gson:gson", version = "2.13.1" }
 
 assertj = { module = "org.assertj:assertj-core", version = "3.26.3" }
 mockk = { module = "io.mockk:mockk", version = "1.14.4" }
