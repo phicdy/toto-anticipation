@@ -1,5 +1,5 @@
 [versions]
-gradle = "8.11.1"
+gradle = "8.13.0"
 kotlin = "2.2.20"
 coroutine = "1.10.2"
 lifecycle = "2.9.4"
