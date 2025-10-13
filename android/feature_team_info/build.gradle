@@ -1,4 +1,7 @@
-apply plugin: "androidx.navigation.safeargs.kotlin"
+plugins {
+    alias(libs.plugins.google.ksp)
+    id "androidx.navigation.safeargs.kotlin"
+}
 
 android {
     buildTypes {
@@ -22,8 +25,8 @@ dependencies {
     implementation libs.dagger
     implementation libs.dagger.android
     implementation libs.dagger.android.support
-    kapt libs.dagger.compiler
-    kapt libs.dagger.android.processor
+    ksp libs.dagger.compiler
+    ksp libs.dagger.android.processor
 
     implementation libs.smoothprogressbar
 }

@@ -1,3 +1,6 @@
+plugins {
+    alias(libs.plugins.google.ksp)
+}
 android {
     defaultConfig {
         manifestPlaceholders = [
@@ -29,5 +32,5 @@ dependencies {
     implementation libs.constraintlayout
 
     implementation libs.dagger
-    kapt libs.dagger.compiler
+    ksp libs.dagger.compiler
 }
