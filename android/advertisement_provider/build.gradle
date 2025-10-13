@@ -1,3 +1,7 @@
+plugins {
+    alias(libs.plugins.google.ksp)
+}
+
 android {
     buildTypes {
         release {
@@ -13,5 +17,5 @@ dependencies {
     implementation project(':admob')
 
     implementation libs.dagger
-    kapt libs.dagger.compiler
+    ksp libs.dagger.compiler
 }

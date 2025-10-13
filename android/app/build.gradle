@@ -1,10 +1,10 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-kapt'
     id 'jacoco'
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.firebase.crashlytics'
+    alias(libs.plugins.google.ksp)
 }
 
 android {
@@ -65,8 +65,8 @@ dependencies {
     implementation libs.dagger
     implementation libs.dagger.android
     implementation libs.dagger.android.support
-    kapt libs.dagger.compiler
-    kapt libs.dagger.android.processor
+    ksp libs.dagger.compiler
+    ksp libs.dagger.android.processor
 
     implementation libs.retrofit
 

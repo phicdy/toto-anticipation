@@ -1,3 +1,7 @@
+plugins {
+    alias(libs.plugins.google.ksp)
+}
+
 android {
     buildTypes {
         release {
@@ -20,7 +24,7 @@ dependencies {
     implementation libs.jsoup
 
     implementation libs.dagger
-    kapt libs.dagger.compiler
+    ksp libs.dagger.compiler
 
     testImplementation libs.coroutines.test
     testImplementation libs.assertj

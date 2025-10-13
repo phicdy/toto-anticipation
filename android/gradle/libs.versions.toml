@@ -2,6 +2,7 @@
 gradle = "8.13.0"
 kotlin = "2.2.20"
 coroutine = "1.10.2"
+ksp = "2.2.20-2.0.4"
 lifecycle = "2.9.4"
 appcompat = "1.7.1"
 preference = "1.2.1"
@@ -13,6 +14,9 @@ firebase_bom = "33.16.0"
 jacoco = "0.8.8"
 dagger = "2.57.2"
 navigation = "2.9.5"
+
+[plugins]
+google-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [libraries]
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
