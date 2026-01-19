@@ -1,5 +1,5 @@
 [versions]
-gradle = "8.13.0"
+gradle = "8.13.2"
 kotlin = "2.2.20"
 coroutine = "1.10.2"
 ksp = "2.2.20-2.0.4"
