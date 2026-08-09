@@ -23,21 +23,21 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testGooglePlayDebugUnitTe
         classDirectories.setFrom(
                 files(
                         fileTree(
-                                dir: "${buildDir}/intermediates/javac/googlePlayDebug/compileGooglePlayDebugJavaWithJavac/classes/",
+                                dir: "${layout.buildDirectory.get()}/intermediates/javac/googlePlayDebug/compileGooglePlayDebugJavaWithJavac/classes/",
                                 exclude: coverageExcludeFiles
                         ) +
                                 fileTree(
-                                        dir: "$buildDir/tmp/kotlin-classes/googlePlayDebug",
+                                        dir: "${layout.buildDirectory.get()}/tmp/kotlin-classes/googlePlayDebug",
                                         excludes: coverageExcludeFiles
                                 )
                 )
         )
     }
     sourceDirectories.setFrom(files(coverageSourceDirs))
-    executionData.setFrom(new File("${buildDir}/jacoco/testGooglePlayDebugUnitTest.exec"))
+    executionData.setFrom(new File("${layout.buildDirectory.get()}/jacoco/testGooglePlayDebugUnitTest.exec"))
 
     doLast {
-        println "jacoco xml report has been generated to file://${buildDir}/reports/jacoco/jacocoTestReport.xml"
+        println "jacoco xml report has been generated to file://${layout.buildDirectory.get()}/reports/jacoco/jacocoTestReport.xml"
         println "jacoco html report has been generated to file://${reports.html.outputLocation.toString()}/index.html"
     }
 }
