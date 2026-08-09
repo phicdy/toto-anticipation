@@ -25,11 +25,11 @@ subprojects {
     apply from: "$rootDir/jacoco.gradle"
 
     android {
-        compileSdkVersion 36
+        compileSdk 36
 
         defaultConfig {
-            minSdkVersion 21
-            targetSdkVersion 36
+            minSdk 21
+            targetSdk 36
             versionName "0.14"
             versionCode 17
 
@@ -57,9 +57,11 @@ subprojects {
 
         buildFeatures {
             dataBinding true
+            buildConfig true
+            resValues true
         }
 
-        lintOptions {
+        lint {
             abortOnError true
         }
 
@@ -86,6 +88,6 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+tasks.register('clean', Delete) {
+    delete rootProject.layout.buildDirectory
 }
