@@ -2,8 +2,8 @@
 
 buildscript {
     repositories {
-        jcenter()
         google()
+        mavenCentral()
     }
     dependencies {
         classpath libs.gradle
@@ -81,8 +81,8 @@ subprojects {
 
 allprojects {
     repositories {
-        jcenter()
         google()
+        mavenCentral()
     }
 }
 
