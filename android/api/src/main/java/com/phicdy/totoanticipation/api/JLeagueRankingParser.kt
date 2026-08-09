@@ -60,15 +60,13 @@ class JLeagueRankingParser @Inject constructor() {
             val tds = tr.getElementsByTag("td")
             if (tds.size < 3) continue
 
-            // Second <td> is ranking
-            // <td><i class="fa fa-minus"></i></td>
-            // <td>1</td>
-            // <td class="tdTeam">
-            // <a href="/club/kashima/day/" class="embTxt">
-            // <span class="embS embKashima">鹿島アントラーズ</span>鹿島アントラーズ</a>
+            // First <td> is ranking
+            // <td class="... o-table__cell--ranking ...">
+            // <div class="o-table__ranking">
+            // <p class="... o-table__rank-text">1</p>
+            // </div>
             // </td>
-            // ...
-            val rankingTd = tds[1] ?: continue
+            val rankingTd = tds[0] ?: continue
             val ranking: Int
             try {
                 ranking = Integer.valueOf(rankingTd.text())
@@ -77,13 +75,21 @@ class JLeagueRankingParser @Inject constructor() {
                 continue
             }
 
-            // Third <td> includes team name
-            val spans = tds[2].getElementsByTag("span")
-            if (spans.size == 0) continue
-            val fullTeamName = spans.first()?.text()
-            if (fullTeamName != null) result.add(
+            // Second <td> includes team name
+            // <td class="... o-table__cell--club">
+            // <div class="o-table__club">
+            // ...
+            // <p class="...">
+            // <a class="o-table__club-link" href="/club/machida/">ＦＣ町田ゼルビア</a>
+            // </p>
+            // </div>
+            // </td>
+            val clubTd = tds[1] ?: continue
+            val clubLink = clubTd.select("a.o-table__club-link").first()
+            val teamName = clubLink?.text()
+            if (teamName != null) result.add(
                 Team(
-                    name = fullTeamName,
+                    name = teamName,
                     league = league,
                     ranking = ranking
                 )
