@@ -11,7 +11,7 @@ constraintlayout = "2.2.1"
 material = "1.13.0"
 retrofit = "3.0.0"
 firebase_bom = "33.16.0"
-jacoco = "0.8.8"
+jacoco = "0.8.15"
 dagger = "2.57.2"
 navigation = "2.9.8"
 
