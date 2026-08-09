@@ -5,6 +5,12 @@
 /.idea/libraries
 /.idea/misc.xml
 /.idea/caches
+/.idea/modules.xml
+/.idea/deploymentTargetSelector.xml
+/.idea/deploymentTargetDropDown.xml
+/.idea/appInsightsSettings.xml
+/.idea/migrations.xml
+/.idea/copilot.*
 .DS_Store
 /build
 /captures
