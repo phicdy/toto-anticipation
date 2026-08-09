@@ -28,7 +28,7 @@ subprojects {
         compileSdk 36
 
         defaultConfig {
-            minSdk 21
+            minSdk 28
             targetSdk 36
             versionName "0.14"
             versionCode 17
