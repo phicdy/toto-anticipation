@@ -1,7 +1,7 @@
 [versions]
 gradle = "9.3.1"
-kotlin = "2.2.20"
-coroutine = "1.10.2"
+kotlin = "2.4.10"
+coroutine = "1.11.0"
 ksp = "2.3.11"
 lifecycle = "2.9.4"
 appcompat = "1.7.1"
