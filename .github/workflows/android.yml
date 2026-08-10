@@ -34,7 +34,7 @@ jobs:
         run: ./gradlew testGooglePlayDebugUnitTest
       - name: Create jacoco report
         run: ./gradlew jacocoTestReport
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v7
 
   lint:
     runs-on: ubuntu-latest
