@@ -117,13 +117,6 @@ class TeamInfoMapperTest {
     }
 
     @Theory
-    fun `when map team then return the team in FootballGeist`(mapping: Pair<String, String>) {
-        assertThat(TeamInfoMapper().fullNameForFootbellGeist(mapping.first))
-            .withFailMessage("Failed to map ${mapping.first}")
-            .isEqualTo(mapping.second)
-    }
-
-    @Theory
     fun `when map team then return the yahoo news url`(team: String) {
         assertThat(TeamInfoMapper().yahooNewsUrl(team))
             .withFailMessage("Failed to map $team")

@@ -34,16 +34,6 @@ class TeamInfoMapper {
         "宮崎" -> "テゲバジャーロ宮崎"
         "FC大阪" -> "ＦＣ大阪"
         "今治" -> "ＦＣ今治"
-        else -> fullNameForFootbellGeist(shrunkName)
-    }
-
-    /**
-     * Return full name of the team.
-     *
-     * @param shrunkName Shrunk team name in Rakuten toto
-     * @return Full name of the team
-     */
-    fun fullNameForFootbellGeist(shrunkName: String) = when (shrunkName) {
         "鹿島" -> "鹿島アントラーズ"
         "浦和" -> "浦和レッズ"
         "甲府" -> "ヴァンフォーレ甲府"
