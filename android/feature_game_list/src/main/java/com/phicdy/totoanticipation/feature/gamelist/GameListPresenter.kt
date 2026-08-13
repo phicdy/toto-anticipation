@@ -72,22 +72,12 @@ class GameListPresenter @Inject constructor(
             for (game in games) {
                 val homeFullName = TeamInfoMapper().fullNameForJLeagueRanking(game.homeTeam)
                 val awayFullName = TeamInfoMapper().fullNameForJLeagueRanking(game.awayTeam)
-                var homeRank =
-                    j1ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
-                var awayRank =
-                    j1ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
-                if (homeRank == null || awayRank == null) {
-                    homeRank =
-                        j2ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
-                    awayRank =
-                        j2ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
-                    if (homeRank == null || awayRank == null) {
-                        homeRank =
-                            j3ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
-                        awayRank =
-                            j3ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
-                    }
-                }
+                val homeRank = j1ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
+                    ?: j2ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
+                    ?: j3ranking.firstOrNull { team -> team.name == homeFullName }?.ranking
+                val awayRank = j1ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
+                    ?: j2ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
+                    ?: j3ranking.firstOrNull { team -> team.name == awayFullName }?.ranking
                 if (homeRank == null || awayRank == null) {
                     continue
                 }
