@@ -29,7 +29,7 @@ class JLeagueRankingParserTest {
         assertThat(list[14].name, `is`("清水エスパルス"))
         assertThat(list[15].name, `is`("サンフレッチェ広島"))
         assertThat(list[16].name, `is`("アルビレックス新潟"))
-        assertThat(list[17].name, `is`("大宮アルディージャ"))
+        assertThat(list[17].name, `is`("ＲＢ大宮アルディージャ"))
     }
 
     @Test

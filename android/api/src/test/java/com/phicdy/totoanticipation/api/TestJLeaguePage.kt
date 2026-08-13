@@ -94,7 +94,7 @@ object TestJLeaguePage {
     </tr>
     <tr class="rt-TableRow">
         <td class="o-table__cell--ranking"><p class="o-table__rank-text">18</p></td>
-        <td class="o-table__cell--club"><a class="o-table__club-link">大宮アルディージャ</a></td>
+        <td class="o-table__cell--club"><a class="o-table__club-link">ＲＢ大宮アルディージャ</a></td>
         <td>dummy</td>
     </tr>
 </tbody>
