@@ -71,8 +71,8 @@ dependencies {
     implementation libs.retrofit
 
     implementation platform(libs.firebase.bom)
-    implementation 'com.google.firebase:firebase-crashlytics'
-    implementation 'com.google.firebase:firebase-analytics'
+    implementation libs.firebase.crashlytics
+    implementation libs.firebase.analytics
 
 }
 
