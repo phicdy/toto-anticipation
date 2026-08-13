@@ -8,19 +8,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.phicdy.totoanticipation.domain.TeamInfoMapper
 import dagger.android.support.DaggerFragment
 
 class TeamInfoFragment : DaggerFragment() {
 
     private val args: TeamInfoFragmentArgs by navArgs()
 
-    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        replaceFragmentWith(item.itemId)
-        true
-    }
+    private val mOnNavigationItemSelectedListener =
+        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            replaceFragmentWith(item.itemId)
+            true
+        }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.activity_team_info, container, false)
     }
 
@@ -40,41 +44,23 @@ class TeamInfoFragment : DaggerFragment() {
     private fun replaceFragmentWith(menuId: Int) {
         val arguments = Bundle()
         when (menuId) {
-            R.id.navigation_history -> {
-                val fragment = GameHistoryFragment()
-                arguments.apply {
-                    putString(GameHistoryFragment.ARG_HOME_TEAM,
-                            TeamInfoMapper().fullNameForFootbellGeist(args.homeTeam))
-                    putString(GameHistoryFragment.ARG_AWAY_TEAM,
-                            TeamInfoMapper().fullNameForFootbellGeist(args.awayTeam))
-                }
-                fragment.arguments = arguments
-                parentFragmentManager.beginTransaction()
-                        .add(R.id.fr_content, fragment)
-                        .commit()
-            }
             R.id.navigation_home -> {
                 val homeFragment = TeamInfoDetailFragment()
                 arguments.putString(TeamInfoDetailFragment.ARG_TEAM, args.homeTeam)
                 homeFragment.arguments = arguments
                 parentFragmentManager.beginTransaction()
-                        .add(R.id.fr_content, homeFragment)
-                        .commit()
+                    .add(R.id.fr_content, homeFragment)
+                    .commit()
             }
+
             R.id.navigation_away -> {
                 val awayFragment = TeamInfoDetailFragment()
                 arguments.putString(TeamInfoDetailFragment.ARG_TEAM, args.awayTeam)
                 awayFragment.arguments = arguments
                 parentFragmentManager.beginTransaction()
-                        .add(R.id.fr_content, awayFragment)
-                        .commit()
+                    .add(R.id.fr_content, awayFragment)
+                    .commit()
             }
         }
-    }
-
-    companion object {
-
-        const val ARG_HOME_TEAM = "homeTeam"
-        const val ARG_AWAY_TEAM = "awayTeam"
     }
 }
