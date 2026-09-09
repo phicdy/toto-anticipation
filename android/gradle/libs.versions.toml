@@ -16,7 +16,7 @@ retrofit = "3.0.0"
 firebase_bom = "34.17.0"
 jacoco = "0.8.15"
 dagger = "2.60.1"
-navigation = "2.9.8"
+navigation = "2.10.1"
 
 [plugins]
 google-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
